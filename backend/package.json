@@ -16,12 +16,11 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "cross-env NODE_ENV=dev nodemon index.js",
     "eslint": "eslint ."
   },
   "devDependencies": {
-    "eslint": "^8.13.0",
-    "jest": "^27.5.1",
-    "supertest": "^6.2.2"
+    "cross-env": "^7.0.3",
+    "eslint": "^8.13.0"
   }
 }
