@@ -1,20 +1,6 @@
+import classes from "./Notification.module.scss"
+
 const Notification = ({ notificationObj }) => {
-    const style = {
-        "background": "lightgrey",
-        "fontSize": "20px",
-        "borderStyle": "solid",
-        "borderRadius": "5px",
-        "padding": "10px",
-        "marginBottom": "10px"
-    }
-
-    const error = {
-        "color": "red"
-    }
-
-    const notification = {
-        "color": "green"
-    }
 
     if (notificationObj.message === null || notificationObj.message === "") {
         return null
@@ -22,13 +8,13 @@ const Notification = ({ notificationObj }) => {
 
     if (notificationObj.isError) {
         return (
-            <div style={{ ...style, ...error }}>
+            <div className={classes.errorNotification}>
                 {notificationObj.message}
             </div>
         )
     }
     return (
-        <div style={{ ...style, ...notification }}>
+        <div className={classes.infoNotification}>
             {notificationObj.message}
         </div>
     )

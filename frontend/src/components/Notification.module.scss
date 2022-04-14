@@ -1,0 +1,35 @@
+@import "../styles/variables.scss";
+
+%notification {
+    background-color: lightgray;
+    border: {
+        width: 2px;
+        style: solid;
+        radius: 10px;
+    }
+    font: { 
+        weight: 700;
+        size: 30px;
+    }
+    width: 50%;
+    max-width: 300px;
+    padding: 10px 20px;
+    margin: auto;
+    margin: {
+        top: 30px;
+        bottom: 30px;
+    }
+    text-align: center;
+}
+
+.errorNotification {
+    @extend %notification;
+    color: red;
+    border-color: red;
+}
+
+.infoNotification {
+    @extend %notification;
+    color: green;
+    border-color: green;
+}

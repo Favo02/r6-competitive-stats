@@ -1,0 +1,12 @@
+@import "./variables.scss";
+
+*, html, body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    font-family: $main_font;
+    font-weight: $main_font_weight;
+}
