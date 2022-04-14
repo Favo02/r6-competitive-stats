@@ -1,4 +1,4 @@
-const Notification = ({ message, isError }) => {
+const Notification = ({ notificationObj }) => {
     const style = {
         "background": "lightgrey",
         "fontSize": "20px",
@@ -16,20 +16,20 @@ const Notification = ({ message, isError }) => {
         "color": "green"
     }
 
-    if (message === null) {
+    if (notificationObj.message === null || notificationObj.message === "") {
         return null
     }
 
-    if (isError) {
+    if (notificationObj.isError) {
         return (
             <div style={{ ...style, ...error }}>
-                {message}
+                {notificationObj.message}
             </div>
         )
     }
     return (
         <div style={{ ...style, ...notification }}>
-            {message}
+            {notificationObj.message}
         </div>
     )
 }
