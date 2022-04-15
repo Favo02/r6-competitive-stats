@@ -3,14 +3,19 @@
 #form {
     width: 50%;
     max-width: 500px;
-    margin: auto;
+
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translateY(-50%);
     padding: 40px;
-    border: {
-        width: 2px;
-        style: solid;
-        color: white;  
-        radius: 30px;
-    }
+
+    // border: {
+    //     width: 2px;
+    //     style: solid;
+    //     color: white;  
+    //     radius: 30px;
+    // }
 }
 
 h1 {
@@ -75,11 +80,6 @@ form {
             }
             width: 100%;
             font-size: 17px;
-        
-            &::before {
-                content: "LABEL";
-                background: red;
-            }
         
             &:active, &:focus {
                 outline: none;

@@ -4,8 +4,11 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: $background;
     transition: box-shadow .4s;
+}
+
+html {
+    background-color: $background;
 }
 
 * {

@@ -5,6 +5,8 @@ import loginService from "../services/login"
 import LoginForm from "../components/LoginForm"
 import Notification from "../components/Notification"
 
+import "./Login.module.scss"
+
 const Login = ({ user, setUser, notification, notificate }) => {
 
     const login = async (username, password) => {
