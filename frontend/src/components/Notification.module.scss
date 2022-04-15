@@ -11,15 +11,14 @@
         weight: 700;
         size: 30px;
     }
-    width: 50%;
-    max-width: 500px;
-    padding: 10px 20px;
-    margin: auto;
-    margin: {
-        top: 30px;
-        bottom: 30px;
-    }
     text-align: center;
+
+    width: 100%;
+    max-width: 420px;
+
+    position: absolute;
+    padding: 10px 20px;
+    top: -50px;
 }
 
 .errorNotification {

@@ -26,7 +26,7 @@ const Main = () => {
     }
 
     const logout = () => {
-        notificate("logged out", false)
+        notificate("Logged out", false)
         window.localStorage.removeItem("loggedR6statsUser")
         setUser(null)
     }
@@ -36,8 +36,6 @@ const Main = () => {
             <Route path="/home" element={
                 <Home
                     user={user}
-                    notification={notification}
-                    notificate={notificate}
                     logout={logout}
                 />
             }></Route>

@@ -1,11 +1,13 @@
 import { useState } from "react"
 import PropTypes from "prop-types"
 
+import Notification from "./Notification"
+
 import styles from "./LoginForm.module.scss"
 
 import { FaUserAlt, FaEye, FaEyeSlash } from "react-icons/fa"
 
-const Login = ({ login }) => {
+const Login = ({ login, notificationObj }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [passwordShown, setPasswordShown] = useState(false)
@@ -21,6 +23,7 @@ const Login = ({ login }) => {
 
     return (
         <div id={styles.form}>
+            <Notification notificationObj={notificationObj} />
             <h1><span className={styles.textHighlight}>Login</span> into the webapp.</h1>
             <h3>Don&apos;t have an account? Contact <a
                 className={styles.textHighlight}

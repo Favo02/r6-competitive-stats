@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom"
 import loginService from "../services/login"
 
 import LoginForm from "../components/LoginForm"
-import Notification from "../components/Notification"
 
 import "./Login.module.scss"
 
@@ -34,10 +33,7 @@ const Login = ({ user, setUser, notification, notificate }) => {
 
     if (user === null) {
         return (
-            <div>
-                <Notification notificationObj={notification} />
-                <LoginForm login={login} />
-            </div>
+            <LoginForm login={login} notificationObj={notification} />
         )
     }
     else {
