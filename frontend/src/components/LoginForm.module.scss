@@ -1,0 +1,118 @@
+@import "../styles/variables.scss";
+
+#form {
+    width: 50%;
+    max-width: 500px;
+    margin: auto;
+    padding: 40px;
+    border: {
+        width: 2px;
+        style: solid;
+        color: white;  
+        radius: 30px;
+    }
+}
+
+h1 {
+    color: $text;
+    font-size: 2.3em;
+    font-weight: 800;
+}
+
+h3 {
+    color: $secondary_text;
+    margin-top: 10px;
+    font-size: 18px;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px dotted $primary;
+    }
+}
+
+.textHighlight {
+    color: $primary;
+    font-weight: 800;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+form {
+    div {
+        display: block;
+        position: relative;
+        margin-top: 20px;
+        
+        label {
+            background-color: transparent;
+            position: absolute;
+            margin: {
+                left: 30px;
+                top: 10px
+            }
+
+            font-size: 0.8em;
+            color: $secondary_text
+        }
+
+        input {
+            border: {
+                width: 1px;
+                style: solid;
+                color: transparent;
+                radius: 15px;
+            }
+            background-color: $background_light;
+            color: $text;
+            padding: {
+                top: 33px;
+                bottom: 15px;
+                left: 30px;
+                right: 30px;
+            }
+            width: 100%;
+            font-size: 17px;
+        
+            &::before {
+                content: "LABEL";
+                background: red;
+            }
+        
+            &:active, &:focus {
+                outline: none;
+                box-shadow: 0px 0px 5px 1px rgba($primary, 0.7);
+            }
+        }
+
+        svg {
+            position: absolute;
+            background: transparent;
+            top: 24px;
+            right: 30px;
+            width: 25px;
+            height: 25px;
+            color: $secondary_text;
+        }
+    }
+
+    button {
+        margin-top: 30px;
+        width: 100%;
+        height: 60px;
+
+        font-size: 18px;
+        color: $text;
+        background: $primary;
+        border: {
+            style: none;
+            radius: 40px
+        }
+
+        &:hover {
+            box-shadow: 0px 0px 5px 1px rgba($primary, 0.7);
+        }
+    }
+}

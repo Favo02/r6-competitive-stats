@@ -34,7 +34,6 @@ const Login = ({ user, setUser, notification, notificate }) => {
         return (
             <div>
                 <Notification notificationObj={notification} />
-                <h2>Log in to application</h2>
                 <LoginForm login={login} />
             </div>
         )

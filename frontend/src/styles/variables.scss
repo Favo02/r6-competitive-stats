@@ -1,12 +1,18 @@
-// colors - https://flatui.colorion.co/palette/618
-$background: #17202A;
-$primary_text: #FDFEFE;
-$secondary_text: #979A9A;
+// colors
+$background: #272A37;
+$background_light: #323644;
+$primary: #1D90F5;
+$text: #FFFFFF;
+$secondary_text: #9AA5B5;
 
 // fonts
 @font-face {
     font-family: "AnekOdia";
     src: local("AnekOdia"), url(./AnekOdia.ttf) format("truetype");
 }
-$main_font: "AnekOdia", sans-serif;
+@font-face {
+    font-family: "FiraSans-Regular";
+    src: local("FiraSans-Regular"), url(./FiraSans-Regular.ttf) format("truetype");
+}
+$main_font: "FiraSans-Regular", sans-serif;
 $main_font_weight: 500;
