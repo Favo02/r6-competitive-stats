@@ -1,5 +1,9 @@
 import { Navigate } from "react-router-dom"
 
+import FileUploader from "../components/FileUploader"
+
+import "./Home.module.scss"
+
 const Home = ({ user, logout }) => {
 
     if (user === null) {
@@ -12,6 +16,7 @@ const Home = ({ user, logout }) => {
         <div>
             <p>Logged in as {user.username}</p>
             <button onClick={logout}>Logout</button>
+            <FileUploader />
         </div>
     )
 }
