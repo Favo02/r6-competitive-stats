@@ -1,38 +1,53 @@
 const ParseData = (rawData) => {
     const data = JSON.parse(rawData)
 
-    // General match infos as score, map, result, rosters
+    const matchinfo = data.slice(0, 1)[0]
+    const rounds = data.slice(1)
+
     const parsed = {
-        gamemode: data[0].gamemode,
-        map: data[0].map,
-        my_team: data[0].local_team,
-        match_uuid: data[0].ubisoft_match_uuid,
-        rosters: parseRosters({
-            blue_team: data[0].r6ui_match_data.blue_team,
-            orange_team: data[0].r6ui_match_data.orange_team
-        }, data[0].local_team),
-        date: new Date(data[1].start),
-        result: {
-            my_team: {
-                score: null,
-                score_at_half: null,
-                atks: null,
-                defs: null,
-                start_as: null,
-                overtime_as: null
-            },
-            enemy_team: {
-                score: null,
-                score_at_half: null,
-                atks: null,
-                defs: null,
-                start_as: null,
-                overtime_as: null
-            }
-        },
+        info: {},
+        result: {},
+        performance: {},
+        rounds: {}
     }
 
-    console.log(parsed)
+    // general match infos as map, rosters, date
+    parsed.info = {
+        gamemode: matchinfo.gamemode,
+        map: matchinfo.map,
+        my_team: matchinfo.local_team,
+        match_uuid: matchinfo.ubisoft_match_uuid,
+        rosters: parseRosters({
+            blue_team: matchinfo.r6ui_match_data.blue_team,
+            orange_team: matchinfo.r6ui_match_data.orange_team
+        }, matchinfo.local_team),
+        date: new Date(data[1].start),
+    }
+
+    // round history (includes killfeed and round performance)
+    parsed.rounds = parseRounds(rounds)
+
+    // match result
+    parsed.result = {
+        my_team: {
+            score: null,
+            score_at_half: null,
+            atks: null,
+            defs: null,
+            start_as: null,
+            overtime_as: null
+        },
+        enemy_team: {
+            score: null,
+            score_at_half: null,
+            atks: null,
+            defs: null,
+            start_as: null,
+            overtime_as: null
+        }
+    }
+
+    console.log("COMPLETE PARSE: ", parsed)
     return parsed
 }
 
@@ -51,6 +66,44 @@ const parseRosters = ({ blue_team, orange_team }, my_team_color ) => {
 
     }
     return { my_team, enemy_team }
+}
+
+const parseRounds = (rounds) => {
+    let roundsArray = []
+    rounds.forEach((round, i) => {
+        // check if valid round
+        if (round.events.length < 3) {
+            console.log(`Round ${i} not complete, skipped`)
+            return
+        }
+
+        // remove useless props
+        delete round.start
+        delete round.sixthpick
+
+        // round info and result
+        round.info = {
+            site: round.site,
+            my_team_kills: round.end.your_kills,
+            enemy_team_kills: round.end.enemy_kills,
+            winner: round.end.winner,
+            my_team_side: round.end.local_side
+        }
+        delete round.end
+        delete round.site
+
+        // players performance
+        round.performance = []
+        for (let i = 0; i < 10; i++) {
+            round.performance.push(round[`roster_${i}`])
+            delete round[`roster_${i}`]
+        }
+
+        roundsArray.push(round)
+    })
+
+    console.log(roundsArray)
+    return roundsArray
 }
 
 export default ParseData
