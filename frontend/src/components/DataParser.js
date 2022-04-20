@@ -28,26 +28,10 @@ const ParseData = (rawData) => {
     parsed.rounds = parseRounds(rounds)
 
     // match result
-    parsed.result = {
-        my_team: {
-            score: null,
-            score_at_half: null,
-            atks: null,
-            defs: null,
-            start_as: null,
-            overtime_as: null
-        },
-        enemy_team: {
-            score: null,
-            score_at_half: null,
-            atks: null,
-            defs: null,
-            start_as: null,
-            overtime_as: null
-        }
-    }
+    parsed.result = parseResult(parsed.rounds)
 
-    console.log("COMPLETE PARSE: ", parsed)
+    console.log("COMPLETE PARSE:")
+    console.log(parsed)
     return parsed
 }
 
@@ -84,13 +68,16 @@ const parseRounds = (rounds) => {
         // round info and result
         round.info = {
             site: round.site,
+            spawn: round.spawn,
             my_team_kills: round.end.your_kills,
             enemy_team_kills: round.end.enemy_kills,
-            winner: round.end.winner,
-            my_team_side: round.end.local_side
+            winner: round.end.winner === round.end.local_team ? "my_team" : "enemy_team",
+            my_team_side: round.end.local_side,
+            enemy_team_side: round.end.local_side === "attack" ? "defence" : "attack"
         }
         delete round.end
         delete round.site
+        delete round.spawn
 
         // players performance
         round.performance = []
@@ -102,8 +89,74 @@ const parseRounds = (rounds) => {
         roundsArray.push(round)
     })
 
-    console.log(roundsArray)
     return roundsArray
+}
+
+const parseResult = (rounds) => {
+
+    let result = {
+        my_team: {
+            score: null,
+            score_at_half: null,
+            atks: null,
+            defs: null,
+            start_as: null,
+            overtime_as: null
+        },
+        enemy_team: {
+            score: null,
+            score_at_half: null,
+            atks: null,
+            defs: null,
+            start_as: null,
+            overtime_as: null
+        }
+    }
+
+    rounds.forEach((round, i) => {
+        // round winner (score, score_at_half)
+        if (round.info.winner === "my_team") {
+            result.my_team.score++
+            if (i < 6) {
+                result.my_team.score_at_half++
+            }
+
+            // atks and defs
+            if (round.info.my_team_side === "attack") {
+                result.my_team.atks++
+            }
+            else if (round.info.my_team_side === "defence") {
+                result.my_team.defs++
+            }
+        }
+        else if (round.info.winner === "enemy_team") {
+            result.enemy_team.score++
+            if (i < 6) {
+                result.enemy_team.score_at_half++
+            }
+
+            // atks and defs
+            if (round.info.enemy_team_side === "attack") {
+                result.enemy_team.atks++
+            }
+            else if (round.info.enemy_team_side === "defence") {
+                result.enemy_team.defs++
+            }
+        }
+
+        // start as (side)
+        if (i === 0) {
+            result.my_team.start_as = round.info.my_team_side
+            result.enemy_team.start_as = round.info.enemy_team_side
+        }
+        // start as overtime (side)
+        if (i === 12) {
+            result.my_team.overtime_as = round.info.my_team_side
+            result.enemy_team.overtime_as = round.info.enemy_team_side
+        }
+    })
+
+    return result
 }
 
 export default ParseData
