@@ -3,7 +3,9 @@ import PropTypes from "prop-types"
 
 import Notification from "./Notification"
 
-import styles from "./LoginForm.module.scss"
+import classnames from "classnames"
+import CommonStyles from "../styles/common.module.scss"
+import LoginFormStyles from "./LoginForm.module.scss"
 
 import { FaUserAlt, FaEye, FaEyeSlash } from "react-icons/fa"
 
@@ -22,20 +24,31 @@ const Login = ({ login, notificationObj }) => {
     }
 
     return (
-        <div id={styles.form}>
+        <div className={LoginFormStyles.loginForm}>
             <Notification notificationObj={notificationObj} />
-            <h1><span className={styles.textHighlight}>Login</span> into the webapp.</h1>
-            <h3>Don&apos;t have an account? Contact <a
-                className={styles.textHighlight}
-                target="_blank"
-                rel="noreferrer"
-                href="https://linktr.ee/imprudenza"
-            >imprudenza</a>
+            <h1 className={LoginFormStyles.h1}>
+                <span
+                    className={LoginFormStyles.textHighlight}
+                >Login </span>
+                into the webapp.
+            </h1>
+            <h3 className={LoginFormStyles.h3}>
+                Don&apos;t have an account? Contact&nbsp;
+                <a
+                    className={classnames(LoginFormStyles.a, LoginFormStyles.textHighlight)}
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://linktr.ee/imprudenza"
+                >imprudenza</a>
             </h3>
             <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor="Username">Username</label>
+                <div className={LoginFormStyles.div}>
+                    <label
+                        className={LoginFormStyles.label}
+                        htmlFor="Username"
+                    >Username</label>
                     <input
+                        className={LoginFormStyles.input}
                         id="username-input"
                         type="text"
                         value={username}
@@ -43,11 +56,17 @@ const Login = ({ login, notificationObj }) => {
                         placeholder="Grande Puffo"
                         onChange={({ target }) => setUsername(target.value)}
                     />
-                    <FaUserAlt />
+                    <FaUserAlt
+                        className={LoginFormStyles.icon}
+                    />
                 </div>
-                <div>
-                    <label htmlFor="Password">Password</label>
+                <div className={LoginFormStyles.div}>
+                    <label
+                        className={LoginFormStyles.label}
+                        htmlFor="Password"
+                    >Password</label>
                     <input
+                        className={LoginFormStyles.input}
                         id="password-input"
                         type={passwordShown ? "text" : "password"}
                         value={password}
@@ -56,11 +75,21 @@ const Login = ({ login, notificationObj }) => {
                         onChange={({ target }) => setPassword(target.value)}
                     />
                     { passwordShown
-                        ? <FaEyeSlash className={styles.pointer} onClick={toggleShowPassword} />
-                        : <FaEye className={styles.pointer} onClick={toggleShowPassword} />
+                        ? <FaEyeSlash
+                            className={classnames(CommonStyles.pointer, LoginFormStyles.icon)}
+                            onClick={toggleShowPassword}
+                        />
+                        : <FaEye
+                            className={classnames(CommonStyles.pointer, LoginFormStyles.icon)}
+                            onClick={toggleShowPassword}
+                        />
                     }
                 </div>
-                <button type="submit" id="login-button">Login</button>
+                <button
+                    className={LoginFormStyles.loginButton}
+                    type="submit"
+                    id="login-button"
+                >Login</button>
             </form>
         </div>
     )
