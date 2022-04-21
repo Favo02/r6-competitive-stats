@@ -1,4 +1,4 @@
-import classes from "./Notification.module.scss"
+import NotificationStyles from "./Notification.module.scss"
 
 const Notification = ({ notificationObj }) => {
 
@@ -8,13 +8,13 @@ const Notification = ({ notificationObj }) => {
 
     if (notificationObj.isError) {
         return (
-            <div className={classes.errorNotification}>
+            <div className={NotificationStyles.errorNotification}>
                 {notificationObj.message}
             </div>
         )
     }
     return (
-        <div className={classes.infoNotification}>
+        <div className={NotificationStyles.infoNotification}>
             {notificationObj.message}
         </div>
     )

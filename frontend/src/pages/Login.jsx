@@ -4,7 +4,7 @@ import loginService from "../services/login"
 
 import LoginForm from "../components/LoginForm"
 
-import "./Login.module.scss"
+import LoginStyles from "./Login.module.scss"
 
 const Login = ({ user, setUser, notification, notificate }) => {
 
@@ -33,7 +33,9 @@ const Login = ({ user, setUser, notification, notificate }) => {
 
     if (user === null) {
         return (
-            <LoginForm login={login} notificationObj={notification} />
+            <div className={LoginStyles.background}>
+                <LoginForm login={login} notificationObj={notification} />
+            </div>
         )
     }
     else {
