@@ -28,14 +28,14 @@ const Login = ({ login, notificationObj }) => {
             <Notification notificationObj={notificationObj} />
             <h1 className={LoginFormStyles.h1}>
                 <span
-                    className={LoginFormStyles.textHighlight}
+                    className={CommonStyles.highlighted}
                 >Login </span>
                 into the webapp.
             </h1>
             <h3 className={LoginFormStyles.h3}>
                 Don&apos;t have an account? Contact&nbsp;
                 <a
-                    className={classnames(LoginFormStyles.a, LoginFormStyles.textHighlight)}
+                    className={classnames(LoginFormStyles.a, CommonStyles.highlighted)}
                     target="_blank"
                     rel="noreferrer"
                     href="https://linktr.ee/imprudenza"

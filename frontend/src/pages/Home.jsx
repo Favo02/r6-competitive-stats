@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom"
 
+import Header from "../components/Header"
 import FileUploader from "../components/FileUploader"
 
-import HomeStyles from "./Home.module.scss"
+// import HomeStyles from "./Home.module.scss"
 
 const Home = ({ user, logout }) => {
 
@@ -14,8 +15,7 @@ const Home = ({ user, logout }) => {
 
     return (
         <div>
-            <p className={HomeStyles.p}>Logged in as {user.username}</p>
-            <button onClick={logout}>Logout</button>
+            <Header user={user} logout={logout} />
             <FileUploader />
         </div>
     )

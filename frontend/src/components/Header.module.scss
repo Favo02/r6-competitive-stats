@@ -1,0 +1,55 @@
+@import "../styles/variables.scss";
+
+.header {
+    margin: 15px 30px;
+    width: calc(100% - 60px);
+    height: 40px;
+}
+.title {
+    font: {
+        size: 2.5em;
+        weight: 900
+    }
+    color: $text;
+    text-decoration: none;
+}
+
+.linksDiv {
+    float: right;
+    display: flex;
+    align-items: center;
+}
+.linkMarginRight {
+    margin-right: 30px;
+}
+.linkMarginTop {
+    margin-top: 10px;
+}
+.linkButton {
+    font: {
+        size: 1.2em;
+        weight: 500
+    }
+    color: $text;
+    text-decoration: none;
+    padding: 5px 15px;
+
+    &:hover {
+        font-weight: 700;
+    }
+}
+.highlighLinkButton {
+    border: {
+        radius: 10px;
+        width: 1px;
+        style: solid;
+        color: $primary;
+    }
+
+    @extend .linkButton;
+    background: linear-gradient(90deg, rgba($primary, 0.5) 0%, rgba($background, 0.5) 100%);
+
+    &:hover {
+        background: linear-gradient(90deg, rgba($primary, 0.8) 0%, rgba($background, 0.8) 100%);
+    }
+}
