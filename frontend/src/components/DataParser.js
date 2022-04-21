@@ -2,12 +2,14 @@ const ParseData = (rawData) => {
     const data = JSON.parse(rawData)
 
     const matchinfo = data.slice(0, 1)[0]
+    const performance = matchinfo.r6ui_match_data
     const rounds = data.slice(1)
 
     const parsed = {
         info: {},
         result: {},
         performance: {},
+        roundPerformance: {},
         rounds: {}
     }
 
@@ -30,6 +32,10 @@ const ParseData = (rawData) => {
     // match result
     parsed.result = parseResult(parsed.rounds)
 
+    parsed.performance = parsePerformance(parsed.info.rosters, performance)
+
+    parsed.roundPerformance = parseRoundPerformance(parsed.rounds)
+
     console.log("COMPLETE PARSE:")
     console.log(parsed)
     return parsed
@@ -42,10 +48,16 @@ const parseRosters = ({ blue_team, orange_team }, my_team_color ) => {
     let enemy_team = []
     for (const player in players) {
         if (players[player].team.toLowerCase() === my_team_color.toLowerCase()) {
-            my_team.push({ [players[player].username]: player })
+            my_team.push({
+                username: players[player].username,
+                roster: player
+            })
         }
         else {
-            enemy_team.push({ [players[player].username]: player })
+            enemy_team.push({
+                username: players[player].username,
+                roster: player
+            })
         }
 
     }
@@ -157,6 +169,61 @@ const parseResult = (rounds) => {
     })
 
     return result
+}
+
+const parsePerformance = (rosters, performance) => {
+    const my_team = `${performance.local_team}_team`
+    const enemy_team = my_team === "blue_team" ? "orange_team" : "blue_team"
+
+    let performances = []
+
+    rosters.my_team.forEach(player => {
+        let p = performance[my_team][player.roster]
+
+        p.team = "my_team"
+
+        // useless data
+        delete p.disconnected
+        delete p.is_dead
+        delete p.is_local
+        delete p.operator_id
+        delete p.points
+
+        // data that can be obtained
+        delete p.entry
+        delete p.hs_match
+        delete p.objplays
+
+        performances.push(p)
+    })
+
+    rosters.enemy_team.forEach(player => {
+        let p = performance[enemy_team][player.roster]
+
+        p.team = "enemy_team"
+
+        // useless data
+        delete p.disconnected
+        delete p.is_dead
+        delete p.is_local
+        delete p.operator_id
+        delete p.points
+
+        // data that can be obtained
+        delete p.entry
+        delete p.hs_match
+        delete p.objplays
+
+        performances.push(p)
+    })
+
+    return performances
+}
+
+const parseRoundPerformance = (rounds) => {
+    rounds.forEach((round, i) => {
+        console.log("Round ", i+1, ": ", round.performance)
+    })
 }
 
 export default ParseData
