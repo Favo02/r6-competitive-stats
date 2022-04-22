@@ -1,11 +1,8 @@
 import { Navigate } from "react-router-dom"
 
 import Header from "../components/Header"
-import FileUploader from "../components/FileUploader"
 
-// import HomeStyles from "./Home.module.scss"
-
-const Home = ({ user, logout }) => {
+const Error404 = ({ user, logout }) => {
 
     if (user === null) {
         return (
@@ -16,9 +13,9 @@ const Home = ({ user, logout }) => {
     return (
         <div>
             <Header user={user} logout={logout} />
-            <FileUploader />
+            <h1>Page not found - error 404</h1>
         </div>
     )
 }
 
-export default Home
+export default Error404

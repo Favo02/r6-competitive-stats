@@ -7,6 +7,7 @@ import Home from "./pages/Home"
 import Settings from "./pages/Settings"
 import NewMatch from "./pages/NewMatch"
 import Profile from "./pages/Profile"
+import Error404 from "./pages/Error404"
 
 const Main = () => {
     const [user, setUser] = useState(null)
@@ -87,7 +88,10 @@ const Main = () => {
                 {/* 404 Routing */}
 
                 <Route path="/404" element={
-                    <h1>Page not found - error 404</h1>
+                    <Error404
+                        user={user}
+                        logout={logout}
+                    />
                 }></Route>
 
                 <Route path="/*" element={

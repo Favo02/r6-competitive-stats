@@ -6,7 +6,7 @@ const NewMatch = ({ user, logout }) => {
 
     if (user === null) {
         return (
-            <Navigate to={{ pathname: "/login" }} />
+            <Navigate to="/login" />
         )
     }
 
