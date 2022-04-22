@@ -23,7 +23,7 @@ const Header = ({ user, logout }) => {
 
                 <Link
                     className={classnames(
-                        HeaderStyles.linkButton,
+                        CommonStyles.linkButton,
                         HeaderStyles.linkMarginRight
                     )}
                     to="/settings"
@@ -33,8 +33,8 @@ const Header = ({ user, logout }) => {
 
                 <Link
                     className={classnames(
-                        HeaderStyles.linkButton,
-                        HeaderStyles.highlighLinkButton,
+                        CommonStyles.linkButton,
+                        CommonStyles.highlighLinkButton,
                         HeaderStyles.linkMarginRight
                     )}
                     to="/newmatch"
