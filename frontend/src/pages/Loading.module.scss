@@ -1,0 +1,12 @@
+@import "../styles/variables.scss";
+
+.loading {
+    height: 100vh;
+    width: 100vw;
+    background: {
+        image: url($spinner);
+        position-x: 50%;
+        position-y: 50%;
+        repeat: no-repeat;
+    }
+}

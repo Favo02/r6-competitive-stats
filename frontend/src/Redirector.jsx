@@ -3,13 +3,18 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 import Login from "./pages/Login"
+
+import Error404 from "./pages/Error404"
+import Loading from "./pages/Loading"
+
 import Home from "./pages/Home"
 import Settings from "./pages/Settings"
 import NewMatch from "./pages/NewMatch"
 import Profile from "./pages/Profile"
-import Error404 from "./pages/Error404"
 
 const Main = () => {
+    const [loading, setLoading] = useState(true)
+
     const [user, setUser] = useState(null)
     const [notification, setNotification] = useState({ message: "", isError: false })
 
@@ -19,6 +24,7 @@ const Main = () => {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
         }
+        setLoading(false)
     }, [])
 
     const notificate = (message, isError) => {
@@ -33,6 +39,13 @@ const Main = () => {
         notificate("Logged out", false)
         window.localStorage.removeItem("loggedR6statsUser")
         setUser(null)
+    }
+
+    // User still not loaded: wait
+    if (loading) {
+        return (
+            <Loading />
+        )
     }
 
     return (
@@ -85,17 +98,13 @@ const Main = () => {
                 }></Route>
 
 
-                {/* 404 Routing */}
+                {/* Error 404 Routing */}
 
-                <Route path="/404" element={
+                <Route path="/*" element={
                     <Error404
                         user={user}
                         logout={logout}
                     />
-                }></Route>
-
-                <Route path="/*" element={
-                    <Navigate to="/404" />
                 }>
                 </Route>
 
