@@ -1,7 +1,10 @@
 @import "../styles/variables.scss";
 
 .background {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: linear-gradient(to left, transparent, $background 55%), url("../imgs/login_bg.jpg");
+    background-image: linear-gradient(to left, transparent, $background 55%), url($background_login);
 }
