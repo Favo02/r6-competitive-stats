@@ -1,0 +1,83 @@
+@import "../styles/variables.scss";
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(315deg, transparent, $background 55%), url($background_error404);
+}
+.center {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+.text {
+    margin: 30px;
+    font-size: 1.7em;
+    color: $text;
+}
+.button {
+    font-size: 2em;
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-weight: 800;
+}
+    
+
+// Text glitch effect: https://codepen.io/lbebber/pen/nqwBKK
+.glitch{
+    display: inline-block;
+    color: $text;
+    font-size: 4em;
+    font-weight: 800;
+    position: relative;
+    margin: 0 auto;
+}
+.glitch:after {
+    content: attr(data-text);
+    position: absolute;
+    left: 2px;
+    text-shadow: -1px 0 $primary;
+    top: 0;
+    color: white;
+    background: transparent;
+    overflow: hidden;
+    clip: rect(0,2000px,0,0); 
+    animation: noise-anim 2s infinite linear alternate-reverse;
+}
+@keyframes noise-anim{
+    $steps: 20;
+    @for $i from 0 through $steps {
+        #{ percentage($i*(1 / $steps)) } {
+            clip: rect(random(100)+px,9999px,random(100)+px,0);
+        }
+    }
+}
+.glitch:before{
+    content: attr(data-text);
+    position: absolute;
+    left: -2px;
+    text-shadow: 1px 0 blue; 
+    top: 0;
+    color: white;
+    background: transparent;
+    overflow: hidden;
+    clip: rect(0,2000px,0,0); 
+    animation: noise-anim-2 3s infinite linear alternate-reverse;
+}
+@keyframes noise-anim-2{
+    $steps: 20;
+    @for $i from 0 through $steps{
+        #{ p ercentage($i*(1 / $steps)) }{
+            clip: rect(random(100)+px,9999px,random(100)+px,0);
+        }
+    }
+}
