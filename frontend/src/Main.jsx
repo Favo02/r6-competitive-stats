@@ -1,9 +1,12 @@
 import React from "react"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 import Login from "./pages/Login"
 import Home from "./pages/Home"
+import Settings from "./pages/Settings"
+import NewMatch from "./pages/NewMatch"
+import Profile from "./pages/Profile"
 
 const Main = () => {
     const [user, setUser] = useState(null)
@@ -32,22 +35,68 @@ const Main = () => {
     }
 
     return (
-        <Routes>
-            <Route path="/home" element={
-                <Home
-                    user={user}
-                    logout={logout}
-                />
-            }></Route>
-            <Route path="/login" element={
-                <Login
-                    user={user}
-                    setUser={setUser}
-                    notification={notification}
-                    notificate={notificate}
-                />
-            }></Route>
-        </Routes>
+        <>
+            <Routes>
+
+                {/* Not logged in routing */}
+
+                <Route path="/login" element={
+                    user === null
+                        ?
+                        <Login
+                            setUser={setUser}
+                            notification={notification}
+                            notificate={notificate}
+                        />
+                        :
+                        <Navigate to="/home" />
+                }></Route>
+
+
+                {/* Logged in routing */}
+
+                <Route path="/home" element={
+                    <Home
+                        user={user}
+                        logout={logout}
+                    />
+                }></Route>
+
+                <Route path="/settings" element={
+                    <Settings
+                        user={user}
+                        logout={logout}
+                    />
+                }></Route>
+
+                <Route path="/newmatch" element={
+                    <NewMatch
+                        user={user}
+                        logout={logout}
+                    />
+                }></Route>
+
+                <Route path="/profile" element={
+                    <Profile
+                        user={user}
+                        logout={logout}
+                    />
+                }></Route>
+
+
+                {/* 404 Routing */}
+
+                <Route path="/404" element={
+                    <h1>Page not found - error 404</h1>
+                }></Route>
+
+                <Route path="/*" element={
+                    <Navigate to="/404" />
+                }>
+                </Route>
+
+            </Routes>
+        </>
     )
 }
 

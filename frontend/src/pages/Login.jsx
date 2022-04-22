@@ -1,12 +1,10 @@
-import { Navigate } from "react-router-dom"
-
 import loginService from "../services/login"
 
 import LoginForm from "../components/LoginForm"
 
 import LoginStyles from "./Login.module.scss"
 
-const Login = ({ user, setUser, notification, notificate }) => {
+const Login = ({ setUser, notification, notificate }) => {
 
     const login = async (username, password) => {
         try {
@@ -31,18 +29,11 @@ const Login = ({ user, setUser, notification, notificate }) => {
         }
     }
 
-    if (user === null) {
-        return (
-            <div className={LoginStyles.background}>
-                <LoginForm login={login} notificationObj={notification} />
-            </div>
-        )
-    }
-    else {
-        return (
-            <Navigate to={{ pathname: "/home" }} />
-        )
-    }
+    return (
+        <div className={LoginStyles.background}>
+            <LoginForm login={login} notificationObj={notification} />
+        </div>
+    )
 }
 
 export default Login
