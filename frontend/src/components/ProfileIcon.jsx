@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
+
 import { FaUserCircle } from "react-icons/fa"
 import { VscTriangleDown } from "react-icons/vsc"
 
@@ -30,11 +32,19 @@ const ProfileIcon = ({ user, logout }) => {
                         ProfileIconStyles.cardText
                     )}>
                     <div className={ProfileIconStyles.arrowUp}></div>
-                    <h1>Welcome, {user.username}</h1>
+                    <h1>Hello, {user.username}</h1>
+                    <Link
+                        className={classnames(
+                            HeaderStyles.highlighLinkButton,
+                            HeaderStyles.linkMarginTop
+                        )}
+                        to="/profile"
+                    >Profile</Link>
+
                     <button
                         onClick={logout}
                         className={classnames(
-                            HeaderStyles.highlighLinkButton,
+                            HeaderStyles.redLinkButton,
                             HeaderStyles.linkMarginTop
                         )}
                     >Logout</button>
