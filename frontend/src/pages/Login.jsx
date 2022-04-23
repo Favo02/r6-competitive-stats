@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode"
+
 import loginService from "../services/login"
 
 import LoginForm from "../components/LoginForm"
@@ -11,6 +13,9 @@ const Login = ({ setUser, notification, notificate }) => {
             const user = await loginService.login({
                 username, password,
             })
+
+            const decoded = jwt_decode(user.token)
+            user.id = decoded.id
 
             notificate(`${user.username} logged in`, false)
 

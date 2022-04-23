@@ -1,6 +1,7 @@
 import React from "react"
 import { Routes, Route, Navigate } from "react-router-dom"
 import { useEffect, useState } from "react"
+import jwt_decode from "jwt-decode"
 
 import Login from "./pages/Login"
 
@@ -23,7 +24,14 @@ const Main = () => {
         const loggedUserJSON = window.localStorage.getItem("loggedR6statsUser")
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
-            setUser(user)
+            const decoded = jwt_decode(user.token)
+            if (decoded.exp * 1000 > Date.now()) {
+                setUser(user)
+            }
+            else {
+                window.localStorage.removeItem("loggedR6statsUser")
+                notificate("Your login expired", true)
+            }
         }
         setLoading(false)
     }, [])
