@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import Login from "./pages/Login"
 
 import Error404 from "./pages/Error404"
-import Loading from "./pages/Loading"
+import Loading from "./components/Loading"
 import ProtectedRoute from "./components/ProtectedRoute"
 
 import Home from "./pages/Home"
