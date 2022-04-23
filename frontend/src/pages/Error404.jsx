@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import Header from "../components/Header"
 
@@ -7,12 +7,6 @@ import CommonStyles from "../styles/common.module.scss"
 import Error404Styles from "./Error404.module.scss"
 
 const Error404 = ({ user, logout }) => {
-
-    if (user === null) {
-        return (
-            <Navigate to="/login" />
-        )
-    }
 
     return (
         <div className={Error404Styles.background}>

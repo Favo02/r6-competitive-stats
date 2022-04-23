@@ -6,6 +6,7 @@ import Login from "./pages/Login"
 
 import Error404 from "./pages/Error404"
 import Loading from "./pages/Loading"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 import Home from "./pages/Home"
 import Settings from "./pages/Settings"
@@ -70,41 +71,51 @@ const Main = () => {
                 {/* Logged in routing */}
 
                 <Route path="/home" element={
-                    <Home
-                        user={user}
-                        logout={logout}
-                    />
+                    <ProtectedRoute user={user}>
+                        <Home
+                            user={user}
+                            logout={logout}
+                        />
+                    </ProtectedRoute>
                 }></Route>
 
                 <Route path="/settings" element={
-                    <Settings
-                        user={user}
-                        logout={logout}
-                    />
+                    <ProtectedRoute user={user}>
+                        <Settings
+                            user={user}
+                            logout={logout}
+                        />
+                    </ProtectedRoute>
                 }></Route>
 
                 <Route path="/newmatch" element={
-                    <NewMatch
-                        user={user}
-                        logout={logout}
-                    />
+                    <ProtectedRoute user={user}>
+                        <NewMatch
+                            user={user}
+                            logout={logout}
+                        />
+                    </ProtectedRoute>
                 }></Route>
 
                 <Route path="/profile" element={
-                    <Profile
-                        user={user}
-                        logout={logout}
-                    />
+                    <ProtectedRoute user={user}>
+                        <Profile
+                            user={user}
+                            logout={logout}
+                        />
+                    </ProtectedRoute>
                 }></Route>
 
 
                 {/* Error 404 Routing */}
 
                 <Route path="/*" element={
-                    <Error404
-                        user={user}
-                        logout={logout}
-                    />
+                    <ProtectedRoute user={user}>
+                        <Error404
+                            user={user}
+                            logout={logout}
+                        />
+                    </ProtectedRoute>
                 }>
                 </Route>
 
