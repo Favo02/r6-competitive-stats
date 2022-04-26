@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react"
 
 import ParseData from "../utilities/DataParser"
 
-const FileUploader = () => {
+const FileUploader = ({ setParsedData }) => {
     const [rawData, setRawData] = useState("")
-    const [parsedData, setParsedData] = useState(null)
 
     const handleChange = (e) => {
         const fileReader = new FileReader()
@@ -25,8 +24,6 @@ const FileUploader = () => {
             <h1>Upload Json file:</h1>
 
             <input type="file" onChange={handleChange} />
-            <br />
-            <pre>{JSON.stringify(parsedData, null, "\t")}</pre>
         </>
     )
 }
