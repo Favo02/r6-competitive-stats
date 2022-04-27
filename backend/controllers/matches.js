@@ -2,9 +2,11 @@ const matchesRouter = require("express").Router()
 const Match = require("../models/match")
 const middleware = require("../utils/middleware")
 
-matchesRouter.get("/", async (request, response) => {
+matchesRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const user = request.user
+
     const matches = await Match
-        .find({})
+        .find({ user: user.id })
 
     response.json(matches)
 })
