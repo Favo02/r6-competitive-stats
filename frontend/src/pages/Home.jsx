@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import matchService from "../services/matches"
 
 import Header from "../components/Header"
+import Matches from "../components/Matches"
 
 // import HomeStyles from "./Home.module.scss"
 
@@ -28,7 +29,7 @@ const Home = ({ user, logout }) => {
     return (
         <div>
             <Header user={user} logout={logout} />
-            <div>{JSON.stringify(matches)}</div>
+            <Matches matches={matches} />
         </div>
     )
 }
