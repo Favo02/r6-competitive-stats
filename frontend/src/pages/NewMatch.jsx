@@ -5,15 +5,10 @@ import matchService from "../services/matches"
 
 const NewMatch = ({ user, logout }) => {
     const newMatch = async (match) => {
-        const tempmatch = {
-            info: match.info,
-            performance: match.performance
-        }
-
         if (match) {
             try {
-                const createdMatch = await matchService.create(tempmatch, user.token)
-                console.log("saved match:", createdMatch)
+                const createdMatch = await matchService.create(match, user.token)
+                console.log("match saved:", createdMatch)
             }
             catch (exception) {
                 if (exception.response) {

@@ -36,6 +36,9 @@ const ParseData = (rawData) => {
 
     parsed.roundPerformance = parseRoundPerformance(parsed.rounds, parsed.info.my_team)
 
+    // removes round performance from the round, it has been moved to roundPerformance
+    parsed.rounds = clearRound(parsed.rounds)
+
     console.log("COMPLETE PARSE:")
     console.log(parsed)
     return parsed
@@ -91,7 +94,7 @@ const parseRounds = (rounds) => {
         delete round.site
         delete round.spawn
 
-        // players performance
+        // players performance, will be removed and moved to roundPerformance
         round.performance = []
         for (let i = 0; i < 10; i++) {
             round.performance.push(round[`roster_${i}`])
@@ -231,6 +234,8 @@ const parseRoundPerformance = (rounds, my_team) => {
 
             delete player.disconnected
             delete player.is_local
+            delete player.is_dead
+            delete player.drone_stats
             delete player.round_score
 
             player.operator = operators_ids.find(op => op.overwolf_id === player.operator).operator_name
@@ -241,6 +246,13 @@ const parseRoundPerformance = (rounds, my_team) => {
         })
     )
 
+    return rounds
+}
+
+const clearRound = (rounds) => {
+    rounds.forEach(round => {
+        delete round.performance
+    })
     return rounds
 }
 
