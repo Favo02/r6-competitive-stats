@@ -1,5 +1,6 @@
 const matchesRouter = require("express").Router()
 const Match = require("../models/match")
+const middleware = require("../utils/middleware")
 
 matchesRouter.get("/", async (request, response) => {
     const matches = await Match
@@ -8,9 +9,10 @@ matchesRouter.get("/", async (request, response) => {
     response.json(matches)
 })
 
-matchesRouter.post("/", async (request, response) => {
-
+matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const match = request.body
+    const user = request.user
+    match.user = user.id
     const date = match.info.date
 
     const existingMatch = await Match.findOne({ "info.date": date })
@@ -23,6 +25,9 @@ matchesRouter.post("/", async (request, response) => {
 
     const newMatch = new Match(match)
     const savedMatch = await newMatch.save()
+
+    user.matches = user.matches.concat(savedMatch._id)
+    await user.save()
 
     response.status(201).json(savedMatch)
 })

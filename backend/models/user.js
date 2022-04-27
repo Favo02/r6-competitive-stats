@@ -7,7 +7,13 @@ const userSchema = new mongoose.Schema({
         minlength: [3, "should be at least 3 characters long"]
     },
     passwordHash: String,
-    permission: { type: String, enum: ["admin", "member", "guest"] }
+    permission: { type: String, enum: ["admin", "member", "guest"] },
+    matches: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Match"
+        }
+    ],
 })
 
 userSchema.set("toJSON", {
