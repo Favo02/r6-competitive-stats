@@ -1,0 +1,125 @@
+@import "../styles/variables.scss";
+
+.matchesDiv {
+    margin: auto;
+    width: 80%;
+
+    & > :first-child {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+
+        .mapImg {
+            border-top-left-radius: 15px;
+        }
+    }
+
+    & > :last-child {
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+
+        .mapImg {
+            border-bottom-left-radius: 15px;
+        }
+    }
+
+    .matchDiv {
+        width: 100%;
+        height: 84px;
+
+        display: flex;
+        align-items: center;
+
+        border: 2px solid $secondary_text;
+        border-bottom: none;
+
+        overflow: hidden;
+
+        background: $background_light;
+
+        &:last-child {
+            border-bottom: 2px solid $secondary_text;
+        }
+    }
+    
+    .mapImg {
+        width: 120px;
+        height: 80px; 
+        background-size: 120px 80px;
+
+        .mapText {
+            height: 70px;
+            width: 20px;
+            margin: 5px;
+
+            font-size: 20px;
+            color: $text;
+
+            text-align: center;
+            writing-mode: vertical-rl;
+            word-break: break-all;
+        }
+    }
+
+    .scoreText {
+        width: 140px;
+        text-align: center;
+        font-size: 70px;
+        font-weight: 900;
+        margin: 0 20px;
+        color: $text;
+    }
+}
+
+
+// Maps
+.bank {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "bank.png");
+}
+.border {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "border.png");
+}
+.chalet {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "chalet.png");
+}
+.clubhouse {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "club.png");
+}
+.kafe {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "kafe.png");
+}
+.oregon {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "oregon.png");
+}
+.skyscraper {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "skyscraper.png");                
+}
+.themepark {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "theme.png");
+}
+.villa {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "villa.png");
+}
+
+.unknown {
+    background-image:
+        linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),
+        url($maps_dir + "unknown.png");
+}
