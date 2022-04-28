@@ -17,7 +17,7 @@ matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, asy
     match.user = user.id
     const date = match.info.date
 
-    const existingMatch = await Match.findOne({ "info.date": date })
+    const existingMatch = await Match.findOne({ "info.date": date, "user": user.id })
     if (existingMatch) {
         console.log("existing date")
         return response.status(400).json({
