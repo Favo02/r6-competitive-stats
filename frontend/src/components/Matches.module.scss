@@ -90,8 +90,43 @@
         color: $secondary_text;
         font-size: 0.7em;
     }
-}
 
+    // enemies
+    .enemiesDiv {
+        position: relative;
+
+        margin: 10px;
+        padding-left: 10px;
+
+        height: calc(100% - 20px);
+        width: 150px;
+        font-size: 0.7em;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        color: $text;
+
+        border: 2px solid $secondary_text;
+        border-radius: 10px;
+        border-top: none;
+        border-bottom: none;
+
+        .vsText {
+            position: absolute;
+            left: 0;
+
+            text-align: center;
+            writing-mode: vertical-rl;
+            word-break: break-all;
+            transform: rotate(180deg);
+
+            font-size: 2em;
+        }
+    }
+}
 
 // Maps
 .bank {

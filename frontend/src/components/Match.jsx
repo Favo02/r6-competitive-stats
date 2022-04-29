@@ -37,18 +37,31 @@ const Match = ({ match }) => {
     ]
     const day = days[dateObj.getDay()]
 
+    // enemies
+    const enemies = match.info.rosters.enemy_team
+
     return (
         <div className={MatchStyles.matchDiv}>
             {/* Map image and name */}
             <div className={classnames(MatchStyles[mapClass], MatchStyles.mapImg)}>
                 <h2 className={MatchStyles.mapText}>{map.toUpperCase()}</h2>
             </div>
+
             {/* Score */}
             <h1 className={classnames(MatchStyles.scoreText, MatchStyles[score_class])}>{my_team_score} - {enemy_team_score}</h1>
+
             {/* Date */}
             <div className={MatchStyles.dateDiv}>
                 <h1>{day}</h1>
                 <h1>{date}</h1>
+            </div>
+
+            {/* Round history */}
+
+            {/* Enemies */}
+            <div className={MatchStyles.enemiesDiv}>
+                <h2 className={MatchStyles.vsText}>VS</h2>
+                {enemies.map(enemy => <h3 key={enemy.username}>{enemy.username}</h3>)}
             </div>
         </div>
     )
