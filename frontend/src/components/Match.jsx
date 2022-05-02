@@ -1,3 +1,5 @@
+import RoundHistory from "./RoundHistory"
+
 import classnames from "classnames"
 import MatchStyles from "./Matches.module.scss"
 
@@ -50,18 +52,25 @@ const Match = ({ match }) => {
             {/* Score */}
             <h1 className={classnames(MatchStyles.scoreText, MatchStyles[score_class])}>{my_team_score} - {enemy_team_score}</h1>
 
-            {/* Date */}
+            {/* Date and category */}
             <div className={MatchStyles.dateDiv}>
+                <h1 className={MatchStyles.categoryText}>SCRIM</h1>
                 <h1>{day}</h1>
                 <h1>{date}</h1>
             </div>
 
             {/* Round history */}
+            <RoundHistory match={match} />
 
             {/* Enemies */}
             <div className={MatchStyles.enemiesDiv}>
                 <h2 className={MatchStyles.vsText}>VS</h2>
                 {enemies.map(enemy => <h3 key={enemy.username}>{enemy.username}</h3>)}
+            </div>
+
+            {/* Links */}
+            <div className={MatchStyles.linksDiv}>
+                Links
             </div>
         </div>
     )

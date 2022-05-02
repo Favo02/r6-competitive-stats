@@ -44,9 +44,10 @@
     
     // map image
     .mapImg {
-        width: 120px;
+        width: 10%;
         height: 80px; 
         background-size: 120px 80px;
+        background-repeat: no-repeat;
 
         // map name text
         .mapText {
@@ -65,7 +66,8 @@
 
     // score text
     .scoreText {
-        width: 170px;
+        width: 15%;
+        min-width: 170px;
         margin: 0 10px;
 
         color: $text;
@@ -80,7 +82,7 @@
 
     // date
     .dateDiv {
-        width: 125px;
+        width: 15%;
         margin: 0 10px;
 
         display: flex;
@@ -88,7 +90,16 @@
         align-items: center;
 
         color: $secondary_text;
-        font-size: 0.7em;
+        font-size: 0.6em;
+    }
+
+    // match category
+    .categoryText {
+        color: $text;
+    }
+
+    .roundHistoryDiv {
+        width: 40%;
     }
 
     // enemies
@@ -99,7 +110,7 @@
         padding-left: 10px;
 
         height: calc(100% - 20px);
-        width: 150px;
+        width: 15%;
         font-size: 0.7em;
         
         display: flex;
@@ -125,6 +136,11 @@
 
             font-size: 2em;
         }
+    }
+
+    // links
+    .linksDiv {
+        width: 5%;
     }
 }
 
