@@ -49,15 +49,15 @@ const Match = ({ match }) => {
                 <h2 className={MatchStyles.mapText}>{map.toUpperCase()}</h2>
             </div>
 
-            {/* Score */}
-            <h1 className={classnames(MatchStyles.scoreText, MatchStyles[score_class])}>{my_team_score} - {enemy_team_score}</h1>
-
             {/* Date and category */}
             <div className={MatchStyles.dateDiv}>
                 <h1 className={MatchStyles.categoryText}>SCRIM</h1>
                 <h1>{day}</h1>
                 <h1>{date}</h1>
             </div>
+
+            {/* Score */}
+            <h1 className={classnames(MatchStyles.scoreText, MatchStyles[score_class])}>{my_team_score} - {enemy_team_score}</h1>
 
             {/* Round history */}
             <RoundHistory match={match} />

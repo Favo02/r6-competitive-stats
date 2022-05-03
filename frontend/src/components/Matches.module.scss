@@ -64,22 +64,6 @@
         }
     }
 
-    // score text
-    .scoreText {
-        width: 15%;
-        min-width: 170px;
-        margin: 0 10px;
-
-        color: $text;
-        font-size: 70px;
-        font-weight: 900;
-        text-align: center;
-    }
-    //score text shadow
-    .victory { text-shadow: 2px 2px 0 green; }
-    .draw { text-shadow: 2px 2px 0 orange; }
-    .defeat { text-shadow: 2px 2px 0 red; }
-
     // date
     .dateDiv {
         width: 15%;
@@ -97,6 +81,22 @@
     .categoryText {
         color: $text;
     }
+
+    // score text
+    .scoreText {
+        width: 15%;
+        min-width: 170px;
+        margin: 0 10px;
+
+        color: $text;
+        font-size: 70px;
+        font-weight: 900;
+        text-align: center;
+    }
+    //score text shadow
+    .victory { text-shadow: 2px 2px 0 green; }
+    .draw { text-shadow: 2px 2px 0 orange; }
+    .defeat { text-shadow: 2px 2px 0 red; }
 
     .roundHistoryDiv {
         display: flex;
