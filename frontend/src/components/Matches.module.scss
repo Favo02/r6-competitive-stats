@@ -4,21 +4,37 @@
     margin: auto;
     width: 80%;
 
-    // round border first and last child
+    // round border first match
     & > :first-child {
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
 
-        .mapImg {
+        .matchDiv {
             border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+
+            .mapImg {
+                border-top-left-radius: 15px;
+            }
         }
     }
+    // round border last match
     & > :last-child {
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
 
-        .mapImg {
+        // do not round the last match if performance open
+        .matchDiv:not(.matchDivOpen) {
             border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            border-bottom: 2px solid $secondary_text;
+
+            .mapImg {
+                border-bottom-left-radius: 15px;
+            }
+        }
+
+        // round the performance if open instead of match
+        .matchDivOpen + .performanceDiv {
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            border-bottom: 2px solid $secondary_text;
         }
     }
 
@@ -36,10 +52,6 @@
         overflow: hidden;
 
         background: $background_light;
-
-        &:last-child {
-            border-bottom: 2px solid $secondary_text;
-        }
     }
     
     // map image
@@ -98,6 +110,7 @@
     .draw { text-shadow: 2px 2px 0 orange; }
     .defeat { text-shadow: 2px 2px 0 red; }
 
+    // round history
     .roundHistoryDiv {
         display: flex;
         align-items: center;
@@ -136,7 +149,6 @@
             width: 30px;
             height: 30px;
         }
-
     }
 
     // enemies
@@ -178,10 +190,68 @@
     // links
     .linksDiv {
         width: 5%;
+        display: flex;
+        justify-content: center;
+
+        %toggleButton {
+            color: $text;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            transition: transform .4s;
+        }
+        .toggleButton {
+            @extend %toggleButton;
+        }
+        .toggleButtonRotated {
+            @extend %toggleButton;
+            transform: rotate(-90deg);
+        }
+    }
+
+    // performance div
+    @keyframes performanceReveal-in {
+        from {
+            height: 0;
+            opacity: 0;
+        }
+        to {
+            height: 150px;
+            opacity: 1;
+        }
+    }
+    @keyframes performanceReveal-out {
+        from {
+            height: 150px;
+            opacity: 1;
+        }
+        to {
+            height: 0;
+            opacity: 0;
+        }
+    }
+    
+    %performanceDiv {
+        border: 2px solid $secondary_text;
+        border-bottom: none;
+        border-top: 1px dashed  $secondary_text;
+        overflow: hidden;
+    }
+    .performanceDiv {
+        @extend %performanceDiv;
+        height: 150px;
+        opacity: 1;
+        animation: performanceReveal-in .4s;
+    }
+    .hiddenPerformanceDiv {
+        @extend %performanceDiv;
+        opacity: 0;
+        height: 0;
+        animation: performanceReveal-out .4s
     }
 }
 
-// Maps
+// maps
 .bank {
     background-image:
         linear-gradient(to right,rgba(255,255,255,0) 0%, $background_light 90%),

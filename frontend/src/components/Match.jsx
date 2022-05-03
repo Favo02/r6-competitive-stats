@@ -1,7 +1,12 @@
+import { useState } from "react"
+
 import RoundHistory from "./RoundHistory"
+import ToggleableMatchPerformance from "./ToggleableMatchPerformance"
 
 import classnames from "classnames"
 import MatchStyles from "./Matches.module.scss"
+
+import { IoIosArrowDropleftCircle } from "react-icons/io"
 
 const Match = ({ match }) => {
     // map
@@ -42,37 +47,59 @@ const Match = ({ match }) => {
     // enemies
     const enemies = match.info.rosters.enemy_team
 
+    // toggle performance
+    const [isOpen, setOpen] = useState(false)
+
     return (
-        <div className={MatchStyles.matchDiv}>
-            {/* Map image and name */}
-            <div className={classnames(MatchStyles[mapClass], MatchStyles.mapImg)}>
-                <h2 className={MatchStyles.mapText}>{map.toUpperCase()}</h2>
+        <>
+            <div>
+                <div className={classnames(MatchStyles.matchDiv,
+                    isOpen
+                        ? MatchStyles.matchDivOpen
+                        : ""
+                )}>
+                    {/* Map image and name */}
+                    <div className={classnames(MatchStyles[mapClass], MatchStyles.mapImg)}>
+                        <h2 className={MatchStyles.mapText}>{map.toUpperCase()}</h2>
+                    </div>
+
+                    {/* Date and category */}
+                    <div className={MatchStyles.dateDiv}>
+                        <h1 className={MatchStyles.categoryText}>SCRIM</h1>
+                        <h1>{day}</h1>
+                        <h1>{date}</h1>
+                    </div>
+
+                    {/* Score */}
+                    <h1 className={classnames(MatchStyles.scoreText, MatchStyles[score_class])}>{my_team_score} - {enemy_team_score}</h1>
+
+                    {/* Round history */}
+                    <RoundHistory match={match} />
+
+                    {/* Enemies */}
+                    <div className={MatchStyles.enemiesDiv}>
+                        <h2 className={MatchStyles.vsText}>VS</h2>
+                        {enemies.map(enemy => <h3 key={enemy.username}>{enemy.username}</h3>)}
+                    </div>
+
+                    {/* Links */}
+                    <div className={MatchStyles.linksDiv}>
+                        <IoIosArrowDropleftCircle
+                            onClick={() => setOpen(!isOpen)}
+                            className={
+                                isOpen
+                                    ? MatchStyles.toggleButtonRotated
+                                    : MatchStyles.toggleButton
+                            }
+                        />
+                    </div>
+                </div>
+                <ToggleableMatchPerformance
+                    isOpen={isOpen}
+                    match={match}
+                />
             </div>
-
-            {/* Date and category */}
-            <div className={MatchStyles.dateDiv}>
-                <h1 className={MatchStyles.categoryText}>SCRIM</h1>
-                <h1>{day}</h1>
-                <h1>{date}</h1>
-            </div>
-
-            {/* Score */}
-            <h1 className={classnames(MatchStyles.scoreText, MatchStyles[score_class])}>{my_team_score} - {enemy_team_score}</h1>
-
-            {/* Round history */}
-            <RoundHistory match={match} />
-
-            {/* Enemies */}
-            <div className={MatchStyles.enemiesDiv}>
-                <h2 className={MatchStyles.vsText}>VS</h2>
-                {enemies.map(enemy => <h3 key={enemy.username}>{enemy.username}</h3>)}
-            </div>
-
-            {/* Links */}
-            <div className={MatchStyles.linksDiv}>
-                Links
-            </div>
-        </div>
+        </>
     )
 }
 
