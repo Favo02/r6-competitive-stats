@@ -6,6 +6,7 @@ const config = require("./utils/config")
 const mongoose = require("mongoose")
 const compression = require("compression")
 const helmet = require("helmet")
+const path = require("path")
 
 const usersRouter = require("./controllers/users")
 const loginRouter = require("./controllers/login")
@@ -36,6 +37,10 @@ if (process.env.NODE_ENV === "dev") {
 }
 app.use("/api/login", loginRouter)
 app.use("/api/matches", matchesRouter)
+
+app.get("/*", function(req,res) {
+    res.sendFile(path.join(__dirname, "build", "index.html"))
+})
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
