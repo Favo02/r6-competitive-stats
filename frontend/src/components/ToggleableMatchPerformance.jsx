@@ -56,9 +56,9 @@ const ToggleableMatchPerformance = ({ match, isOpen }) => {
 
                             )}>{p.rating}</td>
 
-                            <td>{p.kills}-{p.deaths} ({p.kills-p.deaths})</td>
+                            <td>{p.kills}-{p.deaths} ({((p.kills-p.deaths) < 0 ? "" : "+") + (p.kills-p.deaths)})</td>
 
-                            <td>{p.okills}-{p.odeaths} ({p.okills-p.odeaths})</td>
+                            <td>{p.okills}-{p.odeaths} ({((p.okills-p.odeaths) < 0 ? "" : "+") + (p.okills-p.odeaths)})</td>
 
                             <td>{p.matchkost}</td>
 
