@@ -24,10 +24,20 @@ const Home = ({ user, logout }) => {
         }
     }, [])
 
+    const deleteMatch = async (id) => {
+        try {
+            await matchService.remove(id, user.token)
+            setMatches(matches.filter(match => match.id !== id))
+        }
+        catch (exception) {
+            console.log(exception)
+        }
+    }
+
     return (
         <div>
             <Header user={user} logout={logout} />
-            <Matches matches={matches} />
+            <Matches matches={matches} deleteMatch={deleteMatch} />
         </div>
     )
 }

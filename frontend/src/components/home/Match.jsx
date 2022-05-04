@@ -7,8 +7,9 @@ import classnames from "classnames"
 import MatchStyles from "./Matches.module.scss"
 
 import { IoIosArrowDropleftCircle } from "react-icons/io"
+import { MdDeleteForever } from "react-icons/md"
 
-const Match = ({ match }) => {
+const Match = ({ match, deleteMatch }) => {
     //category
     const category = match.info.category
 
@@ -53,6 +54,13 @@ const Match = ({ match }) => {
     // toggle performance
     const [isOpen, setOpen] = useState(false)
 
+    // delete
+    const handleDelete = (match) => {
+        if (window.confirm(`Are you sure to delete ${date} ${map} ${my_team_score}-${enemy_team_score}?`)) {
+            deleteMatch(match.id)
+        }
+    }
+
     return (
         <>
             <div>
@@ -94,6 +102,10 @@ const Match = ({ match }) => {
                                     ? MatchStyles.toggleButtonRotated
                                     : MatchStyles.toggleButton
                             }
+                        />
+                        <MdDeleteForever
+                            onClick={() => handleDelete(match)}
+                            className={MatchStyles.deleteButton}
                         />
                     </div>
                 </div>

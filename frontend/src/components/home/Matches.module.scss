@@ -194,6 +194,7 @@
         justify-content: center;
 
         %toggleButton {
+            margin: 5px;
             color: $text;
             width: 25px;
             height: 25px;
@@ -206,6 +207,14 @@
         .toggleButtonRotated {
             @extend %toggleButton;
             transform: rotate(-90deg);
+        }
+
+        .deleteButton {
+            margin: 5px;
+            color: $text;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
         }
     }
 
