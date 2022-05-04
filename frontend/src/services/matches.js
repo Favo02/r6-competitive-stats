@@ -19,4 +19,13 @@ const create = async (match, token) => {
     return response.data
 }
 
-export default { getAll, create }
+const remove = async (id, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const response = await axios.delete(`${baseUrl}/${id}`, config)
+    return response.data
+}
+
+export default { getAll, create, remove }

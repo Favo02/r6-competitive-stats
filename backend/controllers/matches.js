@@ -34,4 +34,24 @@ matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, asy
     response.status(201).json(savedMatch)
 })
 
+matchesRouter.delete("/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const user = request.user
+    const match = await Match.findById(request.params.id)
+
+    if (!match) {
+        return response.status(404).json({ error: "Match not found" })
+    }
+    else if (user.id === match.user.toString()) {
+        await Match.findByIdAndRemove(request.params.id)
+
+        user.matches = user.matches.filter(match => match._id.toString() !== request.params.id )
+        await user.save()
+
+        response.status(204).end()
+    }
+    else {
+        return response.status(401).json({ error: "User not authorized to delete" })
+    }
+})
+
 module.exports = matchesRouter
