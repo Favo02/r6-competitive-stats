@@ -9,6 +9,9 @@ import MatchStyles from "./Matches.module.scss"
 import { IoIosArrowDropleftCircle } from "react-icons/io"
 
 const Match = ({ match }) => {
+    //category
+    const category = match.info.category
+
     // map
     const map = match.info.map.charAt(0).toUpperCase() + match.info.map.slice(1)
     const mapClass = (MatchStyles[map.toLowerCase()] ? map.toLowerCase() : "unknown")
@@ -65,7 +68,7 @@ const Match = ({ match }) => {
 
                     {/* Date and category */}
                     <div className={MatchStyles.dateDiv}>
-                        <h1 className={MatchStyles.categoryText}>SCRIM</h1>
+                        <h1 className={MatchStyles.categoryText}>{category}</h1>
                         <h1>{day}</h1>
                         <h1>{date}</h1>
                     </div>

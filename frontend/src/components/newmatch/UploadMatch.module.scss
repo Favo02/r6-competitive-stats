@@ -2,39 +2,72 @@
 
 .uploadDiv {
     margin: 70px 0;
-}
 
-.descText {
-    width: 50%;
-    margin: auto;
+    .descText {
+        width: 50%;
+        margin: auto;
 
-    color: $text;
-    text-align: center;
+        color: $text;
+        text-align: center;
 
-    a {
-        color: $secondary_text;
+        a {
+            color: $secondary_text;
+        }
     }
-}
 
-.fileUploader,
-.saveButton {
-    margin: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .categoryDiv {
+        margin: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        label {
+            margin: 10px;
+            font-size: 2em;
+            font-weight: 500;
+            color: $secondary_text;
+        }
 
-    button {
-        padding: 20px 30px;
-        border-radius: 15px;
-        font-size: 1.5em;
-        font-weight: 800;
+        input {
+            margin: 10px;
+            font-size: 2em;
+            background: transparent;
+            border: none;
+            border-bottom: 2px dashed $secondary_text;
+            font-size: 2em;
+            padding: 10px 20px;
+            color: $secondary_text;
+            caret-color: $secondary_text;
+
+            &:focus {
+                outline: none;
+            }
+
+            &::placeholder {
+                color: $background_light;
+            }
+        }
     }
-}
 
-.statusText {
-    width: 50%;
-    margin: auto;
+    .fileUploader,
+    .saveButton {
+        margin: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-    color: $text;
-    text-align: center;
+        button {
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.5em;
+            font-weight: 800;
+        }
+    }
+
+    .statusText {
+        width: 50%;
+        margin: auto;
+
+        color: $text;
+        text-align: center;
+    }
 }

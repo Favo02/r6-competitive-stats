@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 import matchService from "../../services/matches"
 
@@ -39,6 +39,18 @@ const UploadMatch = ({ user }) => {
         }
     }
 
+    const categoryInput = useRef()
+    const handleNewMatch = () => {
+        const cat = categoryInput.current.value
+        if (cat) {
+            parsedData.info.category = cat
+            newMatch(parsedData)
+        }
+        else {
+            setStatus("Insert a valid category")
+        }
+    }
+
     return (
         <div className={UploadMatchStyles.uploadDiv}>
             <h1 className={UploadMatchStyles.descText}>Upload your JSON file exported from <a href="https://r6analyst.com/" target="_blank" rel="noreferrer">R6Analyst</a> to store the match into your team database.</h1>
@@ -49,13 +61,22 @@ const UploadMatch = ({ user }) => {
 
             { parsedData &&
                 <>
+                    <div className={UploadMatchStyles.categoryDiv}>
+                        <label>Category:</label>
+                        <input
+                            type="text"
+                            placeholder="Insert category name"
+                            ref={categoryInput}
+                        />
+                    </div>
+
                     <div className={MatchStyles.matchesDiv}>
                         <Match match={parsedData}/>
                     </div>
 
                     <div className={UploadMatchStyles.saveButton}>
                         <button
-                            onClick={() => newMatch(parsedData)}
+                            onClick={handleNewMatch}
                             className={CommonStyles.highlighLinkButton}
                         >Save match</button>
                     </div>

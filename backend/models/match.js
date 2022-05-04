@@ -6,6 +6,7 @@ const matchSchema = new mongoose.Schema({
         ref: "User"
     },
     info: {
+        category: String,
         gamemode: String,
         map: String,
         my_team: String,
