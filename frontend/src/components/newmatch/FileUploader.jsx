@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 
 import ParseData from "../../utilities/DataParser"
 
+import CommonStyles from "../../styles/common.module.scss"
+
 const FileUploader = ({ setParsedData }) => {
     const [rawData, setRawData] = useState("")
 
@@ -21,9 +23,11 @@ const FileUploader = ({ setParsedData }) => {
 
     return (
         <>
-            <h1>Upload Json file:</h1>
-
-            <input type="file" onChange={handleChange} />
+            <input
+                type="file"
+                onChange={handleChange}
+                className={CommonStyles.highlighLinkButton}
+            />
         </>
     )
 }

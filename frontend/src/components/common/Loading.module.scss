@@ -14,4 +14,15 @@ $loading_r6logo: "../../imgs/loading_r6logo.gif";
         position-y: 50%;
         repeat: no-repeat;
     }
+    z-index: 21;
+}
+
+.blurBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(3px);
+    z-index: 20;
 }

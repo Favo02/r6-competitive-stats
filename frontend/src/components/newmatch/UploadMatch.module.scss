@@ -1,0 +1,40 @@
+@import "../../styles/variables.scss";
+
+.uploadDiv {
+    margin: 70px 0;
+}
+
+.descText {
+    width: 50%;
+    margin: auto;
+
+    color: $text;
+    text-align: center;
+
+    a {
+        color: $secondary_text;
+    }
+}
+
+.fileUploader,
+.saveButton {
+    margin: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        padding: 20px 30px;
+        border-radius: 15px;
+        font-size: 1.5em;
+        font-weight: 800;
+    }
+}
+
+.statusText {
+    width: 50%;
+    margin: auto;
+
+    color: $text;
+    text-align: center;
+}
