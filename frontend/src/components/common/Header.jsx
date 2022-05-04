@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import ProfileIcon from "./ProfileIcon"
 
 import classnames from "classnames"
-import CommonStyles from "../styles/common.module.scss"
+import CommonStyles from "../../styles/common.module.scss"
 import HeaderStyles from "./Header.module.scss"
 
 const Header = ({ user, logout }) => {

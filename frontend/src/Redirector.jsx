@@ -6,8 +6,8 @@ import jwt_decode from "jwt-decode"
 import Login from "./pages/Login"
 
 import Error404 from "./pages/Error404"
-import Loading from "./components/Loading"
-import ProtectedRoute from "./components/ProtectedRoute"
+import Loading from "./components/common/Loading"
+import ProtectedRoute from "./utilities/ProtectedRoute"
 
 import Home from "./pages/Home"
 import Settings from "./pages/Settings"

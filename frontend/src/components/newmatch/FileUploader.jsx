@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import ParseData from "../utilities/DataParser"
+import ParseData from "../../utilities/DataParser"
 
 const FileUploader = ({ setParsedData }) => {
     const [rawData, setRawData] = useState("")

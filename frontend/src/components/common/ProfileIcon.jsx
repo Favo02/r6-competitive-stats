@@ -5,7 +5,7 @@ import { FaUserCircle } from "react-icons/fa"
 import { VscTriangleDown } from "react-icons/vsc"
 
 import classnames from "classnames"
-import CommonStyles from "../styles/common.module.scss"
+import CommonStyles from "../../styles/common.module.scss"
 import ProfileIconStyles from "./ProfileIcon.module.scss"
 import HeaderStyles from "./Header.module.scss"
 

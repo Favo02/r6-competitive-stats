@@ -1,4 +1,4 @@
-import Header from "../components/Header"
+import Header from "../components/common/Header"
 
 const Profile = ({ user, logout }) => {
     return (

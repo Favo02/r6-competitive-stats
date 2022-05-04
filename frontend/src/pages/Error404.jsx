@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-import Header from "../components/Header"
+import Header from "../components/common/Header"
 
 import classnames from "classnames"
 import CommonStyles from "../styles/common.module.scss"

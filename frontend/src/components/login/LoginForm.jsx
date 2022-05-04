@@ -1,10 +1,10 @@
 import { useState } from "react"
 import PropTypes from "prop-types"
 
-import Notification from "./Notification"
+import Notification from "../common/Notification"
 
 import classnames from "classnames"
-import CommonStyles from "../styles/common.module.scss"
+import CommonStyles from "../../styles/common.module.scss"
 import LoginFormStyles from "./LoginForm.module.scss"
 
 import { FaUserAlt, FaEye, FaEyeSlash } from "react-icons/fa"

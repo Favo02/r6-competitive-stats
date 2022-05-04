@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode"
 
 import loginService from "../services/login"
 
-import LoginForm from "../components/LoginForm"
+import LoginForm from "../components/login/LoginForm"
 
 import LoginStyles from "./Login.module.scss"
 

@@ -3,8 +3,8 @@ import MatchStyles from "./Matches.module.scss"
 
 import { TiArrowShuffle } from "react-icons/ti"
 
-import atkImg from "../imgs/sides/atk.png"
-import defImg from "../imgs/sides/def.png"
+import atkImg from "../../imgs/sides/atk.png"
+import defImg from "../../imgs/sides/def.png"
 import React from "react"
 
 const RoundHistory = ({ match }) => {

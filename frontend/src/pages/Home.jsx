@@ -2,10 +2,8 @@ import { useState, useEffect } from "react"
 
 import matchService from "../services/matches"
 
-import Header from "../components/Header"
-import Matches from "../components/Matches"
-
-// import HomeStyles from "./Home.module.scss"
+import Header from "../components/common/Header"
+import Matches from "../components/home/Matches"
 
 const Home = ({ user, logout }) => {
     const [matches, setMatches] = useState([])
