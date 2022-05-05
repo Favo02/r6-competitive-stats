@@ -17,7 +17,12 @@ const FileUploader = ({ setParsedData }) => {
 
     useEffect(() => {
         if (rawData && rawData !== "") {
-            setParsedData(ParseData(rawData))
+            try {
+                setParsedData(ParseData(rawData))
+            }
+            catch (exception) {
+                console.log("Error parsing the JSON file:", exception)
+            }
         }
     }, [rawData])
 

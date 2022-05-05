@@ -14,6 +14,8 @@ const ParseData = (rawData) => {
     }
 
     // general match infos as map, rosters, date
+    if (matchinfo.map === "chalet_rework")
+        matchinfo.map = "chalet"
     parsed.info = {
         gamemode: matchinfo.gamemode,
         map: matchinfo.map,
@@ -27,7 +29,7 @@ const ParseData = (rawData) => {
     }
 
     // round history (includes killfeed and round performance)
-    parsed.rounds = parseRounds(rounds)
+    parsed.rounds = parseRounds(rounds, parsed.info.rosters)
 
     // match result
     parsed.result = parseResult(parsed.rounds)
@@ -45,6 +47,7 @@ const ParseData = (rawData) => {
 }
 
 const parseRosters = ({ blue_team, orange_team }, my_team_color ) => {
+    const enemy_team_color = my_team_color.toLowerCase() === "orange" ? "blue" : "orange"
     const players = { ...blue_team, ...orange_team }
 
     let my_team = []
@@ -56,7 +59,7 @@ const parseRosters = ({ blue_team, orange_team }, my_team_color ) => {
                 roster: player
             })
         }
-        else {
+        else if (players[player].team.toLowerCase() === enemy_team_color) {
             enemy_team.push({
                 username: players[player].username,
                 roster: player
@@ -67,7 +70,9 @@ const parseRosters = ({ blue_team, orange_team }, my_team_color ) => {
     return { my_team, enemy_team }
 }
 
-const parseRounds = (rounds) => {
+const parseRounds = (rounds, rosters) => {
+    const players = [ ...rosters.my_team, ...rosters.enemy_team ]
+
     let roundsArray = []
     rounds.forEach((round, i) => {
         // check if valid round
@@ -96,11 +101,10 @@ const parseRounds = (rounds) => {
 
         // players performance, will be removed and moved to roundPerformance
         round.performance = []
-        for (let i = 0; i < 10; i++) {
-            round.performance.push(round[`roster_${i}`])
-            delete round[`roster_${i}`]
-        }
-
+        players.forEach(player => {
+            round.performance.push(round[player.roster])
+            delete round[player.roster]
+        })
         roundsArray.push(round)
     })
 
