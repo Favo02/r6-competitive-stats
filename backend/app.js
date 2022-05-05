@@ -18,7 +18,12 @@ const logger = require("./utils/logger")
 
 logger.info("connecting to", config.MONGODB_URI)
 
-mongoose.connect(config.MONGODB_URI)
+const MONGODB_URI =
+    config.MODE === "dev"
+        ? config.MONGODB_URI
+        : config.MONGODB_DEV_URI
+
+mongoose.connect(MONGODB_URI)
     .then(() => {
         logger.info("connected to MongoDB")
     })
