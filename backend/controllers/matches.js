@@ -1,5 +1,6 @@
 const matchesRouter = require("express").Router()
 const Match = require("../models/match")
+const Team = require("../models/team")
 const middleware = require("../utils/middleware")
 
 matchesRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
@@ -14,7 +15,7 @@ matchesRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, asyn
 
 matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const match = request.body
-    const team = await Match.findById(match.team)
+    const team = await Team.findById(match.team)
     const date = match.info.date
 
     const existingMatch = await Match.findOne({ "info.date": date, "team": team })
@@ -28,6 +29,8 @@ matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, asy
     const newMatch = new Match(match)
     const savedMatch = await newMatch.save()
 
+    console.log(team)
+
     team.matches = team.matches.concat(savedMatch._id)
     await team.save()
 
@@ -37,12 +40,16 @@ matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, asy
 matchesRouter.delete("/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
     const match = await Match.findById(request.params.id)
-    const team = await Match.findById(match.team)
+    const team = await Team.findById(match.team)
 
     if (!match) {
         return response.status(404).json({ error: "Match not found" })
     }
-    else if (team.members.filter(m => m.permission === "admin").map(m => m.id.toString()).contains(user.id)) {
+    else if (team.members
+        .filter(m => m.permission === "admin")
+        .map(m => m.id.toString())
+        .includes(user.id)
+    ) {
         await Match.findByIdAndRemove(request.params.id)
 
         team.matches = team.matches.filter(m => m._id.toString() !== request.params.id )
