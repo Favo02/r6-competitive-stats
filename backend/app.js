@@ -19,7 +19,7 @@ const logger = require("./utils/logger")
 logger.info("connecting to", config.MONGODB_URI)
 
 const MONGODB_URI =
-    config.MODE === "dev"
+    process.env.NODE_ENV === "dev"
         ? config.MONGODB_URI
         : config.MONGODB_DEV_URI
 
