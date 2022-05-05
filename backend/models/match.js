@@ -1,9 +1,9 @@
 const mongoose = require("mongoose")
 
 const matchSchema = new mongoose.Schema({
-    user: {
+    team: {
         $type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "Team"
     },
     info: {
         category: String,
