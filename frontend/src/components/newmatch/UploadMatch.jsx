@@ -14,23 +14,31 @@ import UploadMatchStyles from "./UploadMatch.module.scss"
 
 const UploadMatch = ({ user }) => {
 
-    // match data uploaded (not stored yet)
-    const [parsedData, setParsedData] = useState(null)
+    // teams of the user
+    const [teams, setTeams] = useState([])
 
     // upload loading and status
     const [loading, setLoading] = useState(false)
     const [status, setStatus] = useState("")
 
-    // teams of the user
-    const [teams, setTeams] = useState([])
+    // match data uploaded (not stored yet)
+    const [parsedData, setParsedData] = useState(null)
 
+    // gets user teams (only the one as admin)
     useEffect(() => {
         try {
             teamService
                 .getAll(user.token)
-                .then(teams =>
-                    setTeams(teams)
-                )
+                .then(teams => {
+                    const allTeams = teams.map(t => ({
+                        name: t.name,
+                        id: t.id,
+                        permission: t.members.find(m => m.id === user.id).permission
+                    }))
+                    setTeams(
+                        allTeams.filter(t => t.permission === "admin")
+                    )
+                })
         }
         catch (exception) {
             console.log(exception)
@@ -40,25 +48,7 @@ const UploadMatch = ({ user }) => {
         }
     }, [])
 
-    const newMatch = async (match) => {
-        if (match) {
-            try {
-                setLoading(true)
-                setStatus("Saving match...")
-                await matchService.create(match, user.token)
-                setLoading(false)
-                setStatus("Match saved")
-            }
-            catch (exception) {
-                setLoading(false)
-                setStatus(`Error saving the match: ${exception}`)
-                if (exception.response) {
-                    setStatus(`Error ${exception.response.status}: ${exception.response.data.error}`)
-                }
-            }
-        }
-    }
-
+    // handle the new match creation
     const categoryInput = useRef()
     const teamInput = useRef()
     const handleNewMatch = () => {
@@ -79,6 +69,31 @@ const UploadMatch = ({ user }) => {
         parsedData.team = team
 
         newMatch(parsedData)
+    }
+
+    // calls the service to create a new match
+    const newMatch = async (match) => {
+        if (match) {
+            try {
+                setLoading(true)
+                setStatus("Saving match...")
+                await matchService.create(match, user.token)
+                setLoading(false)
+                setStatus("Match saved")
+            }
+            catch (exception) {
+                setLoading(false)
+                setStatus(`Error saving the match: ${exception}`)
+                if (exception.response) {
+                    setStatus(`Error ${exception.response.status}: ${exception.response.data.error}`)
+                }
+            }
+        }
+    }
+
+    // if user has no teams as admin can't upload
+    if (teams.length === 0) {
+        return <p>Join or create a team to upload matches</p>
     }
 
     return (
