@@ -1,6 +1,7 @@
-import { useState, useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 
 import matchService from "../../services/matches"
+import teamService from "../../services/teams"
 
 import FileUploader from "./FileUploader"
 import Loading from "../common/Loading"
@@ -19,6 +20,25 @@ const UploadMatch = ({ user }) => {
     // upload loading and status
     const [loading, setLoading] = useState(false)
     const [status, setStatus] = useState("")
+
+    // teams of the user
+    const [teams, setTeams] = useState([])
+
+    useEffect(() => {
+        try {
+            teamService
+                .getAll(user.token)
+                .then(teams =>
+                    setTeams(teams)
+                )
+        }
+        catch (exception) {
+            console.log(exception)
+            if (exception.response) {
+                console.log("Error", exception.response.status, ":", exception.response.data.error)
+            }
+        }
+    }, [])
 
     const newMatch = async (match) => {
         if (match) {
@@ -40,15 +60,25 @@ const UploadMatch = ({ user }) => {
     }
 
     const categoryInput = useRef()
+    const teamInput = useRef()
     const handleNewMatch = () => {
         const cat = categoryInput.current.value
-        if (cat) {
-            parsedData.info.category = cat
-            newMatch(parsedData)
-        }
-        else {
+        if (!cat) {
             setStatus("Insert a valid category")
+            return
         }
+        const team = teamInput.current.value
+        if (!team) {
+            setStatus("Select a valid team")
+            return
+        }
+
+        console.log(team)
+
+        parsedData.info.category = cat
+        parsedData.team = team
+
+        newMatch(parsedData)
     }
 
     return (
@@ -61,6 +91,14 @@ const UploadMatch = ({ user }) => {
 
             { parsedData &&
                 <>
+
+                    <div className={UploadMatchStyles.categoryDiv}>
+                        <label>Team:</label>
+                        <select ref={teamInput}>
+                            {teams.map(t => <option value={t.id} key={t.id}>{t.name}</option>)}
+                        </select>
+                    </div>
+
                     <div className={UploadMatchStyles.categoryDiv}>
                         <label>Category:</label>
                         <input
