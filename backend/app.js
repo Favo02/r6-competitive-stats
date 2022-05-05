@@ -11,6 +11,7 @@ const path = require("path")
 const usersRouter = require("./controllers/users")
 const loginRouter = require("./controllers/login")
 const matchesRouter = require("./controllers/matches")
+const teamsRouter = require("./controllers/teams")
 
 const middleware = require("./utils/middleware")
 const logger = require("./utils/logger")
@@ -37,6 +38,7 @@ if (process.env.NODE_ENV === "dev") {
 }
 app.use("/api/login", loginRouter)
 app.use("/api/matches", matchesRouter)
+app.use("/api/teams", teamsRouter)
 
 app.get("/*", function(req,res) {
     res.sendFile(path.join(__dirname, "build", "index.html"))

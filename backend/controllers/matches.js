@@ -4,20 +4,20 @@ const middleware = require("../utils/middleware")
 
 matchesRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
+    const teams = user.teams
 
     const matches = await Match
-        .find({ user: user.id })
+        .find({ team: { "$in": teams } })
 
     response.json(matches)
 })
 
 matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const match = request.body
-    const user = request.user
-    match.user = user.id
+    const team = await Match.findById(match.team)
     const date = match.info.date
 
-    const existingMatch = await Match.findOne({ "info.date": date, "user": user.id })
+    const existingMatch = await Match.findOne({ "info.date": date, "team": team })
     if (existingMatch) {
         console.log("existing date")
         return response.status(400).json({
@@ -28,8 +28,8 @@ matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, asy
     const newMatch = new Match(match)
     const savedMatch = await newMatch.save()
 
-    user.matches = user.matches.concat(savedMatch._id)
-    await user.save()
+    team.matches = team.matches.concat(savedMatch._id)
+    await team.save()
 
     response.status(201).json(savedMatch)
 })
@@ -37,15 +37,16 @@ matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, asy
 matchesRouter.delete("/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
     const match = await Match.findById(request.params.id)
+    const team = await Match.findById(match.team)
 
     if (!match) {
         return response.status(404).json({ error: "Match not found" })
     }
-    else if (user.id === match.user.toString()) {
+    else if (team.members.filter(m => m.permission === "admin").map(m => m.id.toString()).contains(user.id)) {
         await Match.findByIdAndRemove(request.params.id)
 
-        user.matches = user.matches.filter(match => match._id.toString() !== request.params.id )
-        await user.save()
+        team.matches = team.matches.filter(m => m._id.toString() !== request.params.id )
+        await team.save()
 
         response.status(204).end()
     }

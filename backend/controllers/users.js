@@ -10,7 +10,7 @@ usersRouter.get("/", async (request, response) => {
 })
 
 usersRouter.post("/", async (request, response) => {
-    const { username, password, permission } = request.body
+    const { username, password } = request.body
 
     const existingUser = await User.findOne({ username })
     if (existingUser) {
@@ -30,8 +30,7 @@ usersRouter.post("/", async (request, response) => {
 
     const user = new User({
         username,
-        passwordHash,
-        permission,
+        passwordHash
     })
 
     const savedUser = await user.save()
