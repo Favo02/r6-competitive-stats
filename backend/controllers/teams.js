@@ -5,8 +5,10 @@ const middleware = require("../utils/middleware")
 teamsRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
 
+    console.log(user)
+
     const teams = await Team
-        .find({ "member.id": user.id })
+        .find({ "members.id": user.id })
 
     response.json(teams)
 })
