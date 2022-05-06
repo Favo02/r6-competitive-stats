@@ -7,7 +7,7 @@ const Profile = ({ user, logout }) => {
         <div>
             <Header user={user} logout={logout} />
             <Teams user={user}/>
-            <NewTeamForm />
+            <NewTeamForm user={user} />
         </div>
     )
 }
