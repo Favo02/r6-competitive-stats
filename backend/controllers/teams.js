@@ -24,7 +24,7 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
     if (existingTeam) {
         console.log("existing team")
         return response.status(400).json({
-            error: "Team anem already taken"
+            error: "Team name already taken"
         })
     }
 
