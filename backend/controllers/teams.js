@@ -2,6 +2,7 @@ const teamsRouter = require("express").Router()
 const Team = require("../models/team")
 const middleware = require("../utils/middleware")
 
+// AUTH - get every team of the user
 teamsRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
 
@@ -13,6 +14,7 @@ teamsRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async 
     response.json(teams)
 })
 
+// AUTH - create a new team
 teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
     const team = {
@@ -35,6 +37,15 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
     await user.save()
 
     response.status(201).json(savedTeam)
+})
+
+// UNAUTH - get every team matching the name
+teamsRouter.get("/:name", async (request, response) => {
+    const name = request.params.name
+
+    const teams = await Team
+        .find({ "name": { $regex: name + "*" } })
+    response.json(teams)
 })
 
 module.exports = teamsRouter

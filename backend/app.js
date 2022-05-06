@@ -38,7 +38,6 @@ app.use(express.static("build"))
 app.use(express.json())
 app.use(middleware.requestLogger)
 
-
 app.use("/api/users", usersRouter)
 app.use("/api/login", loginRouter)
 app.use("/api/matches", matchesRouter)
