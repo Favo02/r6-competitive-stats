@@ -37,7 +37,6 @@ const Main = () => {
     }, [])
 
     const notificate = (message, isError) => {
-        console.log(message)
         setNotification({ message: message, isError: isError })
         setTimeout(() => {
             setNotification({ message: "", isError: isError })

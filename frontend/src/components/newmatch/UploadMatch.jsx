@@ -63,8 +63,6 @@ const UploadMatch = ({ user }) => {
             return
         }
 
-        console.log(team)
-
         parsedData.info.category = cat
         parsedData.team = team
 

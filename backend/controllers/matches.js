@@ -29,8 +29,6 @@ matchesRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, asy
     const newMatch = new Match(match)
     const savedMatch = await newMatch.save()
 
-    console.log(team)
-
     team.matches = team.matches.concat(savedMatch._id)
     await team.save()
 
