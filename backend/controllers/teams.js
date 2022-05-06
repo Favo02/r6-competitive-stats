@@ -1,12 +1,11 @@
 const teamsRouter = require("express").Router()
 const Team = require("../models/team")
+const User = require("../models/user")
 const middleware = require("../utils/middleware")
 
 // AUTH - get every team of the user
 teamsRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
-
-    console.log(user)
 
     const teams = await Team
         .find({ "members.id": user.id })
@@ -37,6 +36,20 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
     await user.save()
 
     response.status(201).json(savedTeam)
+})
+
+// AUTH - add an user to waitingMember
+teamsRouter.put("/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const id = request.params.id
+    const userId = request.user.id
+
+    const user = await User.findOne({ _id: userId })
+
+    const team = await Team.findOne({ _id: id })
+
+    team.waitingMembers = team.waitingMembers.concat(user.id)
+    const updatedTeam = await team.save()
+    response.json(updatedTeam)
 })
 
 // UNAUTH - get every team matching the name
