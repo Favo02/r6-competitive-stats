@@ -15,4 +15,13 @@ const getTeamByName = async (name) => {
     return request.then(response => response.data)
 }
 
-export default { getAll, getTeamByName }
+const addWaitingMember = async (id, userId, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const request = axios.put(`${baseUrl}/${id}`, userId, config)
+    return request.then(response => response.data)
+}
+
+export default { getAll, getTeamByName, addWaitingMember }
