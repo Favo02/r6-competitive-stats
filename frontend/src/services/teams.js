@@ -10,4 +10,9 @@ const getAll = async (token) => {
     return request.then(response => response.data)
 }
 
-export default { getAll }
+const getTeamByName = async (name) => {
+    const request = axios.get(`${baseUrl}/${name}`)
+    return request.then(response => response.data)
+}
+
+export default { getAll, getTeamByName }
