@@ -1,5 +1,32 @@
 @import "../../styles/variables.scss";
 
+.noTeamError{
+    font-size: 1.5em;
+    margin-top: 100px;
+    
+    h1, h3 {
+        margin: auto;
+        padding: 40px;
+        max-width: 70%;
+
+        font-weight: 600;
+        text-align: center;
+        
+        color: $text;
+        text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: linear-gradient(to left, transparent, $background 55%), url($background_noteam_uploadmatch);
+        z-index: -1;
+    }
+}
+
 .uploadDiv {
     margin: 70px 0;
 

@@ -93,7 +93,13 @@ const UploadMatch = ({ user }) => {
 
     // if user has no teams as admin can't upload
     if (teams.length === 0) {
-        return <p>Join or create a team to upload matches</p>
+        return (
+            <div className={UploadMatchStyles.noTeamError}>
+                <div className={UploadMatchStyles.background} />
+                <h1>Join or create a <span className={CommonStyles.highlighted}>team</span> to upload matches</h1>
+                <h3>You need to be <span className={CommonStyles.highlighted}>admin</span> of your team to upload a new match. Ask the team leader to promote you!</h3>
+            </div>
+        )
     }
 
     return (
