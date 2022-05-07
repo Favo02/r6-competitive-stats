@@ -79,10 +79,9 @@ teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtract
     const adminId = request.user.id
     const teamId = request.body.teamId
 
-    const admin = await User.findOne({ _id: adminId })
     const team = await Team.findOne({ _id: teamId })
 
-    if(!team.members.find(m => m.id.toString() === admin._id.toString()).permission === "admin") {
+    if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
         console.log("user not admin")
         return response.status(401).json({
             error: "User not authorized to accept"
@@ -105,7 +104,6 @@ teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtract
             )
 
     const user = await User.findOne({ _id: userId })
-
     user.teams = user.teams.concat(updatedTeam._id)
     await user.save()
 
@@ -121,13 +119,12 @@ teamsRouter.put("/decline/:id", middleware.tokenExtractor, middleware.userExtrac
     const adminId = request.user.id
     const teamId = request.body.teamId
 
-    const admin = await User.findOne({ _id: adminId })
     const team = await Team.findOne({ _id: teamId })
 
-    if(!team.members.find(m => m.id.toString() === admin._id.toString()).permission === "admin") {
+    if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
         console.log("user not admin")
         return response.status(401).json({
-            error: "User not authorized to accept"
+            error: "User not authorized to decline"
         })
     }
 
