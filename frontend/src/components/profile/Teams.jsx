@@ -86,6 +86,47 @@ const Teams = ({ user }) => {
         }
     }
 
+    const handleDecline = (teamId, userId) => {
+        try {
+            teamService
+                .declineWaitingMember(userId, teamId, user.token)
+                .then(updatedTeam => {
+                    return (
+                        setTeams(
+                            teams
+                                .filter(t => t.id !== updatedTeam.id)
+                                .concat(updatedTeam)
+                                .map(t => {
+                                    return ({
+                                        name: t.name,
+                                        id: t.id,
+                                        nMatches: t.matches.length,
+                                        permission: t.members.find(m => m.id.id === user.id).permission,
+                                        members: t.members.map(m => ({
+                                            id: m.id.id,
+                                            username: m.id.username,
+                                            permission: m.permission
+                                        })),
+                                        waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                            ? t.waitingMembers.map(m => ({
+                                                id: m.id,
+                                                username: m.username
+                                            }))
+                                            : null
+                                    })
+                                })
+                        )
+                    )
+                })
+        }
+        catch (exception) {
+            console.log(exception)
+            if (exception.response) {
+                console.log("Error", exception.response.status, ":", exception.response.data.error)
+            }
+        }
+    }
+
     return (
         <>
             {teams.map(t => {
@@ -99,7 +140,7 @@ const Teams = ({ user }) => {
                             <h3 key={m.id}>
                                 {m.username}
                                 <button onClick={() => handleAccept(t.id, m.id)}>Accept</button>
-                                <button>Decline</button>
+                                <button onClick={() => handleDecline(t.id, m.id)}>Decline</button>
                             </h3>)}
                         <br />
                         <br />

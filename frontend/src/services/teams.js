@@ -26,6 +26,8 @@ const addWaitingMember = async (id, userId, token) => {
     return request.then(response => response.data)
 }
 
+// userId: id of the user to accept
+// teamId: id of the team the user will be accepted to
 const acceptWaitingMember = async (userId, teamId, token) => {
     const config = {
         headers: { Authorization: `bearer ${token}` },
@@ -35,4 +37,15 @@ const acceptWaitingMember = async (userId, teamId, token) => {
     return request.then(response => response.data)
 }
 
-export default { getAll, getTeamByName, addWaitingMember, acceptWaitingMember }
+// userId: id of the user to decline
+// teamId: id of the team the user will be decline to
+const declineWaitingMember = async (userId, teamId, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const request = axios.put(`${baseUrl}/decline/${userId}`, { teamId: teamId }, config)
+    return request.then(response => response.data)
+}
+
+export default { getAll, getTeamByName, addWaitingMember, acceptWaitingMember, declineWaitingMember }
