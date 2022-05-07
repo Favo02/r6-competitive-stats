@@ -9,8 +9,10 @@ teamsRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async 
 
     const teams = await Team
         .find({ "members.id": user.id })
-        .populate("members.id", { id: 1, username: 1 })
-        .populate("waitingMembers", { id: 1, username: 1 })
+        .populate([
+            { path: "members.id", select: { id: 1, username: 1 } },
+            { path: "waitingMembers", select: { id: 1, username: 1 } }
+        ])
 
     response.json(teams)
 })
@@ -96,9 +98,10 @@ teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtract
         await team
             .save()
             .then(updatedTeam => updatedTeam
-                .populate("members.id", { id: 1, username: 1 })
-                // .populate("waitingMembers", { id: 1, username: 1 })
-                // .execPopulate()
+                .populate([
+                    { path: "members.id", select: { id: 1, username: 1 } },
+                    { path: "waitingMembers", select: { id: 1, username: 1 } }
+                ])
             )
     response.json(updatedTeam)
 })
