@@ -15,6 +15,8 @@ const getTeamByName = async (name) => {
     return request.then(response => response.data)
 }
 
+// id: id of the team to join
+// userId: id of the user that requests to join
 const addWaitingMember = async (id, userId, token) => {
     const config = {
         headers: { Authorization: `bearer ${token}` },
@@ -24,4 +26,13 @@ const addWaitingMember = async (id, userId, token) => {
     return request.then(response => response.data)
 }
 
-export default { getAll, getTeamByName, addWaitingMember }
+const acceptWaitingMember = async (userId, teamId, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const request = axios.put(`${baseUrl}/accept/${userId}`, { teamId: teamId }, config)
+    return request.then(response => response.data)
+}
+
+export default { getAll, getTeamByName, addWaitingMember, acceptWaitingMember }

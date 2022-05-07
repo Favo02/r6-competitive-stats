@@ -21,13 +21,11 @@ const Teams = ({ user }) => {
                                 id: t.id,
                                 nMatches: t.matches.length,
                                 permission: t.members.find(m => m.id.id === user.id).permission,
-                                members: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                    ? t.members.map(m => ({
-                                        id: m.id.id,
-                                        username: m.id.username,
-                                        permission: m.permission
-                                    }))
-                                    : null,
+                                members: t.members.map(m => ({
+                                    id: m.id.id,
+                                    username: m.id.username,
+                                    permission: m.permission
+                                })),
                                 waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
                                     ? t.waitingMembers.map(m => ({
                                         id: m.id,
@@ -47,6 +45,47 @@ const Teams = ({ user }) => {
         }
     }, [])
 
+    const handleAccept = (teamId, userId) => {
+        try {
+            teamService
+                .acceptWaitingMember(userId, teamId, user.token)
+                .then(updatedTeam => {
+                    return (
+                        setTeams(
+                            teams
+                                .filter(t => t.id !== updatedTeam.id)
+                                .concat(updatedTeam)
+                                .map(t => {
+                                    return ({
+                                        name: t.name,
+                                        id: t.id,
+                                        nMatches: t.matches.length,
+                                        permission: t.members.find(m => m.id.id === user.id).permission,
+                                        members: t.members.map(m => ({
+                                            id: m.id.id,
+                                            username: m.id.username,
+                                            permission: m.permission
+                                        })),
+                                        waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                            ? t.waitingMembers.map(m => ({
+                                                id: m.id,
+                                                username: m.username
+                                            }))
+                                            : null
+                                    })
+                                })
+                        )
+                    )
+                })
+        }
+        catch (exception) {
+            console.log(exception)
+            if (exception.response) {
+                console.log("Error", exception.response.status, ":", exception.response.data.error)
+            }
+        }
+    }
+
     return (
         <>
             {teams.map(t => {
@@ -54,9 +93,14 @@ const Teams = ({ user }) => {
                     <div key={t.id} className={TeamsStyles.teamDiv}>
                         <h1>{t.name}</h1>
                         <h2>Members:</h2>
-                        {t.members.map(m => <h3 key={m.id}>{m.username} - {m.permission}</h3>)}
-                        <h2>Waiting members:</h2>
-                        {t.waitingMembers.map(m => <h3 key={m.id}>{m.username}</h3>)}
+                        {t.members && t.members.map(m => <h3 key={m.id}>{m.username} - {m.permission}</h3>)}
+                        <h2>Request to join:</h2>
+                        {t.waitingMembers && t.waitingMembers.map(m =>
+                            <h3 key={m.id}>
+                                {m.username}
+                                <button onClick={() => handleAccept(t.id, m.id)}>Accept</button>
+                                <button>Decline</button>
+                            </h3>)}
                         <br />
                         <br />
                     </div>
