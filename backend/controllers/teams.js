@@ -9,6 +9,8 @@ teamsRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async 
 
     const teams = await Team
         .find({ "members.id": user.id })
+        .populate("members.id", { id: 1, username: 1 })
+        .populate("waitingMembers", { id: 1, username: 1 })
 
     response.json(teams)
 })
