@@ -103,6 +103,12 @@ teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtract
                     { path: "waitingMembers", select: { id: 1, username: 1 } }
                 ])
             )
+
+    const user = await User.findOne({ _id: userId })
+
+    user.teams = user.teams.concat(updatedTeam._id)
+    await user.save()
+
     response.json(updatedTeam)
 })
 
