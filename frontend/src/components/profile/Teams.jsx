@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 
 import teamService from "../../services/teams"
 
+import TeamsStyles from "./Teams.module.scss"
+
 const Teams = ({ user }) => {
     // teams of the user
     const [teams, setTeams] = useState([])
@@ -47,10 +49,9 @@ const Teams = ({ user }) => {
 
     return (
         <>
-            <h1>Your teams:</h1>
             {teams.map(t => {
                 return (
-                    <React.Fragment key={t.id}>
+                    <div key={t.id} className={TeamsStyles.teamDiv}>
                         <h1>{t.name}</h1>
                         <h2>Members:</h2>
                         {t.members.map(m => <h3 key={m.id}>{m.username} - {m.permission}</h3>)}
@@ -58,7 +59,7 @@ const Teams = ({ user }) => {
                         {t.waitingMembers.map(m => <h3 key={m.id}>{m.username}</h3>)}
                         <br />
                         <br />
-                    </React.Fragment>
+                    </div>
                 )
             })}
         </>
