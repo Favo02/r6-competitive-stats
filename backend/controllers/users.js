@@ -5,7 +5,7 @@ const User = require("../models/user")
 usersRouter.post("/", async (request, response) => {
     const { username, password } = request.body
 
-    const existingUser = await User.findOne({ username })
+    const existingUser = await User.findOne({ "username": { $regex: new RegExp(username, "i") } })
     if (existingUser) {
         return response.status(400).json({
             error: "username must be unique"
