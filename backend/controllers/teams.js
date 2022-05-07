@@ -53,6 +53,8 @@ teamsRouter.get("/:name", async (request, response) => {
 // --------------- INVITE SYSTEM
 
 // AUTH - add an user to waitingMember
+// :id = id of the team to join
+// userId = id of the user that requests to join
 teamsRouter.put("/request/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const id = request.params.id
     const userId = request.user.id
@@ -63,6 +65,41 @@ teamsRouter.put("/request/:id", middleware.tokenExtractor, middleware.userExtrac
 
     team.waitingMembers = team.waitingMembers.concat(user.id)
     const updatedTeam = await team.save()
+    response.json(updatedTeam)
+})
+
+// AUTH - add an user to waitingMember
+// :id / userId = id of the user to accept
+// adminId = id of the user that accepts (needs to be admin)
+// teamId = id of the team the user will join
+teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.params.id
+    const adminId = request.user.id
+    const teamId = request.body.teamId
+
+    const admin = await User.findOne({ _id: adminId })
+    const team = await Team.findOne({ _id: teamId })
+
+    if(!team.members.find(m => m.id.toString() === admin._id.toString()).permission === "admin") {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to accept"
+        })
+    }
+
+    const newWaitingMembers = team.waitingMembers.filter(m => m.toString() !== userId)
+    team.waitingMembers = newWaitingMembers
+
+    team.members = team.members.concat({ id: userId, permission: "member" })
+
+    const updatedTeam =
+        await team
+            .save()
+            .then(updatedTeam => updatedTeam
+                .populate("members.id", { id: 1, username: 1 })
+                // .populate("waitingMembers", { id: 1, username: 1 })
+                // .execPopulate()
+            )
     response.json(updatedTeam)
 })
 
