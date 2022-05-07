@@ -46,127 +46,133 @@ const Teams = ({ user }) => {
     }, [])
 
     // kick a member of the team
-    const handleKick = (teamId, userId) => {
-        try {
-            teamService
-                .kickMember(userId, teamId, user.token)
-                .then(updatedTeam => {
-                    return (
-                        setTeams(
-                            teams
-                                .filter(t => t.id !== updatedTeam.id)
-                                .concat(updatedTeam)
-                                .map(t => {
-                                    return ({
-                                        name: t.name,
-                                        id: t.id,
-                                        nMatches: t.matches.length,
-                                        permission: t.members.find(m => m.id.id === user.id).permission,
-                                        members: t.members.map(m => ({
-                                            id: m.id.id,
-                                            username: m.id.username,
-                                            permission: m.permission
-                                        })),
-                                        waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                            ? t.waitingMembers.map(m => ({
-                                                id: m.id,
-                                                username: m.username
-                                            }))
-                                            : null
+    const handleKick = (teamId, userId, username) => {
+        if (window.confirm(`Are you sure you wanto to kick ${username}?`)) {
+            try {
+                teamService
+                    .kickMember(userId, teamId, user.token)
+                    .then(updatedTeam => {
+                        return (
+                            setTeams(
+                                teams
+                                    .filter(t => t.id !== updatedTeam.id)
+                                    .concat(updatedTeam)
+                                    .map(t => {
+                                        return ({
+                                            name: t.name,
+                                            id: t.id,
+                                            nMatches: t.matches.length,
+                                            permission: t.members.find(m => m.id.id === user.id).permission,
+                                            members: t.members.map(m => ({
+                                                id: m.id.id,
+                                                username: m.id.username,
+                                                permission: m.permission
+                                            })),
+                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                                ? t.waitingMembers.map(m => ({
+                                                    id: m.id,
+                                                    username: m.username
+                                                }))
+                                                : null
+                                        })
                                     })
-                                })
+                            )
                         )
-                    )
-                })
-        }
-        catch (exception) {
-            console.log(exception)
-            if (exception.response) {
-                console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    })
+            }
+            catch (exception) {
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
             }
         }
     }
 
     // accept the waiting user into the team
-    const handleAccept = (teamId, userId) => {
-        try {
-            teamService
-                .acceptWaitingMember(userId, teamId, user.token)
-                .then(updatedTeam => {
-                    return (
-                        setTeams(
-                            teams
-                                .filter(t => t.id !== updatedTeam.id)
-                                .concat(updatedTeam)
-                                .map(t => {
-                                    return ({
-                                        name: t.name,
-                                        id: t.id,
-                                        nMatches: t.matches.length,
-                                        permission: t.members.find(m => m.id.id === user.id).permission,
-                                        members: t.members.map(m => ({
-                                            id: m.id.id,
-                                            username: m.id.username,
-                                            permission: m.permission
-                                        })),
-                                        waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                            ? t.waitingMembers.map(m => ({
-                                                id: m.id,
-                                                username: m.username
-                                            }))
-                                            : null
+    const handleAccept = (teamId, userId, username) => {
+        if (window.confirm(`Are you sure you wanto to accept ${username}?`)) {
+            try {
+                teamService
+                    .acceptWaitingMember(userId, teamId, user.token)
+                    .then(updatedTeam => {
+                        return (
+                            setTeams(
+                                teams
+                                    .filter(t => t.id !== updatedTeam.id)
+                                    .concat(updatedTeam)
+                                    .map(t => {
+                                        return ({
+                                            name: t.name,
+                                            id: t.id,
+                                            nMatches: t.matches.length,
+                                            permission: t.members.find(m => m.id.id === user.id).permission,
+                                            members: t.members.map(m => ({
+                                                id: m.id.id,
+                                                username: m.id.username,
+                                                permission: m.permission
+                                            })),
+                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                                ? t.waitingMembers.map(m => ({
+                                                    id: m.id,
+                                                    username: m.username
+                                                }))
+                                                : null
+                                        })
                                     })
-                                })
+                            )
                         )
-                    )
-                })
-        }
-        catch (exception) {
-            console.log(exception)
-            if (exception.response) {
-                console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    })
+            }
+            catch (exception) {
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
             }
         }
     }
 
     // decline the waiting user
-    const handleDecline = (teamId, userId) => {
-        try {
-            teamService
-                .declineWaitingMember(userId, teamId, user.token)
-                .then(updatedTeam => {
-                    return (
-                        setTeams(
-                            teams
-                                .filter(t => t.id !== updatedTeam.id)
-                                .concat(updatedTeam)
-                                .map(t => {
-                                    return ({
-                                        name: t.name,
-                                        id: t.id,
-                                        nMatches: t.matches.length,
-                                        permission: t.members.find(m => m.id.id === user.id).permission,
-                                        members: t.members.map(m => ({
-                                            id: m.id.id,
-                                            username: m.id.username,
-                                            permission: m.permission
-                                        })),
-                                        waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                            ? t.waitingMembers.map(m => ({
-                                                id: m.id,
-                                                username: m.username
-                                            }))
-                                            : null
+    const handleDecline = (teamId, userId, username) => {
+        if (window.confirm(`Are you sure you wanto to decline ${username}?`)) {
+            try {
+                teamService
+                    .declineWaitingMember(userId, teamId, user.token)
+                    .then(updatedTeam => {
+                        return (
+                            setTeams(
+                                teams
+                                    .filter(t => t.id !== updatedTeam.id)
+                                    .concat(updatedTeam)
+                                    .map(t => {
+                                        return ({
+                                            name: t.name,
+                                            id: t.id,
+                                            nMatches: t.matches.length,
+                                            permission: t.members.find(m => m.id.id === user.id).permission,
+                                            members: t.members.map(m => ({
+                                                id: m.id.id,
+                                                username: m.id.username,
+                                                permission: m.permission
+                                            })),
+                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                                ? t.waitingMembers.map(m => ({
+                                                    id: m.id,
+                                                    username: m.username
+                                                }))
+                                                : null
+                                        })
                                     })
-                                })
+                            )
                         )
-                    )
-                })
-        }
-        catch (exception) {
-            console.log(exception)
-            if (exception.response) {
-                console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    })
+            }
+            catch (exception) {
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
             }
         }
     }
@@ -176,32 +182,42 @@ const Teams = ({ user }) => {
             {teams.map(t => {
                 return (
                     <div key={t.id} className={TeamsStyles.teamDiv}>
-                        <h1>{t.name}</h1>
-                        <h2>Members:</h2>
-                        {t.members && t.members.map(m =>
-                            <h3 key={m.id}>
-                                {m.username} - {m.permission}
-                                {/* Button kick shows up only for admin and not for yourself */}
-                                {t.members.find(mem => mem.id === user.id).permission === "admin" &&
-                                m.id !== user.id &&
-                                        <button onClick={() => handleKick(t.id, m.id)}>Kick</button>
+                        <div className={TeamsStyles.backgroundDiv}>
+                            <div className={TeamsStyles.titleDiv}>
+                                <h1 className={TeamsStyles.teamName}>{t.name}</h1>
+                                <h3 className={TeamsStyles.nMatches}>{t.nMatches} MATCHES</h3>
+                            </div>
+                            <div className={TeamsStyles.membersDiv}>
+                                <h2 className={TeamsStyles.membersTitle}>MEMBERS</h2>
+                                {t.members && t.members.map(m =>
+                                    <div key={m.id} className={TeamsStyles.memberDiv}>
+                                        <h3>{m.username}</h3>
+                                        {/* Admin label */}
+                                        {m.permission === "admin" && <div className={TeamsStyles.adminLabel}>ADMIN</div>}
+                                        {/* Button kick shows up only for admin and not for yourself */}
+                                        {t.members.find(mem => mem.id === user.id).permission === "admin" &&
+                                        m.id !== user.id &&
+                                                <button className={TeamsStyles.actionButton} onClick={() => handleKick(t.id, m.id, m.username)}>KICK</button>
+                                        }
+                                    </div>
+                                )}
+                            </div>
+                            <div className={TeamsStyles.membersDiv}>
+                                {t.waitingMembers && t.waitingMembers.length > 0 &&
+                                    <>
+                                        <h2 className={TeamsStyles.membersTitle}>REQUESTS TO JOIN</h2>
+                                        {t.waitingMembers.map(m =>
+                                            <div key={m.id} className={TeamsStyles.memberDiv}>
+                                                <h3>{m.username}</h3>
+                                                {/* Buttons to accept/decline the request */}
+                                                <button className={TeamsStyles.actionButton} onClick={() => handleAccept(t.id, m.id, m.username)}>ACCEPT</button>
+                                                <button className={TeamsStyles.actionButton} onClick={() => handleDecline(t.id, m.id, m.username)}>DECLINE</button>
+                                            </div>
+                                        )}
+                                    </>
                                 }
-                            </h3>
-                        )}
-                        {t.waitingMembers &&
-                            <>
-                                <h2>Request to join:</h2>
-                                {t.waitingMembers.map(m =>
-                                    <h3 key={m.id}>
-                                        {m.username}
-                                        <button onClick={() => handleAccept(t.id, m.id)}>Accept</button>
-                                        <button onClick={() => handleDecline(t.id, m.id)}>Decline</button>
-                                    </h3>)
-                                }
-                            </>
-                        }
-                        <br />
-                        <br />
+                            </div>
+                        </div>
                     </div>
                 )
             })}
