@@ -70,7 +70,7 @@ teamsRouter.put("/request/:id", middleware.tokenExtractor, middleware.userExtrac
     response.json(updatedTeam)
 })
 
-// AUTH - add an user to waitingMember
+// AUTH - accept waiting user to team members
 // :id / userId = id of the user to accept
 // adminId = id of the user that accepts (needs to be admin)
 // teamId = id of the team the user will join
@@ -93,6 +93,40 @@ teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtract
     team.waitingMembers = newWaitingMembers
 
     team.members = team.members.concat({ id: userId, permission: "member" })
+
+    const updatedTeam =
+        await team
+            .save()
+            .then(updatedTeam => updatedTeam
+                .populate([
+                    { path: "members.id", select: { id: 1, username: 1 } },
+                    { path: "waitingMembers", select: { id: 1, username: 1 } }
+                ])
+            )
+    response.json(updatedTeam)
+})
+
+// AUTH - decline waiting user and remove it from waitingMembers
+// :id / userId = id of the user to decline
+// adminId = id of the user that declines (needs to be admin)
+// teamId = id of the team the user will join
+teamsRouter.put("/decline/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.params.id
+    const adminId = request.user.id
+    const teamId = request.body.teamId
+
+    const admin = await User.findOne({ _id: adminId })
+    const team = await Team.findOne({ _id: teamId })
+
+    if(!team.members.find(m => m.id.toString() === admin._id.toString()).permission === "admin") {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to accept"
+        })
+    }
+
+    const newWaitingMembers = team.waitingMembers.filter(m => m.toString() !== userId)
+    team.waitingMembers = newWaitingMembers
 
     const updatedTeam =
         await team
