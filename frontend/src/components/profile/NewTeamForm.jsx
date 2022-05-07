@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react"
 
 import teamService from "../../services/teams"
 
+import classnames from "classnames"
+import NewTeamFormStyles from "./NewTeamForm.module.scss"
+
 const NewTeamForm = ({ user }) => {
 
     // name the user has written in the input field
@@ -68,21 +71,49 @@ const NewTeamForm = ({ user }) => {
     }
 
     return (
-        <div>
-            <label>Search a team by his name:</label>
-            <input type="text" ref={teamInput} onChange={handleSearch} />
-            <h2>Teams found with this name:</h2>
-            <h3>{searchStatus}</h3>
-            <div>{searchedTeams.map(t =>
-                <h3 key={t.id}>
-                    {t.name} - {t.id}
-                    {t.member && <button disabled>Already in this team</button>}
-                    {t.waitingMember && <button disabled>Already requested to join this team</button>}
-                    {!t.member && !t.waitingMember &&
-                        <button onClick={() => handleJoinRequest(t)}>Request to join</button>
-                    }
-                </h3>
-            )}</div>
+        <div className={NewTeamFormStyles.teamDiv}>
+            <div className={NewTeamFormStyles.backgroundDiv}>
+                <h1 className={NewTeamFormStyles.titleDiv}>Join a team:</h1>
+                <h2 className={NewTeamFormStyles.titleDiv}>Enter a team name and request to join</h2>
+                <input
+                    className={NewTeamFormStyles.teamInput}
+                    type="text"
+                    ref={teamInput}
+                    onChange={handleSearch}
+                    placeholder="Enter team name"
+                />
+                <h3 className={
+                    searchStatus !== ""
+                        ? NewTeamFormStyles.searchStatus
+                        : ""
+                }>{searchStatus}</h3>
+                <div>{searchedTeams.map(t =>
+                    <h3 className={NewTeamFormStyles.teamFound} key={t.id}>
+                        {t.name}
+                        {t.member &&
+                            <button
+                                className={classnames(
+                                    NewTeamFormStyles.actionButton,
+                                    NewTeamFormStyles.disabledButton,
+                                )}
+                                disabled
+                            >Already in this team</button>
+                        }
+                        {t.waitingMember &&
+                            <button
+                                className={NewTeamFormStyles.actionButton}
+                                disabled
+                            >Already requested to join this team</button>
+                        }
+                        {!t.member && !t.waitingMember &&
+                            <button
+                                className={NewTeamFormStyles.actionButton}
+                                onClick={() => handleJoinRequest(t)}
+                            >Request to join</button>
+                        }
+                    </h3>
+                )}</div>
+            </div>
         </div>
     )
 }
