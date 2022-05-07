@@ -7,7 +7,7 @@ const teamSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        permission: { type: String, enum: ["admin", "member", "guest"] },
+        permission: { type: String, enum: ["admin", "member"] },
     }],
     waitingMembers: [{
         type: mongoose.Schema.Types.ObjectId,
