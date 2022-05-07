@@ -1,89 +1,97 @@
 @import "../../styles/variables.scss";
 
-.teamDiv {
-    border: 1px solid $secondary_text;
-
+.teamsDiv {
     width: 40%;
-    margin: auto;
-    margin-bottom: 20px;
 
-    text-align: center;
-    color: $text;
-    
-    border-radius: 15px;
+    .teamDiv {
+        border: 1px solid $secondary_text;
 
-    .backgroundDiv {
-        border: 8px solid $background_light;
-        border-radius: 15px;
+        width: 100%;
+        margin: auto;
+        margin-top: 40px;
 
-        .titleDiv {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: $background_light;
-
-            padding: 10px;
-
-            .nMatches {
-                margin-left: 10px;
-                padding: 4px 8px;
-
-                background: $background;
-                border-radius: 5px;
-
-                font-size: 0.8em;
-                font-weight: 100;
-            }
+        &:first-child {
+            margin-top: 0;
         }
 
-        .membersDiv {
-            margin: 15px;
+        text-align: center;
+        color: $text;
+        
+        border-radius: 15px;
 
-            .memberDiv {
+        .backgroundDiv {
+            border: 8px solid $background_light;
+            border-radius: 15px;
+
+            .titleDiv {
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                margin: 5px;
+                justify-content: center;
 
-                .adminLabel {
+                background: $background_light;
+
+                padding: 10px;
+
+                .nMatches {
+                    margin-left: 10px;
+                    padding: 4px 8px;
+
+                    background: $background;
+                    border-radius: 5px;
+
+                    font-size: 0.8em;
+                    font-weight: 100;
+                }
+            }
+
+            .membersDiv {
+                margin: 15px;
+
+                .memberDiv {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 5px;
+
+                    .adminLabel {
+                        display: inline;
+
+                        margin-left: 10px;
+                        padding: 4px 8px;
+                        
+                        background: $background_light;
+                        border-radius: 5px;
+                        
+                        font-size: 0.6em;
+                        font-weight: 100;
+                        color: $secondary_text;
+                    }
+                }
+
+                .membersTitle {
+                    margin: 10px;
+                    font-size: 0.8em;
+                }
+        
+                .actionButton {
                     display: inline;
-
+        
                     margin-left: 10px;
                     padding: 4px 8px;
                     
                     background: $background_light;
                     border-radius: 5px;
-                    
+                    outline: none;
+                    border: none;
+        
                     font-size: 0.6em;
                     font-weight: 100;
                     color: $secondary_text;
-                }
-            }
-
-            .membersTitle {
-                margin: 10px;
-                font-size: 0.8em;
-            }
-    
-            .actionButton {
-                display: inline;
-    
-                margin-left: 10px;
-                padding: 4px 8px;
-                
-                background: $background_light;
-                border-radius: 5px;
-                outline: none;
-                border: none;
-    
-                font-size: 0.6em;
-                font-weight: 100;
-                color: $secondary_text;
-    
-                &:hover {
-                    cursor: pointer;
-                    color: $text;
+        
+                    &:hover {
+                        cursor: pointer;
+                        color: $text;
+                    }
                 }
             }
         }

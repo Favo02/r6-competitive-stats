@@ -178,7 +178,7 @@ const Teams = ({ user }) => {
     }
 
     return (
-        <>
+        <div className={TeamsStyles.teamsDiv}>
             {teams.map(t => {
                 return (
                     <div key={t.id} className={TeamsStyles.teamDiv}>
@@ -221,7 +221,7 @@ const Teams = ({ user }) => {
                     </div>
                 )
             })}
-        </>
+        </div>
     )
 }
 
