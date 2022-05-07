@@ -40,8 +40,20 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
     response.status(201).json(savedTeam)
 })
 
+// UNAUTH - get every team matching the name
+teamsRouter.get("/:name", async (request, response) => {
+    const name = request.params.name
+
+    const teams = await Team
+        .find({ "name": { $regex: name + "*" } })
+    response.json(teams)
+})
+
+
+// --------------- INVITE SYSTEM
+
 // AUTH - add an user to waitingMember
-teamsRouter.put("/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+teamsRouter.put("/request/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const id = request.params.id
     const userId = request.user.id
 
@@ -52,15 +64,6 @@ teamsRouter.put("/:id", middleware.tokenExtractor, middleware.userExtractor, asy
     team.waitingMembers = team.waitingMembers.concat(user.id)
     const updatedTeam = await team.save()
     response.json(updatedTeam)
-})
-
-// UNAUTH - get every team matching the name
-teamsRouter.get("/:name", async (request, response) => {
-    const name = request.params.name
-
-    const teams = await Team
-        .find({ "name": { $regex: name + "*" } })
-    response.json(teams)
 })
 
 module.exports = teamsRouter

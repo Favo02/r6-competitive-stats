@@ -20,7 +20,7 @@ const addWaitingMember = async (id, userId, token) => {
         headers: { Authorization: `bearer ${token}` },
     }
 
-    const request = axios.put(`${baseUrl}/${id}`, userId, config)
+    const request = axios.put(`${baseUrl}/request/${id}`, userId, config)
     return request.then(response => response.data)
 }
 
