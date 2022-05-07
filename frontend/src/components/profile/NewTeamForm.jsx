@@ -53,7 +53,7 @@ const NewTeamForm = ({ user }) => {
     const handleJoinRequest = (team) => {
         try {
             teamService
-                .addWaitingMember(team.id, user.id, user.token)
+                .addWaitingMember(team.id, user.token)
                 .then(response => {
                     setSearchedTeams([])
                     setSearchStatus(`Added to waiting list of ${response.name}`)
