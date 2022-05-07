@@ -54,6 +54,46 @@ teamsRouter.get("/:name", async (request, response) => {
 
 // --------------- INVITE SYSTEM
 
+// AUTH - kick a member from a team
+// :id / userId = id of the user to be kicked
+// adminId = id of the user that kicks (needs to be admin)
+// teamId = id of the team the user will be kicked from
+teamsRouter.put("/kick/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.params.id
+    const adminId = request.user.id
+    const teamId = request.body.teamId
+
+    const team = await Team.findOne({ _id: teamId })
+
+    if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to kick"
+        })
+    }
+
+    const newMembers = team.members.filter(m => m.id.toString() !== userId)
+    team.members = newMembers
+
+    const updatedTeam =
+        await team
+            .save()
+            .then(updatedTeam => updatedTeam
+                .populate([
+                    { path: "members.id", select: { id: 1, username: 1 } },
+                    { path: "waitingMembers", select: { id: 1, username: 1 } }
+                ])
+            )
+
+    const user = await User.findOne({ _id: userId })
+    const newTeams = user.teams.filter(t => t._id.toString() !== updatedTeam._id.toString())
+    user.teams = newTeams
+    await user.save()
+
+    response.json(updatedTeam)
+})
+
+
 // AUTH - add an user to waitingMember
 // :id = id of the team to join
 // userId = id of the user that requests to join
