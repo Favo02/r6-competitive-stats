@@ -20,6 +20,18 @@ const getTeamByName = async (name) => {
 
 // -------------- TEAM INVITE SYSTEM
 
+// AUTH - kick a member from a team
+// userId: id of the user to be kicked
+// teamId: id of the team the user will be kicked from
+const kickMember = async (userId, teamId, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const request = axios.put(`${baseUrl}/kick/${userId}`, { teamId: teamId }, config)
+    return request.then(response => response.data)
+}
+
 // AUTH - request to join a team, added to waitingMember list
 // id: id of the team to join
 const addWaitingMember = async (id, token) => {
@@ -55,4 +67,8 @@ const declineWaitingMember = async (userId, teamId, token) => {
     return request.then(response => response.data)
 }
 
-export default { getAll, getTeamByName, addWaitingMember, acceptWaitingMember, declineWaitingMember }
+export default {
+    getAll, getTeamByName,
+    kickMember,
+    addWaitingMember, acceptWaitingMember, declineWaitingMember
+}
