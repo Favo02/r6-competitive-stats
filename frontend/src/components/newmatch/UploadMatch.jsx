@@ -33,7 +33,7 @@ const UploadMatch = ({ user }) => {
                     const allTeams = teams.map(t => ({
                         name: t.name,
                         id: t.id,
-                        permission: t.members.find(m => m.id === user.id).permission
+                        permission: t.members.find(m => m.id.id === user.id).permission
                     }))
                     setTeams(
                         allTeams.filter(t => t.permission === "admin")
