@@ -244,11 +244,8 @@ teamsRouter.put("/leave/:id", middleware.tokenExtractor, middleware.userExtracto
         })
     }
 
-    console.log("T4EAM", team)
     const newMembers = team.members.filter(m => m.id.toString() !== userId)
     team.members = newMembers
-
-    console.log("NEWMEMBERS", newMembers)
 
     const updatedTeam =
         await team
@@ -267,6 +264,40 @@ teamsRouter.put("/leave/:id", middleware.tokenExtractor, middleware.userExtracto
     await user.save()
 
     response.json(updatedTeam)
+})
+
+// AUTH - disband a team
+// userId = id of the user that disbands the team (should to be admin)
+// :id / teamId = id of the team the user will disband
+teamsRouter.delete("/disband/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.user.id
+    const teamId = request.params.id
+
+    const team = await Team.findById(teamId)
+
+    if(! (team.members.find(m => m.id.toString() === userId).permission === "admin")) {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to disband"
+        })
+    }
+
+    if(team.members.length > 1) {
+        console.log("user not alone in the team")
+        return response.status(400).json({
+            error: "You need to be alone in the team to disband it"
+        })
+    }
+
+    await Team.findByIdAndRemove(teamId)
+
+    const user = await User.findById(userId)
+    const newUserTeams = user.teams.filter(t => t.toString() !== teamId)
+    user.teams = newUserTeams
+
+    await user.save()
+
+    response.status(204).end()
 })
 
 module.exports = teamsRouter
