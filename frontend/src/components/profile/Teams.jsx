@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 
 import teamService from "../../services/teams"
 
 import TeamsStyles from "./Teams.module.scss"
 
-const Teams = ({ user }) => {
-    // teams of the user
-    const [teams, setTeams] = useState([])
-
+const Teams = ({ user, teams, setTeams }) => {
     // sorts alphabetically the teams
     const sortTeams = (unsortedTeams) => {
         return unsortedTeams.sort((t1, t2) => t1.name < t2.name ? -1 : 1)
