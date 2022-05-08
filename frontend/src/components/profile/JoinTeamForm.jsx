@@ -15,32 +15,30 @@ const JoinTeamForm = ({ user }) => {
 
     useEffect(() => {
         if (search.length > 2) {
-            try {
-                teamService
-                    .getTeamByName(search)
-                    .then(teams => {
-                        setSearchedTeams(
-                            teams
-                                .map(t => (
-                                    {
-                                        name: t.name,
-                                        id: t.id,
-                                        member: t.members.map(member => member.id).includes(user.id) ? true : false,
-                                        waitingMember: t.waitingMembers.includes(user.id) ? true : false,
-                                    }
-                                ))
-                        )
-                        teams.length === 0
-                            ? setSearchStatus("No teams found")
-                            : setSearchStatus("")
-                    })
-            }
-            catch (exception) {
-                console.log(exception)
-                if (exception.response) {
-                    console.log("Error", exception.response.status, ":", exception.response.data.error)
-                }
-            }
+            teamService
+                .getTeamByName(search)
+                .then(teams => {
+                    setSearchedTeams(
+                        teams
+                            .map(t => (
+                                {
+                                    name: t.name,
+                                    id: t.id,
+                                    member: t.members.map(member => member.id).includes(user.id) ? true : false,
+                                    waitingMember: t.waitingMembers.includes(user.id) ? true : false,
+                                }
+                            ))
+                    )
+                    teams.length === 0
+                        ? setSearchStatus("No teams found")
+                        : setSearchStatus("")
+                })
+                .catch (exception => {
+                    console.log(exception)
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
         }
         else {
             setSearchedTeams([])
@@ -54,20 +52,18 @@ const JoinTeamForm = ({ user }) => {
     }
 
     const handleJoinRequest = (team) => {
-        try {
-            teamService
-                .addWaitingMember(team.id, user.token)
-                .then(response => {
-                    setSearchedTeams([])
-                    setSearchStatus(`Added to waiting list of ${response.name}`)
-                })
-        }
-        catch (exception) {
-            console.log(exception)
-            if (exception.response) {
-                console.log("Error", exception.response.status, ":", exception.response.data.error)
-            }
-        }
+        teamService
+            .addWaitingMember(team.id, user.token)
+            .then(response => {
+                setSearchedTeams([])
+                setSearchStatus(`Added to waiting list of ${response.name}`)
+            })
+            .catch (exception => {
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
+            })
     }
 
     return (

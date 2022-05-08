@@ -12,42 +12,40 @@ const Teams = ({ user, teams, setTeams }) => {
 
     // gets user teams
     useEffect(() => {
-        try {
-            teamService
-                .getAll(user.token)
-                .then(teams => {
-                    setTeams(
-                        sortTeams(
-                            teams
-                                .map(t => {
-                                    return ({
-                                        name: t.name,
-                                        id: t.id,
-                                        nMatches: t.matches.length,
-                                        permission: t.members.find(m => m.id.id === user.id).permission,
-                                        members: t.members.map(m => ({
-                                            id: m.id.id,
-                                            username: m.id.username,
-                                            permission: m.permission
-                                        })),
-                                        waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                            ? t.waitingMembers.map(m => ({
-                                                id: m.id,
-                                                username: m.username
-                                            }))
-                                            : null
-                                    })
+        teamService
+            .getAll(user.token)
+            .then(teams => {
+                setTeams(
+                    sortTeams(
+                        teams
+                            .map(t => {
+                                return ({
+                                    name: t.name,
+                                    id: t.id,
+                                    nMatches: t.matches.length,
+                                    permission: t.members.find(m => m.id.id === user.id).permission,
+                                    members: t.members.map(m => ({
+                                        id: m.id.id,
+                                        username: m.id.username,
+                                        permission: m.permission
+                                    })),
+                                    waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                        ? t.waitingMembers.map(m => ({
+                                            id: m.id,
+                                            username: m.username
+                                        }))
+                                        : null
                                 })
-                        )
+                            })
                     )
-                })
-        }
-        catch (exception) {
-            console.log(exception)
-            if (exception.response) {
-                console.log("Error", exception.response.status, ":", exception.response.data.error)
-            }
-        }
+                )
+            })
+            .catch (exception => {
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
+            })
     }, [])
 
     const updateTeams = (updatedTeam) => {
@@ -83,68 +81,60 @@ const Teams = ({ user, teams, setTeams }) => {
     // kick a member of the team
     const handleKick = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to kick ${username}?`)) {
-            try {
-                teamService
-                    .kickMember(userId, teamId, user.token)
-                    .then(updatedTeam => updateTeams(updatedTeam))
-            }
-            catch (exception) {
-                console.log(exception)
-                if (exception.response) {
-                    console.log("Error", exception.response.status, ":", exception.response.data.error)
-                }
-            }
+            teamService
+                .kickMember(userId, teamId, user.token)
+                .then(updatedTeam => updateTeams(updatedTeam))
+                .catch (exception => {
+                    console.log(exception)
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
         }
     }
 
     // promote a member of the team
     const handlePromote = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to promote ${username}?`)) {
-            try {
-                teamService
-                    .promoteMember(userId, teamId, user.token)
-                    .then(updatedTeam => updateTeams(updatedTeam))
-            }
-            catch (exception) {
-                console.log(exception)
-                if (exception.response) {
-                    console.log("Error", exception.response.status, ":", exception.response.data.error)
-                }
-            }
+            teamService
+                .promoteMember(userId, teamId, user.token)
+                .then(updatedTeam => updateTeams(updatedTeam))
+                .catch (exception => {
+                    console.log(exception)
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
         }
     }
 
     // accept the waiting user into the team
     const handleAccept = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to accept ${username}?`)) {
-            try {
-                teamService
-                    .acceptWaitingMember(userId, teamId, user.token)
-                    .then(updatedTeam => updateTeams(updatedTeam))
-            }
-            catch (exception) {
-                console.log(exception)
-                if (exception.response) {
-                    console.log("Error", exception.response.status, ":", exception.response.data.error)
-                }
-            }
+            teamService
+                .acceptWaitingMember(userId, teamId, user.token)
+                .then(updatedTeam => updateTeams(updatedTeam))
+                .catch (exception => {
+                    console.log(exception)
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
         }
     }
 
     // decline the waiting user
     const handleDecline = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to decline ${username}?`)) {
-            try {
-                teamService
-                    .declineWaitingMember(userId, teamId, user.token)
-                    .then(updatedTeam => updateTeams(updatedTeam))
-            }
-            catch (exception) {
-                console.log(exception)
-                if (exception.response) {
-                    console.log("Error", exception.response.status, ":", exception.response.data.error)
-                }
-            }
+            teamService
+                .declineWaitingMember(userId, teamId, user.token)
+                .then(updatedTeam => updateTeams(updatedTeam))
+                .catch (exception => {
+                    console.log(exception)
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
         }
     }
 

@@ -26,26 +26,24 @@ const UploadMatch = ({ user }) => {
 
     // gets user teams (only the one as admin)
     useEffect(() => {
-        try {
-            teamService
-                .getAll(user.token)
-                .then(teams => {
-                    const allTeams = teams.map(t => ({
-                        name: t.name,
-                        id: t.id,
-                        permission: t.members.find(m => m.id.id === user.id).permission
-                    }))
-                    setTeams(
-                        allTeams.filter(t => t.permission === "admin")
-                    )
-                })
-        }
-        catch (exception) {
-            console.log(exception)
-            if (exception.response) {
-                console.log("Error", exception.response.status, ":", exception.response.data.error)
-            }
-        }
+        teamService
+            .getAll(user.token)
+            .then(teams => {
+                const allTeams = teams.map(t => ({
+                    name: t.name,
+                    id: t.id,
+                    permission: t.members.find(m => m.id.id === user.id).permission
+                }))
+                setTeams(
+                    allTeams.filter(t => t.permission === "admin")
+                )
+            })
+            .catch(exception => {
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
+            })
     }, [])
 
     // handle the new match creation
