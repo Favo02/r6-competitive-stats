@@ -93,6 +93,42 @@ teamsRouter.put("/kick/:id", middleware.tokenExtractor, middleware.userExtractor
     response.json(updatedTeam)
 })
 
+// AUTH - promote to admin a member
+// :id / userId = id of the user to be promoted
+// adminId = id of the user that promotes (needs to be admin)
+// teamId = id of the team the user will be promoted in
+teamsRouter.put("/promote/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.params.id
+    const adminId = request.user.id
+    const teamId = request.body.teamId
+
+    const team = await Team.findOne({ _id: teamId })
+
+    if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to kick"
+        })
+    }
+
+    let memberToPromote = team.members.find(m => m.id.toString() === userId)
+    memberToPromote.permission = "admin"
+    const newMembers = team.members.filter(m => m.id.toString() !== userId).concat(memberToPromote)
+    team.members = newMembers
+
+    const updatedTeam =
+        await team
+            .save()
+            .then(updatedTeam => updatedTeam
+                .populate([
+                    { path: "members.id", select: { id: 1, username: 1 } },
+                    { path: "waitingMembers", select: { id: 1, username: 1 } }
+                ])
+            )
+
+    response.json(updatedTeam)
+})
+
 
 // AUTH - add an user to waitingMember
 // :id = id of the team to join
