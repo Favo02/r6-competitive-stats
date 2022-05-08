@@ -89,6 +89,50 @@ const Teams = ({ user }) => {
         }
     }
 
+    // promote a member of the team
+    const handlePromote = (teamId, userId, username) => {
+        if (window.confirm(`Are you sure you wanto to promote ${username}?`)) {
+            try {
+                teamService
+                    .promoteMember(userId, teamId, user.token)
+                    .then(updatedTeam => {
+                        return (
+                            setTeams(
+                                teams
+                                    .filter(t => t.id !== updatedTeam.id)
+                                    .concat(updatedTeam)
+                                    .map(t => {
+                                        return ({
+                                            name: t.name,
+                                            id: t.id,
+                                            nMatches: t.matches.length,
+                                            permission: t.members.find(m => m.id.id === user.id).permission,
+                                            members: t.members.map(m => ({
+                                                id: m.id.id,
+                                                username: m.id.username,
+                                                permission: m.permission
+                                            })),
+                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                                ? t.waitingMembers.map(m => ({
+                                                    id: m.id,
+                                                    username: m.username
+                                                }))
+                                                : null
+                                        })
+                                    })
+                            )
+                        )
+                    })
+            }
+            catch (exception) {
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
+            }
+        }
+    }
+
     // accept the waiting user into the team
     const handleAccept = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to accept ${username}?`)) {
@@ -198,6 +242,11 @@ const Teams = ({ user }) => {
                                         {t.members.find(mem => mem.id === user.id).permission === "admin" &&
                                         m.id !== user.id &&
                                                 <button className={TeamsStyles.actionButton} onClick={() => handleKick(t.id, m.id, m.username)}>KICK</button>
+                                        }
+                                        {/* Button promote shows up only for admin and not for users already admin */}
+                                        {t.members.find(mem => mem.id === user.id).permission === "admin" &&
+                                        m.permission !== "admin" &&
+                                        <button className={TeamsStyles.actionButton} onClick={() => handlePromote(t.id, m.id, m.username)}>PROMOTE</button>
                                         }
                                     </div>
                                 )}
