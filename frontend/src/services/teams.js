@@ -32,6 +32,18 @@ const kickMember = async (userId, teamId, token) => {
     return request.then(response => response.data)
 }
 
+// AUTH - promote to admin a member
+// userId: id of the user to be promoted
+// teamId: id of the team the user will be promoted in
+const promoteMember = async (userId, teamId, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const request = axios.put(`${baseUrl}/promote/${userId}`, { teamId: teamId }, config)
+    return request.then(response => response.data)
+}
+
 // AUTH - request to join a team, added to waitingMember list
 // id: id of the team to join
 const addWaitingMember = async (id, token) => {
@@ -69,6 +81,6 @@ const declineWaitingMember = async (userId, teamId, token) => {
 
 export default {
     getAll, getTeamByName,
-    kickMember,
+    kickMember, promoteMember,
     addWaitingMember, acceptWaitingMember, declineWaitingMember
 }
