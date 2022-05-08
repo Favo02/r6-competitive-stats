@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from "react"
 import teamService from "../../services/teams"
 
 import classnames from "classnames"
-import NewTeamFormStyles from "./NewTeamForm.module.scss"
+import JoinTeamFormStyles from "./JoinTeamForm.module.scss"
 
-const NewTeamForm = ({ user }) => {
+const JoinTeamForm = ({ user }) => {
 
     // name the user has written in the input field
     const [search, setSearch] = useState("")
@@ -71,12 +71,12 @@ const NewTeamForm = ({ user }) => {
     }
 
     return (
-        <div className={NewTeamFormStyles.teamDiv}>
-            <div className={NewTeamFormStyles.backgroundDiv}>
-                <h1 className={NewTeamFormStyles.titleDiv}>Join a team:</h1>
-                <h2 className={NewTeamFormStyles.titleDiv}>Enter a team name and request to join</h2>
+        <div className={JoinTeamFormStyles.teamDiv}>
+            <div className={JoinTeamFormStyles.backgroundDiv}>
+                <h1 className={JoinTeamFormStyles.titleDiv}>Join a team:</h1>
+                <h2 className={JoinTeamFormStyles.titleDiv}>Enter a team name and request to join</h2>
                 <input
-                    className={NewTeamFormStyles.teamInput}
+                    className={JoinTeamFormStyles.teamInput}
                     type="text"
                     ref={teamInput}
                     onChange={handleSearch}
@@ -84,17 +84,17 @@ const NewTeamForm = ({ user }) => {
                 />
                 <h3 className={
                     searchStatus !== ""
-                        ? NewTeamFormStyles.searchStatus
+                        ? JoinTeamFormStyles.searchStatus
                         : ""
                 }>{searchStatus}</h3>
                 <div>{searchedTeams.map(t =>
-                    <h3 className={NewTeamFormStyles.teamFound} key={t.id}>
+                    <h3 className={JoinTeamFormStyles.teamFound} key={t.id}>
                         {t.name}
                         {t.member &&
                             <button
                                 className={classnames(
-                                    NewTeamFormStyles.actionButton,
-                                    NewTeamFormStyles.disabledButton,
+                                    JoinTeamFormStyles.actionButton,
+                                    JoinTeamFormStyles.disabledButton,
                                 )}
                                 disabled
                             >Already in this team</button>
@@ -102,15 +102,15 @@ const NewTeamForm = ({ user }) => {
                         {t.waitingMember &&
                             <button
                                 className={classnames(
-                                    NewTeamFormStyles.actionButton,
-                                    NewTeamFormStyles.disabledButton,
+                                    JoinTeamFormStyles.actionButton,
+                                    JoinTeamFormStyles.disabledButton,
                                 )}
                                 disabled
                             >Already requested to join this team</button>
                         }
                         {!t.member && !t.waitingMember &&
                             <button
-                                className={NewTeamFormStyles.actionButton}
+                                className={JoinTeamFormStyles.actionButton}
                                 onClick={() => handleJoinRequest(t)}
                             >Request to join</button>
                         }
@@ -121,4 +121,4 @@ const NewTeamForm = ({ user }) => {
     )
 }
 
-export default NewTeamForm
+export default JoinTeamForm
