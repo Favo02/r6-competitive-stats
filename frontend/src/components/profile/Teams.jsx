@@ -8,32 +8,40 @@ const Teams = ({ user }) => {
     // teams of the user
     const [teams, setTeams] = useState([])
 
-    // gets user teams (only the one as admin)
+    // sorts alphabetically the teams
+    const sortTeams = (unsortedTeams) => {
+        return unsortedTeams.sort((t1, t2) => t1.name < t2.name ? -1 : 1)
+    }
+
+    // gets user teams
     useEffect(() => {
         try {
             teamService
                 .getAll(user.token)
                 .then(teams => {
                     setTeams(
-                        teams.map(t => {
-                            return ({
-                                name: t.name,
-                                id: t.id,
-                                nMatches: t.matches.length,
-                                permission: t.members.find(m => m.id.id === user.id).permission,
-                                members: t.members.map(m => ({
-                                    id: m.id.id,
-                                    username: m.id.username,
-                                    permission: m.permission
-                                })),
-                                waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                    ? t.waitingMembers.map(m => ({
-                                        id: m.id,
-                                        username: m.username
-                                    }))
-                                    : null
-                            })
-                        })
+                        sortTeams(
+                            teams
+                                .map(t => {
+                                    return ({
+                                        name: t.name,
+                                        id: t.id,
+                                        nMatches: t.matches.length,
+                                        permission: t.members.find(m => m.id.id === user.id).permission,
+                                        members: t.members.map(m => ({
+                                            id: m.id.id,
+                                            username: m.id.username,
+                                            permission: m.permission
+                                        })),
+                                        waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                                            ? t.waitingMembers.map(m => ({
+                                                id: m.id,
+                                                username: m.username
+                                            }))
+                                            : null
+                                    })
+                                })
+                        )
                     )
                 })
         }
@@ -45,40 +53,43 @@ const Teams = ({ user }) => {
         }
     }, [])
 
+    const updateTeams = (updatedTeam) => {
+        //map the updated team like every team already mapped
+        const newUpdatedTeam = [updatedTeam].map(t => {
+            return ({
+                name: t.name,
+                id: t.id,
+                nMatches: t.matches.length,
+                permission: t.members.find(m => m.id.id === user.id).permission,
+                members: t.members.map(m => ({
+                    id: m.id.id,
+                    username: m.id.username,
+                    permission: m.permission
+                })),
+                waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
+                    ? t.waitingMembers.map(m => ({
+                        id: m.id,
+                        username: m.username
+                    }))
+                    : null
+            })
+        })[0]
+        setTeams(
+            sortTeams(
+                teams
+                    .filter(t => t.id !== updatedTeam.id)
+                    .concat(newUpdatedTeam)
+            )
+        )
+    }
+
     // kick a member of the team
     const handleKick = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to kick ${username}?`)) {
             try {
                 teamService
                     .kickMember(userId, teamId, user.token)
-                    .then(updatedTeam => {
-                        return (
-                            setTeams(
-                                teams
-                                    .filter(t => t.id !== updatedTeam.id)
-                                    .concat(updatedTeam)
-                                    .map(t => {
-                                        return ({
-                                            name: t.name,
-                                            id: t.id,
-                                            nMatches: t.matches.length,
-                                            permission: t.members.find(m => m.id.id === user.id).permission,
-                                            members: t.members.map(m => ({
-                                                id: m.id.id,
-                                                username: m.id.username,
-                                                permission: m.permission
-                                            })),
-                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                                ? t.waitingMembers.map(m => ({
-                                                    id: m.id,
-                                                    username: m.username
-                                                }))
-                                                : null
-                                        })
-                                    })
-                            )
-                        )
-                    })
+                    .then(updatedTeam => updateTeams(updatedTeam))
             }
             catch (exception) {
                 console.log(exception)
@@ -95,34 +106,7 @@ const Teams = ({ user }) => {
             try {
                 teamService
                     .promoteMember(userId, teamId, user.token)
-                    .then(updatedTeam => {
-                        return (
-                            setTeams(
-                                teams
-                                    .filter(t => t.id !== updatedTeam.id)
-                                    .concat(updatedTeam)
-                                    .map(t => {
-                                        return ({
-                                            name: t.name,
-                                            id: t.id,
-                                            nMatches: t.matches.length,
-                                            permission: t.members.find(m => m.id.id === user.id).permission,
-                                            members: t.members.map(m => ({
-                                                id: m.id.id,
-                                                username: m.id.username,
-                                                permission: m.permission
-                                            })),
-                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                                ? t.waitingMembers.map(m => ({
-                                                    id: m.id,
-                                                    username: m.username
-                                                }))
-                                                : null
-                                        })
-                                    })
-                            )
-                        )
-                    })
+                    .then(updatedTeam => updateTeams(updatedTeam))
             }
             catch (exception) {
                 console.log(exception)
@@ -139,34 +123,7 @@ const Teams = ({ user }) => {
             try {
                 teamService
                     .acceptWaitingMember(userId, teamId, user.token)
-                    .then(updatedTeam => {
-                        return (
-                            setTeams(
-                                teams
-                                    .filter(t => t.id !== updatedTeam.id)
-                                    .concat(updatedTeam)
-                                    .map(t => {
-                                        return ({
-                                            name: t.name,
-                                            id: t.id,
-                                            nMatches: t.matches.length,
-                                            permission: t.members.find(m => m.id.id === user.id).permission,
-                                            members: t.members.map(m => ({
-                                                id: m.id.id,
-                                                username: m.id.username,
-                                                permission: m.permission
-                                            })),
-                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                                ? t.waitingMembers.map(m => ({
-                                                    id: m.id,
-                                                    username: m.username
-                                                }))
-                                                : null
-                                        })
-                                    })
-                            )
-                        )
-                    })
+                    .then(updatedTeam => updateTeams(updatedTeam))
             }
             catch (exception) {
                 console.log(exception)
@@ -183,34 +140,7 @@ const Teams = ({ user }) => {
             try {
                 teamService
                     .declineWaitingMember(userId, teamId, user.token)
-                    .then(updatedTeam => {
-                        return (
-                            setTeams(
-                                teams
-                                    .filter(t => t.id !== updatedTeam.id)
-                                    .concat(updatedTeam)
-                                    .map(t => {
-                                        return ({
-                                            name: t.name,
-                                            id: t.id,
-                                            nMatches: t.matches.length,
-                                            permission: t.members.find(m => m.id.id === user.id).permission,
-                                            members: t.members.map(m => ({
-                                                id: m.id.id,
-                                                username: m.id.username,
-                                                permission: m.permission
-                                            })),
-                                            waitingMembers: t.members.find(m => m.id.id === user.id).permission === "admin"
-                                                ? t.waitingMembers.map(m => ({
-                                                    id: m.id,
-                                                    username: m.username
-                                                }))
-                                                : null
-                                        })
-                                    })
-                            )
-                        )
-                    })
+                    .then(updatedTeam => updateTeams(updatedTeam))
             }
             catch (exception) {
                 console.log(exception)
