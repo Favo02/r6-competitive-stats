@@ -89,8 +89,20 @@ const declineWaitingMember = async (userId, teamId, token) => {
     return request.then(response => response.data)
 }
 
+// AUTH - leave a team
+// teamId: id of the team the user will leave
+const leaveTeam = async (teamId, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const request = axios.put(`${baseUrl}/leave/${teamId}`, {}, config)
+    return request.then(response => response.data)
+}
+
 export default {
     getAll, getTeamByName, create,
     kickMember, promoteMember,
-    addWaitingMember, acceptWaitingMember, declineWaitingMember
+    addWaitingMember, acceptWaitingMember, declineWaitingMember,
+    leaveTeam
 }
