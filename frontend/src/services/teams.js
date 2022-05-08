@@ -17,6 +17,16 @@ const getTeamByName = async (name) => {
     return request.then(response => response.data)
 }
 
+// AUTH - create a new team (creator set as admin)
+const create = async (newTeam, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const response = await axios.post(baseUrl, { name: newTeam }, config)
+    return response.data
+}
+
 
 // -------------- TEAM INVITE SYSTEM
 
@@ -80,7 +90,7 @@ const declineWaitingMember = async (userId, teamId, token) => {
 }
 
 export default {
-    getAll, getTeamByName,
+    getAll, getTeamByName, create,
     kickMember, promoteMember,
     addWaitingMember, acceptWaitingMember, declineWaitingMember
 }
