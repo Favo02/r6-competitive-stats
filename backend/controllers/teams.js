@@ -35,7 +35,15 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
     }
 
     const newTeam = new Team(team)
-    const savedTeam = await newTeam.save()
+    const savedTeam =
+        await newTeam
+            .save()
+            .then(savedTeam => savedTeam
+                .populate([
+                    { path: "members.id", select: { id: 1, username: 1 } },
+                    { path: "waitingMembers", select: { id: 1, username: 1 } }
+                ])
+            )
 
     user.teams = user.teams.concat(savedTeam._id)
     await user.save()
