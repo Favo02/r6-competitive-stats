@@ -1,6 +1,7 @@
 const teamsRouter = require("express").Router()
 const Team = require("../models/team")
 const User = require("../models/user")
+const Match = require("../models/match")
 const middleware = require("../utils/middleware")
 
 // AUTH - get every team of the user
@@ -289,13 +290,17 @@ teamsRouter.delete("/disband/:id", middleware.tokenExtractor, middleware.userExt
         })
     }
 
+    // delete team
     await Team.findByIdAndRemove(teamId)
 
+    // delete team id from user (who disbands is the only one in the team)
     const user = await User.findById(userId)
     const newUserTeams = user.teams.filter(t => t.toString() !== teamId)
     user.teams = newUserTeams
-
     await user.save()
+
+    // delete every match of the team
+    await Match.deleteMany({ team: teamId })
 
     response.status(204).end()
 })
