@@ -228,4 +228,45 @@ teamsRouter.put("/decline/:id", middleware.tokenExtractor, middleware.userExtrac
     response.json(updatedTeam)
 })
 
+// AUTH - leave a team
+// userId = id of the user that leaves the team
+// :id / teamId = id of the team the user will leave
+teamsRouter.put("/leave/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.user.id
+    const teamId = request.params.id
+
+    const team = await Team.findOne({ _id: teamId })
+
+    if((team.members.filter(m => m.id.toString() !== userId).filter(m => m.permission === "admin")).length === 0) {
+        console.log("no admins left in the team")
+        return response.status(400).json({
+            error: "You can't leave the team without promoting someone to admin"
+        })
+    }
+
+    console.log("T4EAM", team)
+    const newMembers = team.members.filter(m => m.id.toString() !== userId)
+    team.members = newMembers
+
+    console.log("NEWMEMBERS", newMembers)
+
+    const updatedTeam =
+        await team
+            .save()
+            .then(updatedTeam => updatedTeam
+                .populate([
+                    { path: "members.id", select: { id: 1, username: 1 } },
+                    { path: "waitingMembers", select: { id: 1, username: 1 } }
+                ])
+            )
+
+    const user = await User.findOne({ _id: userId })
+    const newUserTeams = user.teams.filter(t => t.toString() !== teamId)
+    user.teams = newUserTeams
+
+    await user.save()
+
+    response.json(updatedTeam)
+})
+
 module.exports = teamsRouter
