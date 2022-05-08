@@ -9,4 +9,10 @@
 .newTeamsDiv {
     width: 40%;
     margin: 70px 100px 0 100px;
+
+    &.noTeams {
+        width: 40%;
+        position: absolute;
+        margin: 70px 30% 0 calc(30% - 100px);
+    }
 }

@@ -5,6 +5,7 @@ import Teams from "../components/profile/Teams"
 import NewTeamForm from "../components/profile/NewTeamForm"
 import JoinTeamForm from "../components/profile/JoinTeamForm"
 
+import classnames from "classnames"
 import ProfileStyles from "./Profile.module.scss"
 
 const Profile = ({ user, logout }) => {
@@ -16,7 +17,12 @@ const Profile = ({ user, logout }) => {
             <Header user={user} logout={logout} />
             <div className={ProfileStyles.teamsDiv}>
                 <Teams user={user} teams={teams} setTeams={setTeams}/>
-                <div className={ProfileStyles.newTeamsDiv}>
+                <div className={classnames(
+                    ProfileStyles.newTeamsDiv,
+                    teams.length === 0
+                        ? ProfileStyles.noTeams
+                        : ""
+                )}>
                     <NewTeamForm user={user} teams={teams} setTeams={setTeams}/>
                     <JoinTeamForm user={user} />
                 </div>
