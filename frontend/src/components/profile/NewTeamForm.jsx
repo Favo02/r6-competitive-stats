@@ -3,7 +3,7 @@ import { useState } from "react"
 import teamService from "../../services/teams"
 
 // import classnames from "classnames"
-import JoinTeamFormStyles from "./JoinTeamForm.module.scss"
+import NewTeamsStyles from "./NewTeams.module.scss"
 
 const NewTeamForm = ({ user, teams, setTeams }) => {
     const [teamName, setTeamName] = useState("")
@@ -51,18 +51,18 @@ const NewTeamForm = ({ user, teams, setTeams }) => {
     }
 
     return (
-        <div className={JoinTeamFormStyles.teamDiv}>
-            <div className={JoinTeamFormStyles.backgroundDiv}>
-                <h1 className={JoinTeamFormStyles.titleDiv}>Create a new team:</h1>
-                <h2 className={JoinTeamFormStyles.titleDiv}>Team names are unique. Spaces will be replaced by dashes (-)</h2>
+        <div className={NewTeamsStyles.teamDiv}>
+            <div className={NewTeamsStyles.backgroundDiv}>
+                <h1 className={NewTeamsStyles.titleDiv}>Create a new team:</h1>
                 <input
-                    className={JoinTeamFormStyles.teamInput}
+                    className={NewTeamsStyles.teamInput}
                     type="text"
                     onChange={({ target }) => handleTeamNameChange(target.value)}
                     placeholder="Enter team name"
                 />
+                <h4 className={NewTeamsStyles.searchStatus}>{status}</h4>
                 <button
-                    className={JoinTeamFormStyles.actionButton}
+                    className={NewTeamsStyles.importantActionButton}
                     onClick={() => handleNewTeam()}
                 >Create {teamName.trim().replace(" ", "-")}</button>
             </div>

@@ -1,6 +1,12 @@
 @import "../styles/variables.scss";
 
 .teamsDiv {
-    margin: 100px;
+    margin: 70px 100px 0 100px;
+    margin-bottom: 0;
     display: flex;
+}
+
+.newTeamsDiv {
+    width: 40%;
+    margin: 70px 100px 0 100px;
 }
