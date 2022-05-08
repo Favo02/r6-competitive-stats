@@ -21,11 +21,12 @@ teamsRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async 
 teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
     const team = {
-        name: request.body.name,
+        // remove extra spaces (before and after the name) and replace spaces with -
+        name: request.body.name.trim().replace(" ", "-"),
         members: [{ id: user.id, permission: "admin" }]
     }
 
-    const existingTeam = await Team.findOne({ "name": team.name })
+    const existingTeam = await Team.findOne({ "name": { $regex: new RegExp(team.name, "i") } })
     if (existingTeam) {
         console.log("existing team")
         return response.status(400).json({
@@ -44,7 +45,7 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
 
 // UNAUTH - get every team matching the name
 teamsRouter.get("/:name", async (request, response) => {
-    const name = request.params.name
+    const name = request.params.name.trim().replace(" ", "-")
 
     const teams = await Team
         .find({ "name": { $regex: new RegExp(name, "i") } })
