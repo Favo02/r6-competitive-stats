@@ -3,8 +3,13 @@
 .teamDiv {
     border: 1px solid $secondary_text;
 
-    width: 40%;
+    width: 100%;
     margin: auto;
+    margin-bottom: 100px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
 
     text-align: center;
     color: $text;
@@ -75,6 +80,29 @@
             &:hover:not(.disabledButton) {
                 cursor: pointer;
                 color: $text;
+            }
+        }
+
+        .importantActionButton {
+            width: 50%;
+            display: block;
+            padding: 10px 20px;
+            margin: auto;
+            margin-bottom: 20px;
+
+            background: $background_light;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+
+            font-size: 1em;
+            font-weight: 500;
+            color: $text;
+
+            &:hover {
+                cursor: pointer;
+                color: $text;
+                font-weight: 800;
             }
         }
     }
