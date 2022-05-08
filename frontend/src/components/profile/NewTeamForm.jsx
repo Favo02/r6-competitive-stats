@@ -101,7 +101,10 @@ const NewTeamForm = ({ user }) => {
                         }
                         {t.waitingMember &&
                             <button
-                                className={NewTeamFormStyles.actionButton}
+                                className={classnames(
+                                    NewTeamFormStyles.actionButton,
+                                    NewTeamFormStyles.disabledButton,
+                                )}
                                 disabled
                             >Already requested to join this team</button>
                         }
