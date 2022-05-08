@@ -148,6 +148,30 @@ const Teams = ({ user, teams, setTeams }) => {
         }
     }
 
+    // leave a team
+    const handleLeave = (teamId, teamName) => {
+        if (window.confirm(`Are you sure you wanto to leave ${teamName}?`)) {
+            teamService
+                .leaveTeam(teamId, user.token)
+                .then(updatedTeam =>
+                    setTeams(
+                        sortTeams(
+                            teams.filter(t => t.id !== updatedTeam.id)
+                        )
+                    )
+                )
+                .catch (exception => {
+                    console.log(exception)
+                    if (exception.response.status === 400) {
+                        alert(exception.response.data.error)
+                    }
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
+        }
+    }
+
     return (
         <div className={TeamsStyles.teamsDiv}>
             {teams.map(t => {
@@ -157,6 +181,7 @@ const Teams = ({ user, teams, setTeams }) => {
                             <div className={TeamsStyles.titleDiv}>
                                 <h1 className={TeamsStyles.teamName}>{t.name}</h1>
                                 <h3 className={TeamsStyles.nMatches}>{t.nMatches} MATCHES</h3>
+                                <button className={TeamsStyles.actionButton} onClick={() => handleLeave(t.id, t.name)}>LEAVE</button>
                             </div>
                             <div className={TeamsStyles.membersDiv}>
                                 <h2 className={TeamsStyles.membersTitle}>MEMBERS</h2>
