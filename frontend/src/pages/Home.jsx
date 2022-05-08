@@ -11,32 +11,37 @@ const Home = ({ user, logout }) => {
     const [matches, setMatches] = useState([])
 
     useEffect(() => {
-        try {
-            setLoading(true)
-            matchService
-                .getAll(user.token)
-                .then(matches =>
-                    setMatches(matches.sort((a, b) => a.info.date > b.info.date ? -1 : 1))
-                )
-            setLoading(false)
-        }
-        catch (exception) {
-            setLoading(false)
-            console.log(exception)
-            if (exception.response) {
-                console.log("Error", exception.response.status, ":", exception.response.data.error)
-            }
-        }
+        setLoading(true)
+        matchService
+            .getAll(user.token)
+            .then(matches => {
+                setLoading(false)
+                setMatches(matches.sort((a, b) => a.info.date > b.info.date ? -1 : 1))
+            })
+            .catch (exception => {
+                setLoading(false)
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
+            })
     }, [])
 
     const deleteMatch = async (id) => {
-        try {
-            await matchService.remove(id, user.token)
-            setMatches(matches.filter(match => match.id !== id))
-        }
-        catch (exception) {
-            console.log(exception)
-        }
+        setLoading(true)
+        matchService
+            .remove(id, user.token)
+            .then(() => {
+                setLoading(false)
+                setMatches(matches.filter(match => match.id !== id))
+            })
+            .catch (exception => {
+                setLoading(false)
+                console.log(exception)
+                if (exception.response) {
+                    console.log("Error", exception.response.status, ":", exception.response.data.error)
+                }
+            })
     }
 
     return (
