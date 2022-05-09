@@ -10,7 +10,13 @@ import { IoIosArrowDropleftCircle } from "react-icons/io"
 import { MdDeleteForever } from "react-icons/md"
 
 const Match = ({ match, deleteMatch }) => {
-    //category
+    // team
+    const team = match.team.name
+
+    // isPublic
+    const isPublic = match.isPublic
+
+    // category
     const category = match.info.category
 
     // map
@@ -74,11 +80,16 @@ const Match = ({ match, deleteMatch }) => {
                         <h2 className={MatchStyles.mapText}>{map.toUpperCase()}</h2>
                     </div>
 
-                    {/* Date and category */}
-                    <div className={MatchStyles.dateDiv}>
+                    {/* Team, isPublic */}
+                    <div className={MatchStyles.teamDiv}>
+                        <h1>{team} {isPublic ? "public match" : "private match"}</h1>
                         <h1 className={MatchStyles.categoryText}>{category}</h1>
+                    </div>
+
+                    {/* Date, Category */}
+                    <div className={MatchStyles.dateDiv}>
                         <h1>{day}</h1>
-                        <h1>{date}</h1>
+                        <h1 className={MatchStyles.categoryText}>{date}</h1>
                     </div>
 
                     {/* Score */}
