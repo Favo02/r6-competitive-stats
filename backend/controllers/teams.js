@@ -73,7 +73,7 @@ teamsRouter.put("/kick/:id", middleware.tokenExtractor, middleware.userExtractor
     const adminId = request.user.id
     const teamId = request.body.teamId
 
-    const team = await Team.findOne({ _id: teamId })
+    const team = await Team.findById(teamId)
 
     if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
         console.log("user not admin")
@@ -95,7 +95,7 @@ teamsRouter.put("/kick/:id", middleware.tokenExtractor, middleware.userExtractor
                 ])
             )
 
-    const user = await User.findOne({ _id: userId })
+    const user = await User.findById(userId)
     const newTeams = user.teams.filter(t => t._id.toString() !== updatedTeam._id.toString())
     user.teams = newTeams
     await user.save()
@@ -112,7 +112,7 @@ teamsRouter.put("/promote/:id", middleware.tokenExtractor, middleware.userExtrac
     const adminId = request.user.id
     const teamId = request.body.teamId
 
-    const team = await Team.findOne({ _id: teamId })
+    const team = await Team.findById(teamId)
 
     if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
         console.log("user not admin")
@@ -147,9 +147,9 @@ teamsRouter.put("/request/:id", middleware.tokenExtractor, middleware.userExtrac
     const id = request.params.id
     const userId = request.user.id
 
-    const user = await User.findOne({ _id: userId })
+    const user = await User.findById(userId)
 
-    const team = await Team.findOne({ _id: id })
+    const team = await Team.findById(id)
 
     team.waitingMembers = team.waitingMembers.concat(user.id)
     const updatedTeam = await team.save()
@@ -165,7 +165,7 @@ teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtract
     const adminId = request.user.id
     const teamId = request.body.teamId
 
-    const team = await Team.findOne({ _id: teamId })
+    const team = await Team.findById(teamId)
 
     if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
         console.log("user not admin")
@@ -189,7 +189,7 @@ teamsRouter.put("/accept/:id", middleware.tokenExtractor, middleware.userExtract
                 ])
             )
 
-    const user = await User.findOne({ _id: userId })
+    const user = await User.findById(userId)
     user.teams = user.teams.concat(updatedTeam._id)
     await user.save()
 
@@ -205,7 +205,7 @@ teamsRouter.put("/decline/:id", middleware.tokenExtractor, middleware.userExtrac
     const adminId = request.user.id
     const teamId = request.body.teamId
 
-    const team = await Team.findOne({ _id: teamId })
+    const team = await Team.findById(teamId)
 
     if(! (team.members.find(m => m.id.toString() === adminId).permission === "admin")) {
         console.log("user not admin")
@@ -236,7 +236,7 @@ teamsRouter.put("/leave/:id", middleware.tokenExtractor, middleware.userExtracto
     const userId = request.user.id
     const teamId = request.params.id
 
-    const team = await Team.findOne({ _id: teamId })
+    const team = await Team.findById(teamId)
 
     if((team.members.filter(m => m.id.toString() !== userId).filter(m => m.permission === "admin")).length === 0) {
         console.log("no admins left in the team")
@@ -258,7 +258,7 @@ teamsRouter.put("/leave/:id", middleware.tokenExtractor, middleware.userExtracto
                 ])
             )
 
-    const user = await User.findOne({ _id: userId })
+    const user = await User.findById(userId)
     const newUserTeams = user.teams.filter(t => t.toString() !== teamId)
     user.teams = newUserTeams
 
