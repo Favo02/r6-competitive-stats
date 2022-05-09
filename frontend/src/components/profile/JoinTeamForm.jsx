@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 
 import teamService from "../../services/teams"
 
@@ -46,11 +46,6 @@ const JoinTeamForm = ({ user }) => {
         }
     }, [search])
 
-    const teamInput = useRef()
-    const handleSearch = () => {
-        setSearch(teamInput.current.value)
-    }
-
     const handleJoinRequest = (team) => {
         teamService
             .addWaitingMember(team.id, user.token)
@@ -76,8 +71,7 @@ const JoinTeamForm = ({ user }) => {
                     className={NewTeamsStyles.teamInput}
                     type="text"
                     value={search}
-                    ref={teamInput}
-                    onChange={handleSearch}
+                    onChange={({ target }) => setSearch(target.value)}
                     placeholder="Enter team name"
                 />
                 <h3 className={

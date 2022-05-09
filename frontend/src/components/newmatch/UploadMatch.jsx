@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 
 import matchService from "../../services/matches"
 import teamService from "../../services/teams"
@@ -24,6 +24,10 @@ const UploadMatch = ({ user }) => {
     // match data uploaded (not stored yet)
     const [parsedData, setParsedData] = useState(null)
 
+    // match category and team
+    const [category, setCategory] = useState("")
+    const [team, setTeam] = useState("")
+
     // gets user teams (only the one as admin)
     useEffect(() => {
         teamService
@@ -47,21 +51,17 @@ const UploadMatch = ({ user }) => {
     }, [])
 
     // handle the new match creation
-    const categoryInput = useRef()
-    const teamInput = useRef()
     const handleNewMatch = () => {
-        const cat = categoryInput.current.value
-        if (!cat) {
+        if (!category) {
             setStatus("Insert a valid category")
             return
         }
-        const team = teamInput.current.value
         if (!team) {
             setStatus("Select a valid team")
             return
         }
 
-        parsedData.info.category = cat
+        parsedData.info.category = category
         parsedData.team = team
 
         newMatch(parsedData)
@@ -76,6 +76,8 @@ const UploadMatch = ({ user }) => {
                 await matchService.create(match, user.token)
                 setLoading(false)
                 setStatus("Match saved")
+                setCategory("")
+                setTeam("")
             }
             catch (exception) {
                 setLoading(false)
@@ -111,7 +113,11 @@ const UploadMatch = ({ user }) => {
 
                     <div className={UploadMatchStyles.categoryDiv}>
                         <label>Team:</label>
-                        <select ref={teamInput}>
+                        <select
+                            value={team}
+                            onChange={({ target }) => setTeam(target.value)}
+                        >
+                            <option value="">Select a team:</option>
                             {teams.map(t => <option value={t.id} key={t.id}>{t.name}</option>)}
                         </select>
                     </div>
@@ -121,7 +127,8 @@ const UploadMatch = ({ user }) => {
                         <input
                             type="text"
                             placeholder="Insert category name"
-                            ref={categoryInput}
+                            value={category}
+                            onChange={({ target }) => setCategory(target.value)}
                         />
                     </div>
 
