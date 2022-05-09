@@ -1,0 +1,26 @@
+@import "../styles/variables.scss";
+
+.noMatchesError {
+    font-size: 1.5em;
+    margin-top: 100px;
+    
+    h1, h3 {
+        margin: auto;
+        padding: 40px;
+        max-width: 70%;
+
+        font-weight: 600;
+        text-align: center;
+        
+        color: $text;
+        text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .redirectDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 50px;
+    }
+}
