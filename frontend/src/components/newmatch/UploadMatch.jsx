@@ -24,9 +24,10 @@ const UploadMatch = ({ user, loading, setLoading }) => {
     // match data uploaded (not stored yet)
     const [parsedData, setParsedData] = useState(null)
 
-    // match category and team
+    // match category, team and public
     const [category, setCategory] = useState("")
     const [team, setTeam] = useState()
+    const [publicMatch, setPublicMatch] = useState(false)
 
     // gets user teams (only the one as admin)
     useEffect(() => {
@@ -59,13 +60,14 @@ const UploadMatch = ({ user, loading, setLoading }) => {
             setStatus("Insert a valid category")
             return
         }
-        if (!team.value) {
+        if (!team) {
             setStatus("Select a valid team")
             return
         }
 
         parsedData.info.category = category
         parsedData.team = team.value
+        parsedData.isPublic = publicMatch
 
         newMatch(parsedData)
     }
@@ -80,6 +82,7 @@ const UploadMatch = ({ user, loading, setLoading }) => {
                 setStatus("Match saved")
                 setCategory("")
                 setTeam("")
+                setPublicMatch(false)
                 setLoading(false)
             }
             catch (exception) {
@@ -190,6 +193,23 @@ const UploadMatch = ({ user, loading, setLoading }) => {
                             value={category}
                             onChange={({ target }) => setCategory(target.value)}
                         />
+                    </div>
+
+                    <div className={UploadMatchStyles.publicMatchDiv}>
+                        <label className={UploadMatchStyles.container}>Official match
+                            <input
+                                type="checkbox"
+                                value={publicMatch}
+                                onChange={({ target }) => setPublicMatch(target.checked)}
+                            />
+                            <span className={UploadMatchStyles.checkmark} />
+                        </label>
+                        <div className={UploadMatchStyles.warningTextDiv}>
+                            {publicMatch &&
+                            <h3 className={UploadMatchStyles.warningText}>This match will be public!</h3>
+                            }
+                            <h4 className={UploadMatchStyles.warningText}>Official matches will be public, everyone (also outside of your team) will be able to see statistics of this match</h4>
+                        </div>
                     </div>
 
                     <div className={MatchStyles.matchesDiv}>
