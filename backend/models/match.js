@@ -5,6 +5,7 @@ const matchSchema = new mongoose.Schema({
         $type: mongoose.Schema.Types.ObjectId,
         ref: "Team"
     },
+    isPublic: Boolean,
     info: {
         category: String,
         gamemode: String,

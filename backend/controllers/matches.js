@@ -9,6 +9,7 @@ matchesRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, asyn
 
     const matches = await Match
         .find({ team: { "$in": teams } })
+        .populate({ path: "team", select: { name: 1 } })
 
     response.json(matches)
 })
