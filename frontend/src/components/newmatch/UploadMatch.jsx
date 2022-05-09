@@ -12,7 +12,7 @@ import MatchStyles from "../home/Matches.module.scss"
 import CommonStyles from "../../styles/common.module.scss"
 import UploadMatchStyles from "./UploadMatch.module.scss"
 
-const UploadMatch = ({ user, setLoading }) => {
+const UploadMatch = ({ user, loading, setLoading }) => {
 
     // teams of the user
     const [teams, setTeams] = useState([])
@@ -96,18 +96,22 @@ const UploadMatch = ({ user, setLoading }) => {
         return (
             <>
                 <div className={UploadMatchStyles.background} />
-                <div className={UploadMatchStyles.noTeamError}>
-                    <h1>Join or create a <span className={CommonStyles.highlighted}>team</span> to upload matches</h1>
-                    <h3>You need to be <span className={CommonStyles.highlighted}>admin</span> of your team to upload a new match. Ask the team leader to promote you!</h3>
-                    <div className={UploadMatchStyles.redirectDiv}>
-                        <Link
-                            to="/profile"
-                            className={classnames(CommonStyles.highlighLinkButton, CommonStyles.bigger)}
-                        >
-                            Create/Join a team now!
-                        </Link>
+                {!loading &&
+                <>
+                    <div className={UploadMatchStyles.noTeamError}>
+                        <h1>Join or create a <span className={CommonStyles.highlighted}>team</span> to upload matches</h1>
+                        <h3>You need to be <span className={CommonStyles.highlighted}>admin</span> of your team to upload a new match. Ask the team leader to promote you!</h3>
+                        <div className={UploadMatchStyles.redirectDiv}>
+                            <Link
+                                to="/profile"
+                                className={classnames(CommonStyles.highlighLinkButton, CommonStyles.bigger)}
+                            >
+                                Create/Join a team now!
+                            </Link>
+                        </div>
                     </div>
-                </div>
+                </>
+                }
             </>
         )
     }
