@@ -5,7 +5,6 @@ import matchService from "../../services/matches"
 import teamService from "../../services/teams"
 
 import FileUploader from "./FileUploader"
-import Loading from "../common/Loading"
 import Match from "../home/Match"
 
 import classnames from "classnames"
@@ -13,13 +12,12 @@ import MatchStyles from "../home/Matches.module.scss"
 import CommonStyles from "../../styles/common.module.scss"
 import UploadMatchStyles from "./UploadMatch.module.scss"
 
-const UploadMatch = ({ user }) => {
+const UploadMatch = ({ user, setLoading }) => {
 
     // teams of the user
     const [teams, setTeams] = useState([])
 
-    // upload loading and status
-    const [loading, setLoading] = useState(false)
+    // upload status
     const [status, setStatus] = useState("")
 
     // match data uploaded (not stored yet)
@@ -31,6 +29,7 @@ const UploadMatch = ({ user }) => {
 
     // gets user teams (only the one as admin)
     useEffect(() => {
+        setLoading(true)
         teamService
             .getAll(user.token)
             .then(teams => {
@@ -42,8 +41,10 @@ const UploadMatch = ({ user }) => {
                 setTeams(
                     allTeams.filter(t => t.permission === "admin")
                 )
+                setLoading(false)
             })
             .catch(exception => {
+                setLoading(false)
                 console.log(exception)
                 if (exception.response) {
                     console.log("Error", exception.response.status, ":", exception.response.data.error)
@@ -75,10 +76,10 @@ const UploadMatch = ({ user }) => {
                 setLoading(true)
                 setStatus("Saving match...")
                 await matchService.create(match, user.token)
-                setLoading(false)
                 setStatus("Match saved")
                 setCategory("")
                 setTeam("")
+                setLoading(false)
             }
             catch (exception) {
                 setLoading(false)
@@ -157,7 +158,6 @@ const UploadMatch = ({ user }) => {
                 </>
             }
 
-            {loading && <Loading />}
             <h2 className={UploadMatchStyles.statusText}>{status}</h2>
         </div>
     )
