@@ -55,6 +55,7 @@ const JoinTeamForm = ({ user }) => {
         teamService
             .addWaitingMember(team.id, user.token)
             .then(response => {
+                setSearch("")
                 setSearchedTeams([])
                 setSearchStatus(`Added to waiting list of ${response.name}`)
             })
@@ -74,6 +75,7 @@ const JoinTeamForm = ({ user }) => {
                 <input
                     className={NewTeamsStyles.teamInput}
                     type="text"
+                    value={search}
                     ref={teamInput}
                     onChange={handleSearch}
                     placeholder="Enter team name"

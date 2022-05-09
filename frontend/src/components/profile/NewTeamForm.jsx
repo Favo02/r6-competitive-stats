@@ -39,6 +39,7 @@ const NewTeamForm = ({ user, teams, setTeams }) => {
                     })
                 })[0]
 
+                setTeamName("")
                 setTeams(teams.concat(newSavedTeam).sort((t1, t2) => t1.name < t2.name ? -1 : 1))
             })
             .catch(exception => {
@@ -57,6 +58,7 @@ const NewTeamForm = ({ user, teams, setTeams }) => {
                 <input
                     className={NewTeamsStyles.teamInput}
                     type="text"
+                    value={teamName}
                     onChange={({ target }) => handleTeamNameChange(target.value)}
                     placeholder="Enter team name"
                 />
