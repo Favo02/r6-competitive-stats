@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 
 import matchService from "../../services/matches"
 import teamService from "../../services/teams"
@@ -7,7 +8,7 @@ import FileUploader from "./FileUploader"
 import Loading from "../common/Loading"
 import Match from "../home/Match"
 
-// import classnames from "classnames"
+import classnames from "classnames"
 import MatchStyles from "../home/Matches.module.scss"
 import CommonStyles from "../../styles/common.module.scss"
 import UploadMatchStyles from "./UploadMatch.module.scss"
@@ -92,16 +93,27 @@ const UploadMatch = ({ user }) => {
     // if user has no teams as admin can't upload
     if (teams.length === 0) {
         return (
-            <div className={UploadMatchStyles.noTeamError}>
+            <>
                 <div className={UploadMatchStyles.background} />
-                <h1>Join or create a <span className={CommonStyles.highlighted}>team</span> to upload matches</h1>
-                <h3>You need to be <span className={CommonStyles.highlighted}>admin</span> of your team to upload a new match. Ask the team leader to promote you!</h3>
-            </div>
+                <div className={UploadMatchStyles.noTeamError}>
+                    <h1>Join or create a <span className={CommonStyles.highlighted}>team</span> to upload matches</h1>
+                    <h3>You need to be <span className={CommonStyles.highlighted}>admin</span> of your team to upload a new match. Ask the team leader to promote you!</h3>
+                    <div className={UploadMatchStyles.redirectDiv}>
+                        <Link
+                            to="/profile"
+                            className={classnames(CommonStyles.highlighLinkButton, CommonStyles.bigger)}
+                        >
+                            Create/Join a team now!
+                        </Link>
+                    </div>
+                </div>
+            </>
         )
     }
 
     return (
         <div className={UploadMatchStyles.uploadDiv}>
+            <div className={UploadMatchStyles.background} />
             <h1 className={UploadMatchStyles.descText}>Upload your JSON file exported from <a href="https://r6analyst.com/" target="_blank" rel="noreferrer">R6Analyst</a> to store the match into your team database.</h1>
 
             <div className={UploadMatchStyles.fileUploader}>

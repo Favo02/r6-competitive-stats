@@ -1,5 +1,15 @@
 @import "../../styles/variables.scss";
 
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to left, transparent, $background 55%), url($background_noteam_uploadmatch);
+    z-index: -1;
+}
+
 .noTeamError{
     font-size: 1.5em;
     margin-top: 100px;
@@ -16,14 +26,12 @@
         text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
     }
 
-    .background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-image: linear-gradient(to left, transparent, $background 55%), url($background_noteam_uploadmatch);
-        z-index: -1;
+    .redirectDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 50px;
     }
 }
 
