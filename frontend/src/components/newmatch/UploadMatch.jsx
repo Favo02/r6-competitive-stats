@@ -6,6 +6,7 @@ import teamService from "../../services/teams"
 
 import FileUploader from "./FileUploader"
 import Match from "../home/Match"
+import Select from "react-select"
 
 import classnames from "classnames"
 import MatchStyles from "../home/Matches.module.scss"
@@ -25,7 +26,7 @@ const UploadMatch = ({ user, loading, setLoading }) => {
 
     // match category and team
     const [category, setCategory] = useState("")
-    const [team, setTeam] = useState("")
+    const [team, setTeam] = useState()
 
     // gets user teams (only the one as admin)
     useEffect(() => {
@@ -58,13 +59,13 @@ const UploadMatch = ({ user, loading, setLoading }) => {
             setStatus("Insert a valid category")
             return
         }
-        if (!team) {
+        if (!team.value) {
             setStatus("Select a valid team")
             return
         }
 
         parsedData.info.category = category
-        parsedData.team = team
+        parsedData.team = team.value
 
         newMatch(parsedData)
     }
@@ -116,6 +117,48 @@ const UploadMatch = ({ user, loading, setLoading }) => {
         )
     }
 
+    // custom select
+
+    const options = teams.map(t => ({ value: t.id, label: t.name }))
+
+    const handleTeamSelectChange = selectedOption => {
+        setTeam(selectedOption)
+    }
+
+    const selectStyles = {
+        menuList: (provided) => ({
+            ...provided,
+            background: "#1D90F5"
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: "#FFFFFF"
+        }),
+        placeholder: (provided) => ({
+            ...provided,
+            color: "#9AA5B5 "
+        }),
+        control: (provided, state) => ({
+            ...provided,
+            width: "400px",
+            background: "#323644",
+            border: "1px solid #9AA5B5",
+            color: state.isSelected ? "red" : "blue",
+            padding: 20,
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            background: state.isFocused ? "#323644" : "#272A37",
+            color: state.isSelected ? "#FFFFFF" : "#9AA5B5",
+            padding: 20,
+        }),
+        dropdownIndicator: (provided, state) => ({
+            ...provided,
+            color: state.isSelected ? "#9AA5B5" : state.isFocused ?"#9AA5B5" : "#9AA5B5",
+        }),
+    }
+
+
     return (
         <div className={UploadMatchStyles.uploadDiv}>
             <div className={UploadMatchStyles.background} />
@@ -130,13 +173,13 @@ const UploadMatch = ({ user, loading, setLoading }) => {
 
                     <div className={UploadMatchStyles.categoryDiv}>
                         <label>Team:</label>
-                        <select
+                        <Select
+                            options={options}
+                            onChange={handleTeamSelectChange}
+                            placeholder="Select a team"
                             value={team}
-                            onChange={({ target }) => setTeam(target.value)}
-                        >
-                            <option value="">Select a team:</option>
-                            {teams.map(t => <option value={t.id} key={t.id}>{t.name}</option>)}
-                        </select>
+                            styles={selectStyles}
+                        />
                     </div>
 
                     <div className={UploadMatchStyles.categoryDiv}>
