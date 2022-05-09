@@ -9,15 +9,18 @@ import MatchStyles from "./Matches.module.scss"
 import { IoIosArrowDropleftCircle } from "react-icons/io"
 import { MdDeleteForever } from "react-icons/md"
 
-const Match = ({ match, deleteMatch }) => {
-    // team
-    const team = match.team.name
+const Match = ({ match, deleteMatch, isPreview }) => {
+    let team, isPublic, category
+    if (!isPreview) {
+        // team
+        team = match.team.name
 
-    // isPublic
-    const isPublic = match.isPublic
+        // isPublic
+        isPublic = match.isPublic
 
-    // category
-    const category = match.info.category
+        // category
+        category = match.info.category
+    }
 
     // map
     const map = match.info.map.charAt(0).toUpperCase() + match.info.map.slice(1)
@@ -81,10 +84,12 @@ const Match = ({ match, deleteMatch }) => {
                     </div>
 
                     {/* Team, isPublic */}
+                    {!isPreview &&
                     <div className={MatchStyles.teamDiv}>
                         <h1>{team} {isPublic ? "public match" : "private match"}</h1>
                         <h1 className={MatchStyles.categoryText}>{category}</h1>
                     </div>
+                    }
 
                     {/* Date, Category */}
                     <div className={MatchStyles.dateDiv}>

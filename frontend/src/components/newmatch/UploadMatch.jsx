@@ -213,7 +213,7 @@ const UploadMatch = ({ user, loading, setLoading }) => {
                     </div>
 
                     <div className={MatchStyles.matchesDiv}>
-                        <Match match={parsedData}/>
+                        <Match match={parsedData} isPreview={true} />
                     </div>
 
                     <div className={UploadMatchStyles.saveButton}>
