@@ -5,7 +5,7 @@ import teamService from "../../services/teams"
 // import classnames from "classnames"
 import NewTeamsStyles from "./NewTeams.module.scss"
 
-const NewTeamForm = ({ user, teams, setTeams }) => {
+const NewTeamForm = ({ user, teams, setTeams, setLoading }) => {
     const [teamName, setTeamName] = useState("")
     const [status, setStatus] = useState("Team names are unique. Spaces will be replaced by dashes (-).")
 
@@ -15,9 +15,11 @@ const NewTeamForm = ({ user, teams, setTeams }) => {
     }
 
     const handleNewTeam = () => {
+        setLoading(true)
         teamService
             .create(teamName, user.token)
             .then(savedTeam => {
+                setLoading(false)
                 // map the saved team as every other team already saved and mapped
                 const newSavedTeam = [savedTeam].map(t => {
                     return ({
@@ -43,6 +45,7 @@ const NewTeamForm = ({ user, teams, setTeams }) => {
                 setTeams(teams.concat(newSavedTeam).sort((t1, t2) => t1.name < t2.name ? -1 : 1))
             })
             .catch(exception => {
+                setLoading(false)
                 console.log(exception)
                 if (exception.response.status === 400) {
                     setStatus("Name aldready taken")

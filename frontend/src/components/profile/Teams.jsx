@@ -4,7 +4,7 @@ import teamService from "../../services/teams"
 
 import TeamsStyles from "./Teams.module.scss"
 
-const Teams = ({ user, teams, setTeams }) => {
+const Teams = ({ user, teams, setTeams, setLoading }) => {
     // sorts alphabetically the teams
     const sortTeams = (unsortedTeams) => {
         return unsortedTeams.sort((t1, t2) => t1.name < t2.name ? -1 : 1)
@@ -12,9 +12,11 @@ const Teams = ({ user, teams, setTeams }) => {
 
     // gets user teams
     useEffect(() => {
+        setLoading(true)
         teamService
             .getAll(user.token)
             .then(teams => {
+                setLoading(false)
                 setTeams(
                     sortTeams(
                         teams
@@ -41,6 +43,7 @@ const Teams = ({ user, teams, setTeams }) => {
                 )
             })
             .catch (exception => {
+                setLoading(false)
                 console.log(exception)
                 if (exception.response) {
                     console.log("Error", exception.response.status, ":", exception.response.data.error)
@@ -81,10 +84,15 @@ const Teams = ({ user, teams, setTeams }) => {
     // kick a member of the team
     const handleKick = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to kick ${username}?`)) {
+            setLoading(true)
             teamService
                 .kickMember(userId, teamId, user.token)
-                .then(updatedTeam => updateTeams(updatedTeam))
+                .then(updatedTeam => {
+                    updateTeams(updatedTeam)
+                    setLoading(false)
+                })
                 .catch (exception => {
+                    setLoading(false)
                     console.log(exception)
                     if (exception.response) {
                         console.log("Error", exception.response.status, ":", exception.response.data.error)
@@ -96,10 +104,15 @@ const Teams = ({ user, teams, setTeams }) => {
     // promote a member of the team
     const handlePromote = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to promote ${username}?`)) {
+            setLoading(true)
             teamService
                 .promoteMember(userId, teamId, user.token)
-                .then(updatedTeam => updateTeams(updatedTeam))
+                .then(updatedTeam => {
+                    updateTeams(updatedTeam)
+                    setLoading(false)
+                })
                 .catch (exception => {
+                    setLoading(false)
                     console.log(exception)
                     if (exception.response) {
                         console.log("Error", exception.response.status, ":", exception.response.data.error)
@@ -111,10 +124,15 @@ const Teams = ({ user, teams, setTeams }) => {
     // accept the waiting user into the team
     const handleAccept = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to accept ${username}?`)) {
+            setLoading(true)
             teamService
                 .acceptWaitingMember(userId, teamId, user.token)
-                .then(updatedTeam => updateTeams(updatedTeam))
+                .then(updatedTeam => {
+                    updateTeams(updatedTeam)
+                    setLoading(false)
+                })
                 .catch (exception => {
+                    setLoading(false)
                     console.log(exception)
                     if (exception.response) {
                         console.log("Error", exception.response.status, ":", exception.response.data.error)
@@ -126,10 +144,15 @@ const Teams = ({ user, teams, setTeams }) => {
     // decline the waiting user
     const handleDecline = (teamId, userId, username) => {
         if (window.confirm(`Are you sure you wanto to decline ${username}?`)) {
+            setLoading(true)
             teamService
                 .declineWaitingMember(userId, teamId, user.token)
-                .then(updatedTeam => updateTeams(updatedTeam))
+                .then(updatedTeam => {
+                    updateTeams(updatedTeam)
+                    setLoading(false)
+                })
                 .catch (exception => {
+                    setLoading(false)
                     console.log(exception)
                     if (exception.response) {
                         console.log("Error", exception.response.status, ":", exception.response.data.error)
@@ -141,16 +164,19 @@ const Teams = ({ user, teams, setTeams }) => {
     // leave a team
     const handleLeave = (teamId, teamName) => {
         if (window.confirm(`Are you sure you wanto to leave ${teamName}?`)) {
+            setLoading(true)
             teamService
                 .leaveTeam(teamId, user.token)
-                .then(updatedTeam =>
+                .then(updatedTeam => {
                     setTeams(
                         sortTeams(
                             teams.filter(t => t.id !== updatedTeam.id)
                         )
                     )
-                )
+                    setLoading(false)
+                })
                 .catch (exception => {
+                    setLoading(false)
                     console.log(exception)
                     if (exception.response.status === 400) {
                         alert(exception.response.data.error)
@@ -165,16 +191,19 @@ const Teams = ({ user, teams, setTeams }) => {
     // disband a team
     const handleDisband = (teamId, teamName) => {
         if (window.confirm(`Are you sure you wanto to disband ${teamName}? EVERY MATCH SAVED WILL BE LOST`)) {
+            setLoading(true)
             teamService
                 .disbandTeam(teamId, user.token)
-                .then(() =>
+                .then(() => {
                     setTeams(
                         sortTeams(
                             teams.filter(t => t.id !== teamId)
                         )
                     )
-                )
+                    setLoading(false)
+                })
                 .catch (exception => {
+                    setLoading(false)
                     console.log(exception)
                     if (exception.response.status === 400) {
                         alert(exception.response.data.error)

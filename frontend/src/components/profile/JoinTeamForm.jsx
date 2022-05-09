@@ -5,7 +5,7 @@ import teamService from "../../services/teams"
 import classnames from "classnames"
 import NewTeamsStyles from "./NewTeams.module.scss"
 
-const JoinTeamForm = ({ user }) => {
+const JoinTeamForm = ({ user, setLoading }) => {
 
     // name the user has written in the input field
     const [search, setSearch] = useState("")
@@ -15,9 +15,11 @@ const JoinTeamForm = ({ user }) => {
 
     useEffect(() => {
         if (search.length > 2) {
+            setLoading(true)
             teamService
                 .getTeamByName(search)
                 .then(teams => {
+                    setLoading(false)
                     setSearchedTeams(
                         teams
                             .map(t => (
@@ -34,6 +36,7 @@ const JoinTeamForm = ({ user }) => {
                         : setSearchStatus("")
                 })
                 .catch (exception => {
+                    setLoading(false)
                     console.log(exception)
                     if (exception.response) {
                         console.log("Error", exception.response.status, ":", exception.response.data.error)
@@ -47,14 +50,17 @@ const JoinTeamForm = ({ user }) => {
     }, [search])
 
     const handleJoinRequest = (team) => {
+        setLoading(true)
         teamService
             .addWaitingMember(team.id, user.token)
             .then(response => {
                 setSearch("")
                 setSearchedTeams([])
                 setSearchStatus(`Added to waiting list of ${response.name}`)
+                setLoading(false)
             })
             .catch (exception => {
+                setLoading(false)
                 console.log(exception)
                 if (exception.response) {
                     console.log("Error", exception.response.status, ":", exception.response.data.error)
