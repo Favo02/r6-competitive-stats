@@ -34,7 +34,7 @@ const Register = ({ setUser, notification, notificate }) => {
         try {
             await usersService.create(username, email, password)
             console.log("user created")
-            const user = await loginService.login({ username, password })
+            const user = await loginService.login(username, password)
             console.log(user, " login")
 
             const decoded = jwt_decode(user.token)

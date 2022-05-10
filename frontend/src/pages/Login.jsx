@@ -10,9 +10,7 @@ const Login = ({ setUser, notification, notificate }) => {
 
     const login = async (username, password) => {
         try {
-            const user = await loginService.login({
-                username, password,
-            })
+            const user = await loginService.login(username, password)
 
             const decoded = jwt_decode(user.token)
             user.id = decoded.id
