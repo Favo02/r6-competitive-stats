@@ -3,18 +3,31 @@ const usersRouter = require("express").Router()
 const User = require("../models/user")
 
 usersRouter.post("/", async (request, response) => {
-    const { username, password } = request.body
+    const { username, email, password } = request.body
 
-    const existingUser = await User.findOne({ "username": { $regex: new RegExp(username, "i") } })
-    if (existingUser) {
+    const existingUsername = await User.findOne({ "username": { $regex: new RegExp(username, "i") } })
+    if (existingUsername) {
         return response.status(400).json({
-            error: "username must be unique"
+            error: "Username already taken"
         })
     }
 
-    if (password.length < 3) {
+    const existingEmail = await User.findOne({ "email": { $regex: new RegExp(email, "i") } })
+    if (existingEmail) {
         return response.status(400).json({
-            error: "password should be at least 3 characters long"
+            error: "An user with this email is already registered, try recover password"
+        })
+    }
+
+    if (! (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
+        return response.status(400).json({
+            error: "Enter a valid email"
+        })
+    }
+
+    if (! (/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/.test(password))) {
+        return response.status(400).json({
+            error: "Enter a valid password: min 8, max 16 characters, at least one letter, one number and one special character (@$!%*#?&)"
         })
     }
 
@@ -23,6 +36,7 @@ usersRouter.post("/", async (request, response) => {
 
     const user = new User({
         username,
+        email,
         passwordHash
     })
 
