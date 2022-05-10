@@ -1,32 +1,25 @@
 const mongoose = require("mongoose")
 
 const matchSchema = new mongoose.Schema({
-    team: {
-        $type: mongoose.Schema.Types.ObjectId,
-        ref: "Team"
-    },
-    isPublic: Boolean,
+    team:       { $type: mongoose.Schema.Types.ObjectId, required: true, ref: "Team" },
+    isPublic:   { $type: Boolean, required: true },
     info: {
-        category: String,
-        gamemode: String,
-        map: String,
-        my_team: String,
-        match_uuid: String,
+        category:   { $type: String, required: true },
+        gamemode:   { $type: String, required: true },
+        map:        { $type: String, required: true },
+        my_team:    { $type: String, required: true },
+        match_uuid: { $type: String, required: true },
         rosters: {
-            my_team: [
-                {
-                    username: String,
-                    roster: String
-                }
-            ],
-            enemy_team: [
-                {
-                    username: String,
-                    roster: String
-                }
-            ]
+            my_team: [ {
+                username:   { $type: String, required: true },
+                roster:     { $type: String, required: true },
+            } ],
+            enemy_team: [ {
+                username:   { $type: String, required: true },
+                roster:     { $type: String, required: true },
+            } ]
         },
-        date: String
+        date: { $type: String, required: true },
     },
     performance: [
         {
