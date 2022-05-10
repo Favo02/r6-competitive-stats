@@ -15,6 +15,14 @@ const NewTeamForm = ({ user, teams, setTeams, setLoading }) => {
     }
 
     const handleNewTeam = () => {
+
+        const name = teamName.trim().replace(" ", "-")
+
+        if (! (/^[a-zA-Z0-9]((?!(-))|-(?!(-))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(name))) {
+            setStatus("Enter a valid name: 4-20 characters long, alpanumeric and dash (-), no consecutive dashes, no dashes at start or end")
+            return
+        }
+
         setLoading(true)
         teamService
             .create(teamName, user.token)
@@ -47,8 +55,11 @@ const NewTeamForm = ({ user, teams, setTeams, setLoading }) => {
             .catch(exception => {
                 setLoading(false)
                 console.log(exception)
-                if (exception.response.status === 400) {
+                if (exception.response.data.error === "name taken") {
                     setStatus("Name aldready taken")
+                    return
+                }
+                if (exception.response) {
                     console.log("Error", exception.response.status, ":", exception.response.data.error)
                 }
             })

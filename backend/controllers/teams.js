@@ -27,11 +27,17 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
         members: [{ id: user.id, permission: "admin" }]
     }
 
+    if (! (/^[a-zA-Z0-9]((?!(-))|-(?!(-))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(team.name))) {
+        return response.status(400).json({
+            error: "Enter a valid name: 4-20 characters long, alpanumeric and dash (-), no consecutive dashes, no dashes at start or end"
+        })
+    }
+
     const existingTeam = await Team.findOne({ "name": { $regex: new RegExp(team.name, "i") } })
     if (existingTeam) {
         console.log("existing team")
         return response.status(400).json({
-            error: "Team name already taken"
+            error: "name taken"
         })
     }
 
