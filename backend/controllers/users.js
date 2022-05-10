@@ -8,7 +8,7 @@ usersRouter.post("/", async (request, response) => {
     const existingUsername = await User.findOne({ "username": { $regex: new RegExp(username, "i") } })
     if (existingUsername) {
         return response.status(400).json({
-            error: "Username already taken"
+            error: "username taken"
         })
     }
 
@@ -21,7 +21,7 @@ usersRouter.post("/", async (request, response) => {
     const existingEmail = await User.findOne({ "email": { $regex: new RegExp(email, "i") } })
     if (existingEmail) {
         return response.status(400).json({
-            error: "An user with this email is already registered, try recover password"
+            error: "email taken"
         })
     }
 
