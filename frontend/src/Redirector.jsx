@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
 
 import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 import Error404 from "./pages/Error404"
 import Loading from "./components/common/Loading"
@@ -74,6 +75,17 @@ const Main = () => {
                         <Navigate to="/home" />
                 }></Route>
 
+                <Route path="/register" element={
+                    user === null
+                        ?
+                        <Register
+                            setUser={setUser}
+                            notification={notification}
+                            notificate={notificate}
+                        />
+                        :
+                        <Navigate to="/home" />
+                }></Route>
 
                 {/* Logged in routing */}
 
