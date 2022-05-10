@@ -14,7 +14,7 @@ usersRouter.post("/", async (request, response) => {
 
     if (! (/^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){2,14}[a-zA-Z0-9]$/.test(username))) {
         return response.status(400).json({
-            error: "Enter a valid username: 4-16 characters long, alpanumeric with dash and dot (- .), no consecutive special characters, no special characters at start or end"
+            error: "Enter a valid username: 4-16 characters long, alpanumeric with underscore and dot (_ .), no consecutive special characters, no special characters at start or end"
         })
     }
 

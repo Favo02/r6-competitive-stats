@@ -59,7 +59,7 @@ const RegisterForm = ({ register, notificationObj }) => {
                         placeholder="Grande Puffo"
                         onChange={({ target }) => setUsername(target.value)}
                     />
-                    <h4 className={LoginFormStyles.description}>Username is unique and should be min 4, max characters, alphanumeric, dash and dot (- .) allowed. Special characters can&apos;t be at start or end and can&apos;t be consecutive</h4>
+                    <h4 className={LoginFormStyles.description}>Username is unique and should be min 4, max characters, alphanumeric, underscore and dot (_ .) allowed. Special characters can&apos;t be at start or end and can&apos;t be consecutive</h4>
                     <FaUserAlt
                         className={LoginFormStyles.icon}
                     />
