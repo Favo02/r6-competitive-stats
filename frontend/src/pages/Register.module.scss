@@ -6,5 +6,5 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: linear-gradient(to left, transparent, $background 50%), url($background_login);
+    background-image: linear-gradient(to right, transparent, $background 50%), url($background_login);
 }

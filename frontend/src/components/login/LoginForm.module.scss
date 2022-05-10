@@ -19,6 +19,7 @@
 }
 
 .loginForm {
+    @extend %form;
     width: 50%;
     max-width: 500px;
 
@@ -27,7 +28,21 @@
     top: 50%;
     transform: translateY(-50%);
     padding: 40px;
+}
 
+.registerForm {
+    @extend %form;
+    width: 50%;
+    max-width: 500px;
+
+    position: absolute;
+    right: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 40px;
+}
+
+%form {
     .div {
         display: block;
         position: relative;
@@ -67,6 +82,14 @@
                 outline: none;
                 box-shadow: 0px 0px 5px 1px rgba($primary, 0.7);
             }
+        }
+
+        .description {
+            font-size: 0.9em;
+            width: 95%;
+            margin: auto;
+            padding-top: 10px;
+            color: $secondary_text;
         }
 
         .icon {
