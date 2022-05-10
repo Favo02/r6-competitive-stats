@@ -1,5 +1,6 @@
 import { useState } from "react"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
 import Notification from "../common/Notification"
 
@@ -30,16 +31,14 @@ const Login = ({ login, notificationObj }) => {
                 <span
                     className={CommonStyles.highlighted}
                 >Login </span>
-                into the webapp.
+                into CompStats.
             </h1>
             <h3 className={LoginFormStyles.h3}>
-                Don&apos;t have an account? Contact&nbsp;
-                <a
-                    className={classnames(LoginFormStyles.a, CommonStyles.highlighted)}
-                    target="_blank"
-                    rel="noreferrer"
-                    href="https://linktr.ee/imprudenza"
-                >imprudenza</a>
+                Don&apos;t have an account? Go to&nbsp;
+                <Link
+                    className={classnames(LoginFormStyles.link, CommonStyles.highlighted)}
+                    to="/register"
+                >Register</Link>
             </h3>
             <form onSubmit={handleLogin}>
                 <div className={LoginFormStyles.div}>
