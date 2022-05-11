@@ -119,10 +119,12 @@ const Match = ({ match, deleteMatch, isPreview }) => {
                                     : MatchStyles.toggleButton
                             }
                         />
+                        {!isPreview &&
                         <MdDeleteForever
                             onClick={() => handleDelete(match)}
                             className={MatchStyles.deleteButton}
                         />
+                        }
                     </div>
                 </div>
                 <ToggleableMatchPerformance
