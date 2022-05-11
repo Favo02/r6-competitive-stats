@@ -26,6 +26,16 @@ const Header = ({ user, logout }) => {
                         CommonStyles.linkButton,
                         HeaderStyles.linkMarginRight
                     )}
+                    to="/myteams"
+                >
+                    My teams
+                </Link>
+
+                <Link
+                    className={classnames(
+                        CommonStyles.linkButton,
+                        HeaderStyles.linkMarginRight
+                    )}
                     to="/settings"
                 >
                     Settings

@@ -11,6 +11,7 @@ import Loading from "./components/common/Loading"
 import ProtectedRoute from "./utilities/ProtectedRoute"
 
 import Home from "./pages/Home"
+import MyTeams from "./pages/MyTeams"
 import Settings from "./pages/Settings"
 import NewMatch from "./pages/NewMatch"
 import Profile from "./pages/Profile"
@@ -92,6 +93,15 @@ const Main = () => {
                 <Route path="/home" element={
                     <ProtectedRoute user={user}>
                         <Home
+                            user={user}
+                            logout={logout}
+                        />
+                    </ProtectedRoute>
+                }></Route>
+
+                <Route path="/myteams" element={
+                    <ProtectedRoute user={user}>
+                        <MyTeams
                             user={user}
                             logout={logout}
                         />
