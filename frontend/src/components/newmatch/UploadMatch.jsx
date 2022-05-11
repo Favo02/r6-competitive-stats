@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 
 import matchService from "../../services/matches"
@@ -28,6 +28,9 @@ const UploadMatch = ({ user, loading, setLoading }) => {
     const [category, setCategory] = useState("")
     const [team, setTeam] = useState()
     const [publicMatch, setPublicMatch] = useState(false)
+
+    // ref to file uploader component to reset the file input
+    const fileUploaderRef = useRef()
 
     // gets user teams (only the one as admin)
     useEffect(() => {
@@ -82,6 +85,7 @@ const UploadMatch = ({ user, loading, setLoading }) => {
                 setStatus("Match saved")
                 setCategory("")
                 setTeam("")
+                fileUploaderRef.current() // call the unload file to reset file input
                 setPublicMatch(false)
                 setLoading(false)
             }
@@ -161,19 +165,17 @@ const UploadMatch = ({ user, loading, setLoading }) => {
         }),
     }
 
-
     return (
         <div className={UploadMatchStyles.uploadDiv}>
             <div className={UploadMatchStyles.background} />
             <h1 className={UploadMatchStyles.descText}>Upload your JSON file exported from <a href="https://r6analyst.com/" target="_blank" rel="noreferrer">R6Analyst</a> to store the match into your team database.</h1>
 
             <div className={UploadMatchStyles.fileUploader}>
-                <FileUploader setParsedData={setParsedData} />
+                <FileUploader setParsedData={setParsedData} fileUploaderRef={fileUploaderRef} />
             </div>
 
             { parsedData &&
                 <>
-
                     <div className={UploadMatchStyles.categoryDiv}>
                         <label>Team:</label>
                         <Select

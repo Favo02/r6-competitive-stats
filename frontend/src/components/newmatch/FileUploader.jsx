@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 import ParseData from "../../utilities/DataParser"
 
 import CommonStyles from "../../styles/common.module.scss"
 
-const FileUploader = ({ setParsedData }) => {
+const FileUploader = ({ setParsedData, fileUploaderRef }) => {
     const [rawData, setRawData] = useState("")
 
     const handleChange = (e) => {
@@ -26,14 +26,28 @@ const FileUploader = ({ setParsedData }) => {
         }
     }, [rawData])
 
+    // ref to reset input file
+    const fileInput = useRef()
+
+    // function that resets the file input
+    const unloadFile = () => {
+        fileInput.current.value = null
+        setRawData(null)
+        setParsedData(null)
+    }
+
+    // "export" the unloadFile function to parent element
+    useEffect(() => {
+        fileUploaderRef.current = unloadFile
+    }, [])
+
     return (
-        <>
-            <input
-                type="file"
-                onChange={handleChange}
-                className={CommonStyles.highlighLinkButton}
-            />
-        </>
+        <input
+            type="file"
+            onChange={handleChange}
+            ref={fileInput}
+            className={CommonStyles.highlighLinkButton}
+        />
     )
 }
 
