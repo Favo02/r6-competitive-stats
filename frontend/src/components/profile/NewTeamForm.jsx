@@ -55,6 +55,11 @@ const NewTeamForm = ({ user, teams, setTeams, setLoading }) => {
             .catch(exception => {
                 setLoading(false)
                 console.log(exception)
+                // if token expired refresh the page to run Redirector.jsx that checks token expiration
+                if (exception.response.data.error === "token expired") {
+                    window.location.reload(false)
+                    return
+                }
                 if (exception.response.data.error === "name taken") {
                     setStatus("Name aldready taken")
                     return
