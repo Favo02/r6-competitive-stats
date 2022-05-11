@@ -5,7 +5,7 @@ const User = require("../models/user")
 usersRouter.post("/", async (request, response) => {
     const { username, email, password } = request.body
 
-    const existingUsername = await User.findOne({ "username": { $regex: new RegExp(username, "i") } })
+    const existingUsername = await User.findOne({ "username": { $regex: new RegExp("^" + username + "$", "i") } })
     if (existingUsername) {
         return response.status(400).json({
             error: "username taken"
@@ -18,7 +18,7 @@ usersRouter.post("/", async (request, response) => {
         })
     }
 
-    const existingEmail = await User.findOne({ "email": { $regex: new RegExp(email, "i") } })
+    const existingEmail = await User.findOne({ "email": { $regex: new RegExp("^" + email + "$", "i") } })
     if (existingEmail) {
         return response.status(400).json({
             error: "email taken"

@@ -33,7 +33,7 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
         })
     }
 
-    const existingTeam = await Team.findOne({ "name": { $regex: new RegExp(team.name, "i") } })
+    const existingTeam = await Team.findOne({ "name": { $regex: new RegExp("^" + team.name + "$", "i") } })
     if (existingTeam) {
         console.log("existing team")
         return response.status(400).json({
@@ -63,7 +63,7 @@ teamsRouter.get("/:name", async (request, response) => {
     const name = request.params.name.trim().replace(" ", "-")
 
     const teams = await Team
-        .find({ "name": { $regex: new RegExp(name, "i") } })
+        .find({ "name": { $regex: new RegExp("^" + name + "$", "i") } })
     response.json(teams)
 })
 
