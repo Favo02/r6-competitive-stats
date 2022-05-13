@@ -18,10 +18,9 @@ import Profile from "./pages/Profile"
 
 const Main = () => {
     const [loading, setLoading] = useState(true)
-
     const [user, setUser] = useState(null)
-    const [notification, setNotification] = useState({ message: "", isError: false })
 
+    // reading user from local storage
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem("loggedR6statsUser")
         if (loggedUserJSON) {
@@ -38,17 +37,20 @@ const Main = () => {
         setLoading(false)
     }, [])
 
+    // removing user from local storage and state
+    const logout = () => {
+        notificate("Logged out", false)
+        window.localStorage.removeItem("loggedR6statsUser")
+        setUser(null)
+    }
+
+    // notificaiont: used in login and registration (shared with redirector due to login expiration and logout notification)
+    const [notification, setNotification] = useState({ message: "", isError: false })
     const notificate = (message, isError) => {
         setNotification({ message: message, isError: isError })
         setTimeout(() => {
             setNotification({ message: "", isError: isError })
         }, 5000)
-    }
-
-    const logout = () => {
-        notificate("Logged out", false)
-        window.localStorage.removeItem("loggedR6statsUser")
-        setUser(null)
     }
 
     // User still not loaded: wait
