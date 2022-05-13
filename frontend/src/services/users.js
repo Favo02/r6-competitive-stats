@@ -1,6 +1,16 @@
 import axios from "axios"
 const baseUrl = "/api/users"
 
+// AUTH - get full data of the current user
+const getCurrent = async (token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const response = await axios.get(baseUrl, config)
+    return response.data
+}
+
 // UNAUTH - create a new user
 const create = async (username, email, password) => {
 
@@ -33,5 +43,5 @@ const edit = async (username, email, curPassword, newPassword, newPassword2, tok
 }
 
 export default {
-    create, edit
+    getCurrent, create, edit
 }

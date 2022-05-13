@@ -3,6 +3,13 @@ const usersRouter = require("express").Router()
 const User = require("../models/user")
 const middleware = require("../utils/middleware")
 
+usersRouter.get("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const id = request.user.id
+    const user = await User.findById(id)
+
+    response.json(user)
+})
+
 usersRouter.post("/", async (request, response) => {
     const { username, email, password } = request.body
 
