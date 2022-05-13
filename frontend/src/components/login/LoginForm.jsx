@@ -1,6 +1,8 @@
 import { useState } from "react"
-import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
+import jwt_decode from "jwt-decode"
+
+import loginService from "../../services/login"
 
 import Notification from "../common/Notification"
 
@@ -10,14 +12,35 @@ import LoginFormStyles from "./LoginForm.module.scss"
 
 import { FaUserAlt, FaEye, FaEyeSlash } from "react-icons/fa"
 
-const Login = ({ login, notificationObj }) => {
+const Login = ({ notificationObj, notificate, setUser }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [passwordShown, setPasswordShown] = useState(false)
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault()
-        login(username, password)
+
+        try {
+            const user = await loginService.login(username, password)
+
+            const decoded = jwt_decode(user.token)
+            user.id = decoded.id
+
+            notificate(`${user.username} logged in`, false)
+
+            window.localStorage.setItem(
+                "loggedR6statsUser", JSON.stringify(user)
+            )
+            setUser(user)
+        }
+        catch (exception) {
+            if (exception.response.status === 401) {
+                notificate("Wrong credentials", true)
+            }
+            else {
+                notificate(`Login error: code ${exception.response.status} - ${exception.response.data.error}`, true)
+            }
+        }
     }
 
     const toggleShowPassword = () => {
@@ -92,10 +115,6 @@ const Login = ({ login, notificationObj }) => {
             </form>
         </div>
     )
-}
-
-Login.propTypes = {
-    login: PropTypes.func.isRequired
 }
 
 export default Login
