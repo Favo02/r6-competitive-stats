@@ -1,5 +1,4 @@
 import { useState } from "react"
-import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import jwt_decode from "jwt-decode"
 
@@ -196,10 +195,6 @@ const RegisterForm = ({ notificate, notificationObj, setUser }) => {
             </form>
         </div>
     )
-}
-
-RegisterForm.propTypes = {
-    register: PropTypes.func.isRequired
 }
 
 export default RegisterForm
