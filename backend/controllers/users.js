@@ -72,7 +72,7 @@ usersRouter.put("/", middleware.tokenExtractor, middleware.userExtractor, async 
 
     if (!(user && passwordCorrect)) {
         return response.status(401).json({
-            error: "Current password wrong"
+            error: "current password wrong"
         })
     }
 
