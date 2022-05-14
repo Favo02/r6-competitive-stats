@@ -59,9 +59,16 @@ usersRouter.post("/", async (request, response) => {
     response.status(201).json(savedUser)
 })
 
+// edit user used both by edit profile and edit password services
+// edit profile: new passwords are the current password
+// edit password: username and email are null
 usersRouter.put("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const id = request.user.id
-    const { username, email, curPassword, newPassword, newPassword2 } = request.body
+
+    // username and email needs to be checked not null (edit password)
+    let { username, email, curPassword, newPassword, newPassword2 } = request.body
+
+    console.log(username, email, curPassword, newPassword, newPassword2)
 
     // current password check
     const user = await User.findById(id)
@@ -69,6 +76,15 @@ usersRouter.put("/", middleware.tokenExtractor, middleware.userExtractor, async 
         user === null
             ? false
             : await bcrypt.compare(curPassword, user.passwordHash)
+
+    // if username is null (edit password) use the current username
+    if (username === null) {
+        username = user.username
+    }
+    // if email is null (edit password) use the current email
+    if (email === null) {
+        email = user.email
+    }
 
     if (!(user && passwordCorrect)) {
         return response.status(401).json({
