@@ -26,8 +26,6 @@ const Login = ({ notificationObj, notificate, setUser }) => {
             const decoded = jwt_decode(user.token)
             user.id = decoded.id
 
-            notificate(`${user.username} logged in`, false)
-
             window.localStorage.setItem(
                 "loggedR6statsUser", JSON.stringify(user)
             )
