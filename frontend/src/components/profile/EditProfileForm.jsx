@@ -187,6 +187,7 @@ const EditProfileForm = ({ user, setUser, setLoading, notification, notificate }
                             placeholder="Grande Puffo"
                             onChange={({ target }) => setUsername(target.value)}
                         />
+                        <h4 className={LoginFormStyles.description}>Username is unique and should be min 4, max characters, alphanumeric, underscore and dot (_ .) allowed. Special characters can&apos;t be at start or end and can&apos;t be consecutive</h4>
                         <FaUserAlt
                             className={LoginFormStyles.icon}
                         />
@@ -281,6 +282,7 @@ const EditProfileForm = ({ user, setUser, setLoading, notification, notificate }
                             placeholder={newPasswordShown ? "NewPa$$w0rd" : "●●●●●●●●"}
                             onChange={({ target }) => setNewPassword(target.value)}
                         />
+                        <h4 className={LoginFormStyles.description}>Password should be min 8, max 16 characters, at least one letter, one number and one special character (@$!%*#?&)</h4>
                         { newPasswordShown
                             ? <FaEyeSlash
                                 className={classnames(CommonStyles.pointer, LoginFormStyles.icon)}
