@@ -132,7 +132,10 @@ const Main = () => {
                     <ProtectedRoute user={user}>
                         <Profile
                             user={user}
+                            setUser={setUser}
                             logout={logout}
+                            notification={notification}
+                            notificate={notificate}
                         />
                     </ProtectedRoute>
                 }></Route>
