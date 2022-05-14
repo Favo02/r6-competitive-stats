@@ -60,6 +60,12 @@ const NewTeamForm = ({ user, teams, setTeams, setLoading }) => {
                     window.location.reload(false)
                     return
                 }
+                // if token invalid force logout (removing invalid token from local storage and then reloading)
+                if (exception.response.data.error === "invalid token") {
+                    localStorage.removeItem("loggedCompStatsUser")
+                    window.location.reload(false)
+                    return
+                }
                 if (exception.response.data.error === "name taken") {
                     setStatus("Name aldready taken")
                     return

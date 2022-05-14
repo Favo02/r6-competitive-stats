@@ -50,6 +50,12 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                     window.location.reload(false)
                     return
                 }
+                // if token invalid force logout (removing invalid token from local storage and then reloading)
+                if (exception.response.data.error === "invalid token") {
+                    localStorage.removeItem("loggedCompStatsUser")
+                    window.location.reload(false)
+                    return
+                }
                 if (exception.response) {
                     console.log("Error", exception.response.status, ":", exception.response.data.error)
                 }
@@ -104,6 +110,12 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                         window.location.reload(false)
                         return
                     }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "token expired") {
+                        localStorage.removeItem("loggedCompStatsUser")
+                        window.location.reload(false)
+                        return
+                    }
                     if (exception.response) {
                         console.log("Error", exception.response.status, ":", exception.response.data.error)
                     }
@@ -126,6 +138,12 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                     console.log(exception)
                     // if token expired refresh the page to run Redirector.jsx that checks token expiration
                     if (exception.response.data.error === "token expired") {
+                        window.location.reload(false)
+                        return
+                    }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "token expired") {
+                        localStorage.removeItem("loggedCompStatsUser")
                         window.location.reload(false)
                         return
                     }
@@ -154,6 +172,12 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                         window.location.reload(false)
                         return
                     }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "token expired") {
+                        localStorage.removeItem("loggedCompStatsUser")
+                        window.location.reload(false)
+                        return
+                    }
                     if (exception.response) {
                         console.log("Error", exception.response.status, ":", exception.response.data.error)
                     }
@@ -176,6 +200,12 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                     console.log(exception)
                     // if token expired refresh the page to run Redirector.jsx that checks token expiration
                     if (exception.response.data.error === "token expired") {
+                        window.location.reload(false)
+                        return
+                    }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "token expired") {
+                        localStorage.removeItem("loggedCompStatsUser")
                         window.location.reload(false)
                         return
                     }
@@ -208,6 +238,12 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                         window.location.reload(false)
                         return
                     }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "token expired") {
+                        localStorage.removeItem("loggedCompStatsUser")
+                        window.location.reload(false)
+                        return
+                    }
                     if (exception.response.status === 400) {
                         alert(exception.response.data.error)
                     }
@@ -237,6 +273,12 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                     console.log(exception)
                     // if token expired refresh the page to run Redirector.jsx that checks token expiration
                     if (exception.response.data.error === "token expired") {
+                        window.location.reload(false)
+                        return
+                    }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "invalid token") {
+                        localStorage.removeItem("loggedCompStatsUser")
                         window.location.reload(false)
                         return
                     }

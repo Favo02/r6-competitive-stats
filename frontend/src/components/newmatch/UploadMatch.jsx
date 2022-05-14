@@ -56,6 +56,12 @@ const UploadMatch = ({ user, loading, setLoading }) => {
                     window.location.reload(false)
                     return
                 }
+                // if token invalid force logout (removing invalid token from local storage and then reloading)
+                if (exception.response.data.error === "invalid token") {
+                    localStorage.removeItem("loggedCompStatsUser")
+                    window.location.reload(false)
+                    return
+                }
                 if (exception.response) {
                     console.log("Error", exception.response.status, ":", exception.response.data.error)
                 }
@@ -98,6 +104,12 @@ const UploadMatch = ({ user, loading, setLoading }) => {
                 setLoading(false)
                 // if token expired refresh the page to run Redirector.jsx that checks token expiration
                 if (exception.response.data.error === "token expired") {
+                    window.location.reload(false)
+                    return
+                }
+                // if token invalid force logout (removing invalid token from local storage and then reloading)
+                if (exception.response.data.error === "invalid token") {
+                    localStorage.removeItem("loggedCompStatsUser")
                     window.location.reload(false)
                     return
                 }
