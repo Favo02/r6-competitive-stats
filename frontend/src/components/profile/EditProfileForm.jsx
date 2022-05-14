@@ -166,8 +166,9 @@ const EditProfileForm = ({ user, setUser, setLoading, notification, notificate }
 
     return (
         <div className={LoginFormStyles.profileDiv}>
+            <Notification notificationObj={notification} />
+
             <div className={LoginFormStyles.editProfileForm}>
-                <Notification notificationObj={notification} />
                 <h1 className={LoginFormStyles.h1}>
                     <span
                         className={CommonStyles.highlighted}
@@ -238,7 +239,6 @@ const EditProfileForm = ({ user, setUser, setLoading, notification, notificate }
             </div>
 
             <div className={LoginFormStyles.editProfileForm}>
-                <Notification notificationObj={notification} />
                 <h1 className={LoginFormStyles.h1}>
                     Change&nbsp;
                     <span
