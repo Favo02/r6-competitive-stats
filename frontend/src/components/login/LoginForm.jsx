@@ -62,17 +62,15 @@ const Login = ({ notificationObj, notificate, setUser }) => {
                 >Register</Link>
             </h3>
             <form onSubmit={handleLogin}>
+
                 <div className={LoginFormStyles.div}>
                     <label
                         className={LoginFormStyles.label}
-                        htmlFor="Username"
                     >Username</label>
                     <input
                         className={LoginFormStyles.input}
-                        id="username-input"
                         type="text"
                         value={username}
-                        name="Username"
                         placeholder="Grande Puffo"
                         onChange={({ target }) => setUsername(target.value)}
                     />
@@ -80,17 +78,15 @@ const Login = ({ notificationObj, notificate, setUser }) => {
                         className={LoginFormStyles.icon}
                     />
                 </div>
+
                 <div className={LoginFormStyles.div}>
                     <label
                         className={LoginFormStyles.label}
-                        htmlFor="Password"
                     >Password</label>
                     <input
                         className={LoginFormStyles.input}
-                        id="password-input"
                         type={passwordShown ? "text" : "password"}
                         value={password}
-                        name="Password"
                         placeholder={passwordShown ? "Pa$$w0rD" : "●●●●●●●●"}
                         onChange={({ target }) => setPassword(target.value)}
                     />
@@ -105,6 +101,7 @@ const Login = ({ notificationObj, notificate, setUser }) => {
                         />
                     }
                 </div>
+
                 <button
                     className={LoginFormStyles.loginButton}
                     type="submit"

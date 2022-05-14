@@ -97,14 +97,11 @@ const RegisterForm = ({ notificate, notificationObj, setUser }) => {
                 <div className={LoginFormStyles.div}>
                     <label
                         className={LoginFormStyles.label}
-                        htmlFor="Username"
                     >Username</label>
                     <input
                         className={LoginFormStyles.input}
-                        id="username-input"
                         type="text"
                         value={username}
-                        name="Username"
                         placeholder="Grande Puffo"
                         onChange={({ target }) => setUsername(target.value)}
                     />
@@ -113,18 +110,16 @@ const RegisterForm = ({ notificate, notificationObj, setUser }) => {
                         className={LoginFormStyles.icon}
                     />
                 </div>
+
                 {/* Email */}
                 <div className={LoginFormStyles.div}>
                     <label
                         className={LoginFormStyles.label}
-                        htmlFor="Email"
                     >Email</label>
                     <input
                         className={LoginFormStyles.input}
-                        id="email-input"
                         type="text"
                         value={email}
-                        name="Email"
                         placeholder="grandepuffo@pmail.com"
                         onChange={({ target }) => setEmail(target.value)}
                     />
@@ -132,18 +127,16 @@ const RegisterForm = ({ notificate, notificationObj, setUser }) => {
                         className={LoginFormStyles.icon}
                     />
                 </div>
+
                 {/* Password */}
                 <div className={LoginFormStyles.div}>
                     <label
                         className={LoginFormStyles.label}
-                        htmlFor="Password"
                     >Password</label>
                     <input
                         className={LoginFormStyles.input}
-                        id="password-input"
                         type={passwordShown ? "text" : "password"}
                         value={password}
-                        name="Password"
                         placeholder={passwordShown ? "Pa$$w0rD" : "●●●●●●●●"}
                         onChange={({ target }) => setPassword(target.value)}
                     />
@@ -159,18 +152,16 @@ const RegisterForm = ({ notificate, notificationObj, setUser }) => {
                         />
                     }
                 </div>
+
                 {/* Confirm password */}
                 <div className={LoginFormStyles.div}>
                     <label
                         className={LoginFormStyles.label}
-                        htmlFor="Password2"
                     >Confirm password</label>
                     <input
                         className={LoginFormStyles.input}
-                        id="password2-input"
                         type={passwordShown ? "text" : "password"}
                         value={password2}
-                        name="Password2"
                         placeholder={passwordShown ? "Pa$$w0rD" : "●●●●●●●●"}
                         onChange={({ target }) => setPassword2(target.value)}
                     />
@@ -185,6 +176,7 @@ const RegisterForm = ({ notificate, notificationObj, setUser }) => {
                         />
                     }
                 </div>
+
                 <button
                     className={LoginFormStyles.loginButton}
                     type="submit"
