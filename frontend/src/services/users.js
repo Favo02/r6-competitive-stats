@@ -24,8 +24,8 @@ const create = async (username, email, password) => {
     return response.data
 }
 
-// AUTH - edit user
-const edit = async (username, email, curPassword, newPassword, newPassword2, token) => {
+// AUTH - edit user details
+const editProfile = async (username, email, curPassword, token) => {
     const config = {
         headers: { Authorization: `bearer ${token}` },
     }
@@ -33,6 +33,24 @@ const edit = async (username, email, curPassword, newPassword, newPassword2, tok
     const editUser = {
         username: username,
         email: email,
+        curPassword: curPassword,
+        newPassword: curPassword,
+        newPassword2: curPassword
+    }
+
+    const response = await axios.put(baseUrl, editUser, config)
+    return response.data
+}
+
+// AUTH - edit user password
+const editPassword = async (curPassword, newPassword, newPassword2, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const editUser = {
+        username: null,
+        email: null,
         curPassword: curPassword,
         newPassword: newPassword,
         newPassword2: newPassword2
@@ -43,5 +61,5 @@ const edit = async (username, email, curPassword, newPassword, newPassword2, tok
 }
 
 export default {
-    getCurrent, create, edit
+    getCurrent, create, editProfile, editPassword
 }
