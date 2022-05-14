@@ -22,7 +22,7 @@ const Main = () => {
 
     // reading user from local storage
     useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem("loggedR6statsUser")
+        const loggedUserJSON = window.localStorage.getItem("loggedCompStatsUser")
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
             const decoded = jwt_decode(user.token)
@@ -30,7 +30,7 @@ const Main = () => {
                 setUser(user)
             }
             else {
-                window.localStorage.removeItem("loggedR6statsUser")
+                window.localStorage.removeItem("loggedCompStatsUser")
                 notificate("Your login expired", true)
             }
         }
@@ -40,7 +40,7 @@ const Main = () => {
     // removing user from local storage and state
     const logout = () => {
         notificate("Logged out", false)
-        window.localStorage.removeItem("loggedR6statsUser")
+        window.localStorage.removeItem("loggedCompStatsUser")
         setUser(null)
     }
 

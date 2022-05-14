@@ -52,7 +52,7 @@ const RegisterForm = ({ notificate, notificationObj, setUser }) => {
             user.id = decoded.id
 
             window.localStorage.setItem(
-                "loggedR6statsUser", JSON.stringify(user)
+                "loggedCompStatsUser", JSON.stringify(user)
             )
             setUser(user)
         }
