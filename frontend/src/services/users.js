@@ -60,6 +60,16 @@ const editPassword = async (curPassword, newPassword, newPassword2, token) => {
     return response.data
 }
 
+// AUTH - delete user
+const deleteAccount = async (token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const response = await axios.delete(baseUrl, config)
+    return response.data
+}
+
 export default {
-    getCurrent, create, editProfile, editPassword
+    getCurrent, create, editProfile, editPassword, deleteAccount
 }
