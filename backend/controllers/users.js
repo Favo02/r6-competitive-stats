@@ -151,4 +151,24 @@ usersRouter.put("/", middleware.tokenExtractor, middleware.userExtractor, async 
     response.status(201).json(savedUser)
 })
 
+// delete an user
+// user shouldn't be in any team
+usersRouter.delete("/", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.user.id
+
+    const user = await User.findById(userId)
+
+    if(user.teams.length > 0) {
+        console.log("user in a team")
+        return response.status(400).json({
+            error: "user in a team"
+        })
+    }
+
+    // delete user
+    await User.findByIdAndDelete(userId)
+
+    response.status(204).end()
+})
+
 module.exports = usersRouter
