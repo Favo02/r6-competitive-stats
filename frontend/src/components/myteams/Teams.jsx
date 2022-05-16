@@ -302,7 +302,10 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                                 <h1 className={TeamsStyles.teamName}>{t.name}</h1>
                                 <h3 className={TeamsStyles.nMatches}>{t.nMatches} MATCHES</h3>
                                 <button className={TeamsStyles.actionButton} onClick={() => handleLeave(t.id, t.name)}>LEAVE</button>
-                                <button className={TeamsStyles.actionButton} onClick={() => handleDisband(t.id, t.name)}>DISBAND</button>
+                                {/* Disband button shows up only for admin */}
+                                {t.members.find(mem => mem.id === user.id).permission === "admin" &&
+                                    <button className={TeamsStyles.actionButton} onClick={() => handleDisband(t.id, t.name)}>DISBAND</button>
+                                }
                             </div>
                             <div className={TeamsStyles.membersDiv}>
                                 <h2 className={TeamsStyles.membersTitle}>MEMBERS</h2>
