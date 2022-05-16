@@ -102,9 +102,25 @@
         font-size: 0.6em;
     }
 
-    // match category
-    .categoryText {
+    // date, category
+    .primaryText {
+        width: 100%;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+        text-align: center;
         color: $text;
+    }
+    // private/public match, week day
+    .secondaryText {
+        width: 100%;
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+        text-align: center;
+        color: $secondary_text;
     }
 
     // score text

@@ -86,15 +86,15 @@ const Match = ({ match, deleteMatch, isPreview }) => {
                     {/* Team, isPublic */}
                     {!isPreview &&
                     <div className={MatchStyles.teamDiv}>
-                        <h1>{team} {isPublic ? "public match" : "private match"}</h1>
-                        <h1 className={MatchStyles.categoryText}>{category}</h1>
+                        <h1 className={MatchStyles.secondaryText}>{team} {isPublic ? "public match" : "private match"}</h1>
+                        <h1 className={MatchStyles.primaryText}>{category}</h1>
                     </div>
                     }
 
                     {/* Date, Category */}
                     <div className={MatchStyles.dateDiv}>
-                        <h1>{day}</h1>
-                        <h1 className={MatchStyles.categoryText}>{date}</h1>
+                        <h1 className={MatchStyles.secondaryText}>{day}</h1>
+                        <h1 className={MatchStyles.primaryText}>{date}</h1>
                     </div>
 
                     {/* Score */}
