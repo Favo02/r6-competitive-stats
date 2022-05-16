@@ -16,7 +16,7 @@ const NewTeamForm = ({ user, teams, setTeams, setLoading }) => {
 
     const handleNewTeam = () => {
 
-        const name = teamName.trim().replace(" ", "-")
+        const name = teamName.trim().replace(/ /g, "-")
 
         if (! (/^[a-zA-Z0-9]((?!(-))|-(?!(-))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(name))) {
             setStatus("Enter a valid name: 4-20 characters long, alpanumeric and dash (-), no consecutive dashes, no dashes at start or end")
@@ -91,7 +91,7 @@ const NewTeamForm = ({ user, teams, setTeams, setLoading }) => {
                 <button
                     className={NewTeamsStyles.importantActionButton}
                     onClick={() => handleNewTeam()}
-                >Create {teamName.trim().replace(" ", "-")}</button>
+                >Create {teamName.trim().replace(/ /g, "-")}</button>
             </div>
         </div>
     )

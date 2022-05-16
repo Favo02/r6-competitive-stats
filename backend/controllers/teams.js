@@ -23,7 +23,7 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
     const user = request.user
     const team = {
         // remove extra spaces (before and after the name) and replace spaces with -
-        name: request.body.name.trim().replace(" ", "-"),
+        name: request.body.name.trim().replace(/ /g, "-"),
         members: [{ id: user.id, permission: "admin" }]
     }
 
@@ -60,7 +60,7 @@ teamsRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async
 
 // UNAUTH - get every team matching the name
 teamsRouter.get("/:name", async (request, response) => {
-    const name = request.params.name.trim().replace(" ", "-")
+    const name = request.params.name.trim().replace(/ /g, "-")
 
     const teams = await Team
         .find({ "name": { $regex: new RegExp("^" + name + "$", "i") } })
