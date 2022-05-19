@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 
 import teamService from "../../services/teams"
 
@@ -216,6 +216,47 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
         }
     }
 
+    const [isEditActive, setEditActive] = useState(false)
+    const [editTeamName, setEditTeamName] = useState("")
+
+    // leave a team
+    const handleEdit = (teamId, teamName) => {
+        const newTeamName = editTeamName
+
+        if (window.confirm(`Are you sure you want to rename ${teamName} to ${newTeamName}?`)) {
+            setLoading(true)
+            teamService
+                .edit(teamId, newTeamName, user.token)
+                .then(updatedTeam => {
+                    updateTeams(updatedTeam)
+                    setLoading(false)
+                    setEditActive(false)
+                    setEditTeamName("")
+                })
+                .catch (exception => {
+                    setLoading(false)
+                    console.log(exception)
+                    // if token expired refresh the page to run Redirector.jsx that checks token expiration
+                    if (exception.response.data.error === "token expired") {
+                        window.location.reload(false)
+                        return
+                    }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "token expired") {
+                        localStorage.removeItem("loggedCompStatsUser")
+                        window.location.reload(false)
+                        return
+                    }
+                    if (exception.response.status === 400) {
+                        alert(exception.response.data.error)
+                    }
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
+        }
+    }
+
     // leave a team
     const handleLeave = (teamId, teamName) => {
         if (window.confirm(`Are you sure you wanto to leave ${teamName}?`)) {
@@ -299,16 +340,43 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                     <div key={t.id} className={TeamsStyles.teamDiv}>
                         <div className={TeamsStyles.backgroundDiv}>
                             <div className={TeamsStyles.titleDiv}>
-                                <h1 className={TeamsStyles.teamName}>{t.name}</h1>
-                                <h3 className={TeamsStyles.nMatches}>{t.nMatches} MATCHES</h3>
+                                {/* Team name if edit is not active */}
+                                {!isEditActive &&
+                                <h1>{t.name}</h1>
+                                }
+
+                                {/* Team name input if edit is active */}
+                                {isEditActive &&
+                                <input
+                                    className={TeamsStyles.editInput}
+                                    type="text"
+                                    value={editTeamName}
+                                    onChange={({ target }) => setEditTeamName(target.value)}
+                                    placeholder="New team name"
+                                />
+                                }
+
+                                {/* Edit button that display or hide the input field */}
+                                {t.members.find(mem => mem.id === user.id).permission === "admin" &&
+                                    <button className={TeamsStyles.actionButton} onClick={() => setEditActive(!isEditActive)}>{isEditActive ? "CANCEL" : "EDIT"}</button>
+                                }
+
+                                {/* Save buttons that saves the new team name */}
+                                {t.members.find(mem => mem.id === user.id).permission === "admin" && isEditActive &&
+                                    <button className={TeamsStyles.actionButton} onClick={() => handleEdit(t.id, t.name)}>SAVE</button>
+                                }
+
+                                {/* Leave button */}
                                 <button className={TeamsStyles.actionButton} onClick={() => handleLeave(t.id, t.name)}>LEAVE</button>
+
                                 {/* Disband button shows up only for admin */}
                                 {t.members.find(mem => mem.id === user.id).permission === "admin" &&
                                     <button className={TeamsStyles.actionButton} onClick={() => handleDisband(t.id, t.name)}>DISBAND</button>
                                 }
                             </div>
                             <div className={TeamsStyles.membersDiv}>
-                                <h2 className={TeamsStyles.membersTitle}>MEMBERS</h2>
+                                <h3 className={TeamsStyles.nMatches}>{t.nMatches} MATCHES</h3>
+                                <h2 className={TeamsStyles.membersTitle}>MEMBERS:</h2>
                                 {t.members && t.members.map(m =>
                                     <div key={m.id} className={TeamsStyles.memberDiv}>
                                         <h3>{m.username}</h3>
@@ -330,7 +398,7 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                             <div className={TeamsStyles.membersDiv}>
                                 {t.waitingMembers && t.waitingMembers.length > 0 &&
                                     <>
-                                        <h2 className={TeamsStyles.membersTitle}>REQUESTS TO JOIN</h2>
+                                        <h2 className={TeamsStyles.membersTitle}>REQUESTS TO JOIN:</h2>
                                         {t.waitingMembers.map(m =>
                                             <div key={m.id} className={TeamsStyles.memberDiv}>
                                                 <h3>{m.username}</h3>

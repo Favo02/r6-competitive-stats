@@ -33,16 +33,38 @@
 
                 padding: 10px;
 
-                .nMatches {
-                    margin-left: 10px;
-                    padding: 4px 8px;
-
-                    background: $background;
+                .editInput {
+                    padding: 10px 15px;
+                    background: none;
+                    outline: none;
+                    border: 1px dashed $secondary_text;
                     border-radius: 5px;
+                    margin-right: 5px;
 
-                    font-size: 0.8em;
-                    font-weight: 100;
+                    color: $text;
+                    caret-color: $secondary_text;
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                    &::placeholder {
+                        color: $secondary_text;
+                    }
                 }
+            }
+
+            .nMatches {
+                max-width: 100px;
+
+                padding: 4px 8px;
+                margin: auto;
+
+                background: $background_light;
+                border-radius: 5px;
+
+                font-size: 0.8em;
+                font-weight: 100;
             }
 
             %actionButton {
