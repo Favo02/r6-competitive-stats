@@ -67,6 +67,52 @@ teamsRouter.get("/:name", async (request, response) => {
     response.json(teams)
 })
 
+// AUTH - edit team
+// userId = id of the user that edits the team (should be admin)
+// newTeamname = new team name
+// :id / teamId = id of the team edited
+teamsRouter.put("/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const userId = request.user.id
+    const teamId = request.params.id
+    const newTeamName = request.body.name
+
+    const team = await Team.findById(teamId)
+
+    if(! (team.members.find(m => m.id.toString() === userId).permission === "admin")) {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to edit team"
+        })
+    }
+
+    if (! (/^[a-zA-Z0-9]((?!(-))|-(?!(-))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(newTeamName))) {
+        return response.status(400).json({
+            error: "Enter a valid name: 4-20 characters long, alpanumeric and dash (-), no consecutive dashes, no dashes at start or end"
+        })
+    }
+
+    const existingTeam = await Team.findOne({ "name": { $regex: new RegExp("^" + newTeamName + "$", "i") } })
+    if (existingTeam) {
+        console.log("existing team")
+        return response.status(400).json({
+            error: "name taken"
+        })
+    }
+
+    team.name = newTeamName
+
+    const updatedTeam =
+        await team
+            .save()
+            .then(updatedTeam => updatedTeam
+                .populate([
+                    { path: "members.id", select: { id: 1, username: 1 } },
+                    { path: "waitingMembers", select: { id: 1, username: 1 } }
+                ])
+            )
+
+    response.status(201).json(updatedTeam)
+})
 
 // --------------- INVITE SYSTEM
 
