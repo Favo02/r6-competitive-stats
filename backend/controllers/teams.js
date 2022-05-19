@@ -63,7 +63,7 @@ teamsRouter.get("/:name", async (request, response) => {
     const name = request.params.name.trim().replace(/ /g, "-")
 
     const teams = await Team
-        .find({ "name": { $regex: new RegExp("^" + name + "$", "i") } })
+        .find({ "name": { $regex: new RegExp(name, "i") } })
     response.json(teams)
 })
 
