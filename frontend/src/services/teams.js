@@ -27,6 +27,15 @@ const create = async (newTeam, token) => {
     return response.data
 }
 
+// AUTH - edit a team (editor should be admin)
+const edit = async (teamId, newTeamName, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const response = await axios.put(`${baseUrl}/${teamId}`, { name: newTeamName }, config)
+    return response.data
+}
 
 // -------------- TEAM INVITE SYSTEM
 
@@ -112,7 +121,7 @@ const disbandTeam = async (teamId, token) => {
 }
 
 export default {
-    getAll, getTeamByName, create,
+    getAll, getTeamByName, create, edit,
     kickMember, promoteMember,
     addWaitingMember, acceptWaitingMember, declineWaitingMember,
     leaveTeam, disbandTeam
