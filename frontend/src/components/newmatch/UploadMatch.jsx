@@ -133,7 +133,7 @@ const UploadMatch = ({ user, loading, setLoading }) => {
                         <h3>You need to be <span className={CommonStyles.highlighted}>admin</span> of your team to upload a new match. Ask the team leader to promote you!</h3>
                         <div className={UploadMatchStyles.redirectDiv}>
                             <Link
-                                to="/profile"
+                                to="/myteams"
                                 className={classnames(CommonStyles.highlighLinkButton, CommonStyles.bigger)}
                             >
                                 Create/Join a team now!
