@@ -55,14 +55,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        label {
+
+        .label {
             margin: 10px;
             font-size: 2em;
             font-weight: 500;
             color: $secondary_text;
         }
 
-        input {
+        .input {
             margin: 10px;
             font-size: 2em;
             background: transparent;
