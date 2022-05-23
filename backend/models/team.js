@@ -7,7 +7,8 @@ const teamSchema = new mongoose.Schema({
         permission: { type: String, required: true, enum: ["admin", "member"] },
     }],
     waitingMembers: [{ type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" }],
-    matches:        [{ type: mongoose.Schema.Types.ObjectId, required: true, ref: "Match" }]
+    matches:        [{ type: mongoose.Schema.Types.ObjectId, required: true, ref: "Match" }],
+    categories:     [{ type: String, required: true }],
 })
 
 teamSchema.set("toJSON", {

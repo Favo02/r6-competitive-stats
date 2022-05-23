@@ -191,7 +191,6 @@ teamsRouter.put("/promote/:id", middleware.tokenExtractor, middleware.userExtrac
     response.json(updatedTeam)
 })
 
-
 // AUTH - add an user to waitingMember
 // :id = id of the team to join
 // userId = id of the user that requests to join
@@ -355,6 +354,38 @@ teamsRouter.delete("/disband/:id", middleware.tokenExtractor, middleware.userExt
     await Match.deleteMany({ team: teamId })
 
     response.status(204).end()
+})
+
+
+// --------------- CATEGORIES SYSTEM
+
+// AUTH - add category to a team
+// :id = teamId of the team to add category in
+// category = name of the category to add
+// userId = id of the user that adds the category
+teamsRouter.put("/categories/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const teamId = request.params.id
+    const userId = request.user.id
+    const category = request.body.category.trim().replace(/ /g, "-")
+
+    const team = await Team.findById(teamId)
+
+    if(! (team.members.find(m => m.id.toString() === userId).permission === "admin")) {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to add category"
+        })
+    }
+
+    if (! (/^[a-zA-Z0-9]((?!(-))|-(?!(-))|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(category))) {
+        return response.status(400).json({
+            error: "Enter a valid category name: 4-20 characters long, alpanumeric and dash (-), no consecutive dashes, no dashes at start or end"
+        })
+    }
+
+    team.categories = team.categories.concat(category)
+    const updatedTeam = await team.save()
+    response.json(updatedTeam)
 })
 
 module.exports = teamsRouter
