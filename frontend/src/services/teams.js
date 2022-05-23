@@ -120,9 +120,24 @@ const disbandTeam = async (teamId, token) => {
     return request.then(response => response.data)
 }
 
+// -------------- TEAM CATEGORIES SYSTEM
+
+// AUTH - team admin adds a category to the team
+// teamId: id of the team to add category to
+// category: name of the category
+const addCategory = async (teamId, category, token) => {
+    const config = {
+        headers: { Authorization: `bearer ${token}` },
+    }
+
+    const request = axios.put(`${baseUrl}/categories/${teamId}`, { category: category }, config)
+    return request.then(response => response.data)
+}
+
 export default {
     getAll, getTeamByName, create, edit,
     kickMember, promoteMember,
     addWaitingMember, acceptWaitingMember, declineWaitingMember,
-    leaveTeam, disbandTeam
+    leaveTeam, disbandTeam,
+    addCategory
 }
