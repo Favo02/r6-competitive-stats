@@ -359,6 +359,26 @@ teamsRouter.delete("/disband/:id", middleware.tokenExtractor, middleware.userExt
 
 // --------------- CATEGORIES SYSTEM
 
+// AUTH - get team categories
+// :id / teamId = id of the team to get categories of
+// userId = id of the user that requests the categories (should be admin)
+teamsRouter.get("/categories/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const teamId = request.params.id
+    const userId = request.user.id
+
+    const team = await Team.findById(teamId)
+
+    if(! (team.members.find(m => m.id.toString() === userId).permission === "admin")) {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to add category"
+        })
+    }
+
+    const categories = team.categories
+    response.json(categories)
+})
+
 // AUTH - add category to a team
 // :id = teamId of the team to add category in
 // category = name of the category to add
