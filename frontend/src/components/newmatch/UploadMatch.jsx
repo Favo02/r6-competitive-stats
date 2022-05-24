@@ -8,6 +8,7 @@ import FileUploader from "./FileUploader"
 import Match from "../home/Match"
 
 import TeamSelect from "./TeamSelect"
+import CategorySelect from "./CategorySelect"
 
 import classnames from "classnames"
 import MatchStyles from "../home/Matches.module.scss"
@@ -169,12 +170,10 @@ const UploadMatch = ({ user, loading, setLoading }) => {
 
                     <div className={UploadMatchStyles.categoryDiv}>
                         <label className={UploadMatchStyles.label}>Category:</label>
-                        <input
-                            className={UploadMatchStyles.input}
-                            type="text"
-                            placeholder="Insert category name"
-                            value={category}
-                            onChange={({ target }) => setCategory(target.value)}
+                        <CategorySelect
+                            team={team}
+                            user={user}
+                            setCategory={setCategory}
                         />
                     </div>
 
