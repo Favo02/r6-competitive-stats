@@ -15,6 +15,8 @@ import MatchStyles from "../home/Matches.module.scss"
 import CommonStyles from "../../styles/common.module.scss"
 import UploadMatchStyles from "./UploadMatch.module.scss"
 
+import { HiInformationCircle } from "react-icons/hi"
+
 const UploadMatch = ({ user, loading, setLoading }) => {
 
     // teams of the user
@@ -160,21 +162,39 @@ const UploadMatch = ({ user, loading, setLoading }) => {
             { parsedData &&
                 <>
                     <div className={UploadMatchStyles.categoryDiv}>
-                        <label className={UploadMatchStyles.label}>Team:</label>
-                        <TeamSelect
-                            teams={teams}
-                            team={team}
-                            setTeam={setTeam}
-                        />
+
+                        <div className={UploadMatchStyles.horizontalDiv}>
+                            <label className={UploadMatchStyles.label}>Team:</label>
+                            <TeamSelect
+                                teams={teams}
+                                team={team}
+                                setTeam={setTeam}
+                            />
+                        </div>
+
+                        <div className={UploadMatchStyles.horizontalDiv}>
+                            <HiInformationCircle className={UploadMatchStyles.iconDescription} />
+                            <h3 className={UploadMatchStyles.selectDesciption}>Select <span className={UploadMatchStyles.hidhlightDescription}>team</span> to add game to.</h3>
+                        </div>
+
                     </div>
 
                     <div className={UploadMatchStyles.categoryDiv}>
-                        <label className={UploadMatchStyles.label}>Category:</label>
-                        <CategorySelect
-                            team={team}
-                            user={user}
-                            setCategory={setCategory}
-                        />
+
+                        <div className={UploadMatchStyles.horizontalDiv}>
+                            <label className={UploadMatchStyles.label}>Category:</label>
+                            <CategorySelect
+                                team={team}
+                                user={user}
+                                setCategory={setCategory}
+                            />
+                        </div>
+
+                        <div className={UploadMatchStyles.horizontalDiv}>
+                            <HiInformationCircle className={UploadMatchStyles.iconDescription} />
+                            <h3 className={UploadMatchStyles.selectDesciption}>Select a category from those <span className={UploadMatchStyles.hidhlightDescription}>already saved</span> for your team or <span className={UploadMatchStyles.hidhlightDescription}>create a new one</span> just typing.</h3>
+                        </div>
+
                     </div>
 
                     <div className={UploadMatchStyles.publicMatchDiv}>

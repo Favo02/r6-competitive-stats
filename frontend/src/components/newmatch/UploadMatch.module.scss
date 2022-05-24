@@ -55,6 +55,33 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
+
+        .horizontalDiv {
+            margin-top: 15px;
+            flex-direction: row;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .selectDesciption {
+                margin: auto;
+                max-width: 500px;
+                text-align: center;
+                color: $secondary_text;
+                margin-left: 10px;
+            }
+
+            .hidhlightDescription {
+                color: $text;
+            }
+        
+            .iconDescription {
+                color: $secondary_text;
+                height: 25px;
+                width: 25px;
+            }
+        }
 
         .label {
             width: 150px;
