@@ -74,12 +74,12 @@ const UploadMatch = ({ user, loading, setLoading }) => {
 
     // handle the new match creation
     const handleNewMatch = () => {
-        if (!category) {
-            setStatus("Insert a valid category")
-            return
-        }
         if (!team) {
             setStatus("Select a valid team")
+            return
+        }
+        if (!category) {
+            setStatus("Select a valid category")
             return
         }
 
