@@ -405,7 +405,7 @@ teamsRouter.put("/categories/:id", middleware.tokenExtractor, middleware.userExt
 
     team.categories = team.categories.concat(category)
     const updatedTeam = await team.save()
-    response.json(updatedTeam)
+    response.json(updatedTeam.categories)
 })
 
 module.exports = teamsRouter
