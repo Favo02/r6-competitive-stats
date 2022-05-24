@@ -35,9 +35,19 @@ const TeamSelect = ({ teams, team, setTeam }) => {
             color: state.isSelected ? "#FFFFFF" : "#9AA5B5",
             padding: "10px 20px",
         }),
-        dropdownIndicator: (provided, state) => ({
+        dropdownIndicator: (provided) => ({
             ...provided,
-            color: state.isSelected ? "#9AA5B5" : state.isFocused ?"#9AA5B5" : "#9AA5B5",
+            color: "#9AA5B5",
+            "&:hover": {
+                color: "#9AA5B5"
+            }
+        }),
+        clearIndicator: (provided, state) => ({
+            ...provided,
+            color: state.isDisabled  ? "transparent" : "#9AA5B5",
+            "&:hover": {
+                color: "#9AA5B5"
+            }
         }),
         input: (provided) => ({
             ...provided,
@@ -52,12 +62,14 @@ const TeamSelect = ({ teams, team, setTeam }) => {
 
     return (
         <Select
+            isClearable
             options={options}
             onChange={handleTeamSelectChange}
             placeholder="Select a team"
             value={team}
             styles={selectStyles}
             noOptionsMessage={() => "No teams found"}
+            components={{ IndicatorSeparator: () => null }}
         />
     )
 }
