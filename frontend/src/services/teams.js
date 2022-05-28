@@ -145,10 +145,25 @@ const addCategory = async (teamId, category, token) => {
     return request.then(response => response.data)
 }
 
+// AUTH - team admin remove a category from a team
+// teamId: id of the team to remove category from
+// category: name of the category
+const removeCategory = async (teamId, category, token) => {
+
+    // special axios request to pass body parameter in delete request
+    const request = axios.delete(`${baseUrl}/categories/${teamId}`,
+        {
+            headers: { Authorization: `bearer ${token}` },
+            data: { category: category }
+        }
+    )
+    return request.then(response => response.data)
+}
+
 export default {
     getAll, getTeamByName, create, edit,
     kickMember, promoteMember,
     addWaitingMember, acceptWaitingMember, declineWaitingMember,
     leaveTeam, disbandTeam,
-    getCategories, addCategory
+    getCategories, addCategory, removeCategory
 }
