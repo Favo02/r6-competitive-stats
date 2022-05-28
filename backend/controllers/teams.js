@@ -408,4 +408,28 @@ teamsRouter.put("/categories/:id", middleware.tokenExtractor, middleware.userExt
     response.json(updatedTeam.categories)
 })
 
+// AUTH - delete category
+// :id = teamId of the team to delete category from
+// category = name of the category to remove
+// userId = id of the user that removes the category
+teamsRouter.delete("/categories/:id", middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const teamId = request.params.id
+    const userId = request.user.id
+    const category = request.body.category.trim().replace(/ /g, "-")
+
+    const team = await Team.findById(teamId)
+
+    if(! (team.members.find(m => m.id.toString() === userId).permission === "admin")) {
+        console.log("user not admin")
+        return response.status(401).json({
+            error: "User not authorized to delete category"
+        })
+    }
+
+    const newCategories = team.categories.filter(c => c !== category)
+    team.categories = newCategories
+    const updatedTeam = await team.save()
+    response.json(updatedTeam.categories)
+})
+
 module.exports = teamsRouter
