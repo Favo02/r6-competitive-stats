@@ -21,6 +21,7 @@ const Team = (
                 name: t.name,
                 id: t.id,
                 nMatches: t.matches.length,
+                categories: t.categories,
                 permission: t.members.find(m => m.id.id === user.id).permission,
                 members: t.members.map(m => ({
                     id: m.id.id,
@@ -281,6 +282,43 @@ const Team = (
         }
     }
 
+    // delete a category
+    const handleDeleteCategory = (teamId, category, teamName) => {
+        if (window.confirm(`Are you sure you wanto to delete ${category} for ${teamName}? The matches in this category will be preserved`)) {
+            setLoading(true)
+            teamService
+                .removeCategory(teamId, category, user.token)
+                .then(updatedCategories => {
+                    let updatedTeam = teams.find(t => t.id === teamId)
+                    updatedTeam.categories = updatedCategories
+
+                    setTeams(
+                        sortTeams(
+                            teams.filter(t => t.id !== teamId).concat(updatedTeam)
+                        )
+                    )
+                    setLoading(false)
+                })
+                .catch (exception => {
+                    setLoading(false)
+                    console.log(exception)
+                    // if token expired refresh the page to run Redirector.jsx that checks token expiration
+                    if (exception.response.data.error === "token expired") {
+                        window.location.reload(false)
+                        return
+                    }
+                    // if token invalid force logout (removing invalid token from local storage and then reloading)
+                    if (exception.response.data.error === "invalid token") {
+                        localStorage.removeItem("loggedCompStatsUser")
+                        window.location.reload(false)
+                        return
+                    }
+                    if (exception.response) {
+                        console.log("Error", exception.response.status, ":", exception.response.data.error)
+                    }
+                })
+        }
+    }
 
     return (
         <div className={TeamsStyles.teamDiv}>
@@ -356,6 +394,20 @@ const Team = (
                         </>
                     }
                 </div>
+
+                {/* Match categories accessible only to admin */}
+                {t.members.find(mem => mem.id === user.id).permission === "admin" &&
+                <div className={TeamsStyles.membersDiv}>
+                    <h2 className={TeamsStyles.membersTitle}>MATCH CATEGORIES:</h2>
+                    {t.categories.map(c =>
+                        <div key={c} className={TeamsStyles.memberDiv}>
+                            <h3 className={TeamsStyles.memberDiv}>{c}</h3>
+                            {/* Delete category button */}
+                            <button className={TeamsStyles.actionButton} onClick={() => handleDeleteCategory(t.id, c, t.name)}>DELETE</button>
+                        </div>
+                    )}
+                </div>
+                }
             </div>
         </div>
     )

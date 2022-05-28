@@ -28,6 +28,7 @@ const Teams = ({ user, teams, setTeams, setLoading }) => {
                                     name: t.name,
                                     id: t.id,
                                     nMatches: t.matches.length,
+                                    categories: t.categories,
                                     permission: t.members.find(m => m.id.id === user.id).permission,
                                     members: t.members.map(m => ({
                                         id: m.id.id,
