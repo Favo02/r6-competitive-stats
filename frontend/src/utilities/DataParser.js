@@ -121,18 +121,18 @@ const parseResult = (rounds) => {
 
     let result = {
         my_team: {
-            score: null,
-            score_at_half: null,
-            atks: null,
-            defs: null,
+            score: 0,
+            score_at_half: 0,
+            atks: 0,
+            defs: 0,
             start_as: null,
             overtime_as: null
         },
         enemy_team: {
-            score: null,
-            score_at_half: null,
-            atks: null,
-            defs: null,
+            score: 0,
+            score_at_half: 0,
+            atks: 0,
+            defs: 0,
             start_as: null,
             overtime_as: null
         }
