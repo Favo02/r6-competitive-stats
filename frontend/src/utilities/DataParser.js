@@ -242,7 +242,16 @@ const parseRoundPerformance = (rounds, my_team) => {
             delete player.drone_stats
             delete player.round_score
 
-            player.operator = operators_ids.find(op => op.overwolf_id === player.operator).operator_name
+            // get operator from overwold id, using overwolf list below
+            player.operator = operators_ids.find(op => op.overwolf_id === player.operator)
+
+            // if operator not in the list (=== undefined) then 0 (unknown operator)
+            if (player.operator === undefined) {
+                player.operator = operators_ids.find(op => op.overwolf_id === 0)
+            }
+
+            // extract only the operator name
+            player.operator = player.operator.operator_name
 
             return (
                 player
@@ -641,6 +650,12 @@ const operators_ids = [
         "side": "def",
         "operator_name": "Thorn",
         "overwolf_id": 28,
+        "ubisoft_id": "unknown"
+    },
+    {
+        "side": "def",
+        "operator_name": "Azami",
+        "overwolf_id": 791,
         "ubisoft_id": "unknown"
     },
     {
