@@ -75,6 +75,12 @@ const parseRounds = (rounds, rosters) => {
 
     let roundsArray = []
     rounds.forEach((round, i) => {
+
+        if (!round.events) {
+            console.log(`Round ${i} not complete, skipped`)
+            return
+        }
+
         // check if valid round
         if (round.events.length < 3) {
             console.log(`Round ${i} not complete, skipped`)
