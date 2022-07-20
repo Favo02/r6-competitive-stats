@@ -20,7 +20,6 @@ const ParseData = (rawData) => {
         gamemode: matchinfo.gamemode,
         map: matchinfo.map,
         my_team: matchinfo.local_team,
-        match_uuid: matchinfo.ubisoft_match_uuid,
         rosters: parseRosters({
             blue_team: matchinfo.r6ui_match_data.blue_team,
             orange_team: matchinfo.r6ui_match_data.orange_team

@@ -8,7 +8,6 @@ const matchSchema = new mongoose.Schema({
         gamemode:   { $type: String, required: true },
         map:        { $type: String, required: true },
         my_team:    { $type: String, required: true },
-        match_uuid: { $type: String, required: true },
         rosters: {
             my_team: [ {
                 username:   { $type: String, required: true },
