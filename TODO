@@ -1,0 +1,17 @@
+TODO:
+
+- Pubic Teams Page
+- Error display (check every catch)
+- Custom alert (error display)
+- Custom window.confirm
+- Non-blocking small loading during team search
+- Add categories manage
+- Login with both username or password
+- Password recover
+- Match filter in homepage
+- Performance sum in homepage
+- Proptypes on every component
+- Real time data validation
+- Real time username/email taken
+- Upload match scroll bug
+- Non-analyst match upload
